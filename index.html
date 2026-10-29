@@ -298,7 +298,10 @@
         <div class="modal-content" onclick="event.stopPropagation()">
             <div class="modal-header">
                 <span>📑 เลือกตอนอ่าน (ธุลีเหนือสวรรค์)</span>
-                <button class="btn" onclick="closeToc()">✕ ปิด</button>
+                <div style="display: flex; gap: 8px;">
+                    <button class="btn" onclick="forceRefresh()" title="ดึงตอนใหม่ล่าสุด">🔄 รีเฟรช</button>
+                    <button class="btn" onclick="closeToc()">✕ ปิด</button>
+                </div>
             </div>
             <ul class="toc-list" id="tocList"></ul>
         </div>
@@ -309,12 +312,24 @@
         let currentChapIndex = 0;
         let deferredPrompt;
 
-        // Register Service Worker for PWA
+        // Register Service Worker for PWA with auto-update
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('./sw.js')
-                    .then(reg => console.log('SW Registered'))
+                    .then(reg => {
+                        console.log('SW Registered');
+                        reg.update();
+                    })
                     .catch(err => console.log('SW Error:', err));
+            });
+
+            // Reload once when new ServiceWorker activates
+            let refreshing = false;
+            navigator.serviceWorker.addEventListener('controllerchange', () => {
+                if (!refreshing) {
+                    refreshing = true;
+                    window.location.reload();
+                }
             });
         }
 
@@ -338,10 +353,35 @@
             }
         }
 
+        async function fetchChapters() {
+            try {
+                // Try fetching latest with cache busting
+                const res = await fetch('chapters.json?v=' + Date.now(), { cache: 'no-cache' });
+                return await res.json();
+            } catch (e) {
+                // Fallback to cache/offline
+                const res = await fetch('chapters.json');
+                return await res.json();
+            }
+        }
+
+        async function forceRefresh() {
+            try {
+                const btn = event.target;
+                if (btn) btn.innerText = '⌛ กำลังโหลด...';
+                allChapters = await fetchChapters();
+                buildToc();
+                loadChapter(currentChapIndex, false);
+                if (btn) btn.innerText = '✓ ล่าสุดแล้ว';
+                setTimeout(() => { if (btn) btn.innerText = '🔄 รีเฟรช'; }, 2000);
+            } catch (err) {
+                alert('ไม่สามารถอัพเดทได้ในขณะนี้: ' + err.message);
+            }
+        }
+
         async function init() {
             try {
-                const res = await fetch('chapters.json');
-                allChapters = await res.json();
+                allChapters = await fetchChapters();
                 buildToc();
 
                 // 1. Restore Theme
