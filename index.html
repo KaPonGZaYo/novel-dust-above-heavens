@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=3.0, user-scalable=yes">
+    <title>ธุลีเหนือสวรรค์ (Dust Above the Heavens) - E-Reader</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f8f5ec;
+            --text: #2d2925;
+            --title: #181410;
+            --card-bg: #ede6d6;
+            --card-border: #d8ceba;
+            --accent: #9a7432;
+            --quote-bg: #ece5d3;
+            --quote-border: #b89758;
+            --header-bg: rgba(248, 245, 236, 0.95);
+            --header-border: #e2d7c3;
+        }
+
+        [data-theme="warm-dark"] {
+            --bg: #191816;
+            --text: #c8c2b7;
+            --title: #ede6d8;
+            --card-bg: #262421;
+            --card-border: #3b3731;
+            --accent: #cfa85e;
+            --quote-bg: #22201d;
+            --quote-border: #917540;
+            --header-bg: rgba(25, 24, 22, 0.95);
+            --header-border: #332f29;
+        }
+
+        [data-theme="light"] {
+            --bg: #ffffff;
+            --text: #222222;
+            --title: #0a0a0a;
+            --card-bg: #f2f2f2;
+            --card-border: #e0e0e0;
+            --accent: #555555;
+            --quote-bg: #f6f6f6;
+            --quote-border: #999999;
+            --header-bg: rgba(255, 255, 255, 0.95);
+            --header-border: #eaeaea;
+        }
+
+        * {
+            box-sizing: border-box;
+            transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+        }
+
+        body {
+            font-family: 'Sarabun', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            line-height: 1.95;
+            font-size: 21px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            background-color: var(--header-bg);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--header-border);
+            padding: 10px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .brand {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--accent);
+            cursor: pointer;
+            letter-spacing: 0.5px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .btn {
+            background-color: var(--card-bg);
+            color: var(--text);
+            border: 1px solid var(--card-border);
+            padding: 5px 11px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .btn.active {
+            border-color: var(--accent);
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .btn-toc {
+            background-color: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+            border-radius: 6px;
+        }
+
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 24px 20px 80px 20px;
+        }
+
+        h1.chapter-title {
+            font-size: 27px;
+            color: var(--title);
+            text-align: center;
+            margin: 16px 0 28px 0;
+            line-height: 1.4;
+            font-weight: 700;
+        }
+
+        p {
+            margin-bottom: 22px;
+            text-indent: 1.8em;
+            text-align: justify;
+            text-justify: inter-cluster;
+        }
+
+        .quote-box {
+            background: var(--quote-bg);
+            border-left: 4px solid var(--quote-border);
+            padding: 14px 18px;
+            margin: 24px 0;
+            border-radius: 4px;
+            font-style: italic;
+        }
+
+        .divider {
+            text-align: center;
+            margin: 36px 0;
+            color: var(--accent);
+            font-size: 18px;
+        }
+
+        .nav-footer {
+            display: flex;
+            gap: 12px;
+            margin-top: 50px;
+            padding-top: 24px;
+            border-top: 1px solid var(--card-border);
+        }
+
+        .nav-link {
+            flex: 1;
+            text-align: center;
+            padding: 13px;
+            background-color: var(--card-bg);
+            color: var(--text);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .nav-link.next {
+            background-color: var(--accent);
+            color: #ffffff;
+            border-color: var(--accent);
+        }
+
+        .nav-link:disabled, .nav-link.disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        /* Modal TOC */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.65);
+            backdrop-filter: blur(4px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal.open {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg);
+            color: var(--text);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            width: 100%;
+            max-width: 480px;
+            max-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            padding: 16px;
+            border-bottom: 1px solid var(--card-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 700;
+        }
+
+        .toc-list {
+            overflow-y: auto;
+            padding: 10px;
+            list-style: none;
+            margin: 0;
+        }
+
+        .toc-item {
+            padding: 13px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 4px;
+            font-size: 17px;
+            font-weight: 500;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .toc-item:hover, .toc-item.active {
+            background: var(--card-bg);
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .reading-progress-bar {
+            position: fixed;
+            top: 0; left: 0;
+            height: 3px;
+            background: var(--accent);
+            width: 0%;
+            z-index: 9999;
+            transition: width 0.1s linear;
+        }
+    </style>
+</head>
+<body>
+    <div class="reading-progress-bar" id="progressBar"></div>
+
+    <header>
+        <span class="brand" onclick="openToc()">📖 สารบัญ</span>
+        <div class="controls">
+            <button class="btn" id="btn-sepia" onclick="changeTheme('sepia')">📜 ซีเปีย</button>
+            <button class="btn" id="btn-dark" onclick="changeTheme('warm-dark')">🌙 มืดอุ่น</button>
+            <button class="btn" id="btn-light" onclick="changeTheme('light')">☀️ สว่าง</button>
+        </div>
+    </header>
+
+    <div class="container" id="readerArea">
+        <!-- Chapter loaded dynamically -->
+    </div>
+
+    <!-- TOC Modal -->
+    <div class="modal" id="tocModal" onclick="closeToc(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <span>📑 เลือกตอนอ่าน (ธุลีเหนือสวรรค์)</span>
+                <button class="btn" onclick="closeToc()">✕ ปิด</button>
+            </div>
+            <ul class="toc-list" id="tocList"></ul>
+        </div>
+    </div>
+
+    <script>
+        let allChapters = [];
+        let currentChapIndex = 0;
+        let isRestoringScroll = false;
+
+        async function init() {
+            try {
+                const res = await fetch('chapters.json');
+                allChapters = await res.json();
+                buildToc();
+
+                // 1. Restore Theme
+                const savedTheme = localStorage.getItem('novel_theme') || 'sepia';
+                changeTheme(savedTheme);
+
+                // 2. Restore Last Read Chapter
+                const savedChap = parseInt(localStorage.getItem('novel_last_chapter') || '1', 10);
+                const targetIdx = allChapters.findIndex(c => c.id === savedChap);
+                loadChapter(targetIdx >= 0 ? targetIdx : 0, true);
+
+            } catch (err) {
+                document.getElementById('readerArea').innerHTML = '<p>โหลดข้อมูลนิยายไม่สำเร็จ กรุณาลองใหม่อีกครั้ง</p>';
+            }
+        }
+
+        function changeTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('novel_theme', theme);
+            document.querySelectorAll('.controls .btn').forEach(b => b.classList.remove('active'));
+            if (theme === 'sepia') document.getElementById('btn-sepia')?.classList.add('active');
+            if (theme === 'warm-dark') document.getElementById('btn-dark')?.classList.add('active');
+            if (theme === 'light') document.getElementById('btn-light')?.classList.add('active');
+        }
+
+        function buildToc() {
+            const list = document.getElementById('tocList');
+            list.innerHTML = allChapters.map((chap, i) => 
+                `<li class="toc-item ${i === currentChapIndex ? 'active' : ''}" onclick="selectChapter(${i})">
+                    ${chap.title}
+                </li>`
+            ).join('');
+        }
+
+        function selectChapter(idx) {
+            closeToc();
+            loadChapter(idx, false);
+        }
+
+        function loadChapter(idx, shouldRestoreScroll) {
+            currentChapIndex = idx;
+            const chap = allChapters[idx];
+            localStorage.setItem('novel_last_chapter', chap.id);
+
+            let htmlStr = `<h1 class="chapter-title">${chap.title}</h1>`;
+            chap.paragraphs.forEach(p => {
+                if (p.type === 'divider') htmlStr += `<div class="divider">❖ ❖ ❖</div>`;
+                else if (p.type === 'quote') htmlStr += `<div class="quote-box">${p.text}</div>`;
+                else htmlStr += `<p>${p.text}</p>`;
+            });
+
+            // Nav Footer
+            const prevDisabled = idx === 0 ? 'disabled' : '';
+            const nextDisabled = idx === allChapters.length - 1 ? 'disabled' : '';
+
+            htmlStr += `
+                <div class="nav-footer">
+                    <button class="nav-link" ${prevDisabled} onclick="loadChapter(${idx - 1}, false)">← ตอนก่อนหน้า</button>
+                    <button class="nav-link next" ${nextDisabled} onclick="loadChapter(${idx + 1}, false)">ตอนถัดไป →</button>
+                </div>
+            `;
+
+            document.getElementById('readerArea').innerHTML = htmlStr;
+            buildToc();
+
+            // Handle Scroll Restoration
+            if (shouldRestoreScroll) {
+                const savedY = parseFloat(localStorage.getItem(`novel_scroll_ch_${chap.id}`) || '0');
+                if (savedY > 0) {
+                    setTimeout(() => {
+                        window.scrollTo({ top: savedY, behavior: 'instant' });
+                    }, 50);
+                } else {
+                    window.scrollTo(0, 0);
+                }
+            } else {
+                window.scrollTo(0, 0);
+                localStorage.setItem(`novel_scroll_ch_${chap.id}`, '0');
+            }
+        }
+
+        // Save scroll position on the fly
+        let scrollTimeout;
+        window.addEventListener('scroll', () => {
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPos = window.scrollY;
+            const progress = docHeight > 0 ? (scrollPos / docHeight) * 100 : 0;
+            document.getElementById('progressBar').style.width = progress + '%';
+
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                if (allChapters[currentChapIndex]) {
+                    const chapId = allChapters[currentChapIndex].id;
+                    localStorage.setItem(`novel_scroll_ch_${chapId}`, scrollPos);
+                }
+            }, 150);
+        });
+
+        function openToc() {
+            document.getElementById('tocModal').classList.add('open');
+        }
+
+        function closeToc(e) {
+            document.getElementById('tocModal').classList.remove('open');
+        }
+
+        init();
+    </script>
+</body>
+</html>
