@@ -4,6 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=3.0, user-scalable=yes">
     <title>ธุลีเหนือสวรรค์ (Dust Above the Heavens) - E-Reader</title>
+
+    <!-- PWA Settings for Mobile App Installation -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#9a7432">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="ธุลีเหนือสวรรค์">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <link rel="icon" type="image/png" href="icon-192.png">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
@@ -108,11 +119,15 @@
             font-weight: 700;
         }
 
-        .btn-toc {
+        .btn-install {
             background-color: var(--accent);
             color: #fff;
             border-color: var(--accent);
-            border-radius: 6px;
+            border-radius: 20px;
+            font-size: 12px;
+            padding: 5px 10px;
+            display: none;
+            cursor: pointer;
         }
 
         .container {
@@ -267,6 +282,7 @@
     <header>
         <span class="brand" onclick="openToc()">📖 สารบัญ</span>
         <div class="controls">
+            <button class="btn-install" id="btnInstall" onclick="installPWA()">📲 ติดตั้งแอป</button>
             <button class="btn" id="btn-sepia" onclick="changeTheme('sepia')">📜 ซีเปีย</button>
             <button class="btn" id="btn-dark" onclick="changeTheme('warm-dark')">🌙 มืดอุ่น</button>
             <button class="btn" id="btn-light" onclick="changeTheme('light')">☀️ สว่าง</button>
@@ -291,7 +307,36 @@
     <script>
         let allChapters = [];
         let currentChapIndex = 0;
-        let isRestoringScroll = false;
+        let deferredPrompt;
+
+        // Register Service Worker for PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => console.log('SW Registered'))
+                    .catch(err => console.log('SW Error:', err));
+            });
+        }
+
+        // PWA Install prompt
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            const btn = document.getElementById('btnInstall');
+            if (btn) btn.style.display = 'inline-block';
+        });
+
+        function installPWA() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        document.getElementById('btnInstall').style.display = 'none';
+                    }
+                    deferredPrompt = null;
+                });
+            }
+        }
 
         async function init() {
             try {
