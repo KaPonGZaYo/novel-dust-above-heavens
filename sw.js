@@ -1,8 +1,9 @@
-const CACHE_NAME = 'dust-above-heavens-v3';
+const CACHE_NAME = 'dust-above-heavens-v4';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
   './manifest.json',
+  './Cover_Vol1.jpg',
   './icon-192.png',
   './icon-512.png'
 ];
@@ -54,36 +55,20 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Network-First with cache fallback for index.html
-  if (url.pathname.endsWith('/') || url.pathname.endsWith('index.html')) {
-    event.respondWith(
-      fetch(event.request)
-        .then((response) => {
-          if (response && response.status === 200) {
-            const copy = response.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
-          }
-          return response;
-        })
-        .catch(() => caches.match(event.request))
-    );
-    return;
-  }
-
-  // Cache-First for static assets
+  // Stale-While-Revalidate for HTML, images, and other assets
   event.respondWith(
-    caches.match(event.request).then((response) => {
-      return (
-        response ||
-        fetch(event.request).then((networkRes) => {
-          if (networkRes && networkRes.status === 200) {
-            const copy = networkRes.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
+    caches.match(event.request).then((cachedResponse) => {
+      const fetchPromise = fetch(event.request)
+        .then((networkResponse) => {
+          if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
+            const responseToCache = networkResponse.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, responseToCache));
           }
-          return networkRes;
+          return networkResponse;
         })
-      );
+        .catch(() => cachedResponse);
+
+      return cachedResponse || fetchPromise;
     })
   );
 });
-
