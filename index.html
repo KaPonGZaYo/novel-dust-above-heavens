@@ -575,7 +575,7 @@
 
     <!-- Lightbox for Cover Preview -->
     <div class="lightbox-modal" id="coverLightbox" onclick="closeCoverLightbox()">
-        <img src="Cover_Vol1_Duo_v2.png" alt="หน้าปก เล่มที่ 1 ขนาดเต็ม" class="lightbox-img">
+        <img src="Cover_Vol1.png" alt="หน้าปก เล่มที่ 1 ขนาดเต็ม" class="lightbox-img">
     </div>
 
     <script>
@@ -684,7 +684,7 @@
                 tag: 'เล่มที่ ๑ · ภาค ๑',
                 title: 'ตะกอนใต้เงาศิลาคราม',
                 sub: 'ตอนที่ 1–25',
-                cover: 'Cover_Vol1_Duo_v2.png',
+                cover: 'Cover_Vol1.png',
                 start: 1,
                 end: 25
             },
@@ -803,7 +803,7 @@
                 htmlStr += `
                     <div class="vol-cover-card">
                         <div class="vol-cover-img-wrapper" onclick="showCoverLightbox()" title="คลิกเพื่อดูหน้าปกขนาดเต็ม">
-                            <img src="Cover_Vol1_Duo_v2.png" alt="หน้าปก ธุลีเหนือสวรรค์ เล่มที่ 1" class="vol-cover-img">
+                            <img src="Cover_Vol1.png" alt="หน้าปก ธุลีเหนือสวรรค์ เล่มที่ 1" class="vol-cover-img">
                         </div>
                         <div class="vol-cover-info">
                             <span class="vol-cover-badge">เล่มที่ ๑ · ภาค : ตะกอนใต้เงาศิลาคราม</span>
@@ -924,7 +924,7 @@
 
         function showCoverLightbox(volume = 1) {
             const image = document.querySelector('#coverLightbox .lightbox-img');
-            image.src = volume === 2 ? 'Cover_Vol2.png' : 'Cover_Vol1_Duo_v2.png';
+            image.src = volume === 2 ? 'Cover_Vol2.png' : 'Cover_Vol1.png';
             image.alt = 'หน้าปก เล่มที่ ' + volume + ' ขนาดเต็ม';
             document.getElementById('coverLightbox').classList.add('open');
         }

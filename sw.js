@@ -1,8 +1,10 @@
-const CACHE_NAME = 'dust-above-heavens-v7';
+const CACHE_NAME = 'dust-above-heavens-v8';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
   './manifest.json',
+  './Cover_Vol1.png',
+  './Cover_Vol1.jpg',
   './Cover_Vol1_Duo_v2.png',
   './Cover_Vol2.png',
   './icon-192.png',
