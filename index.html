@@ -586,7 +586,7 @@
         let currentChapIndex = 0;
         let deferredPrompt;
 
-        // Register Service Worker for PWA with auto-update
+        // Register Service Worker for PWA
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('./sw.js')
@@ -595,15 +595,6 @@
                         reg.update();
                     })
                     .catch(err => console.log('SW Error:', err));
-            });
-
-            // Reload once when new ServiceWorker activates
-            let refreshing = false;
-            navigator.serviceWorker.addEventListener('controllerchange', () => {
-                if (!refreshing) {
-                    refreshing = true;
-                    window.location.reload();
-                }
             });
         }
 
@@ -627,12 +618,37 @@
             }
         }
 
-        async function fetchChapters() {
+        // Background update check (Stale-While-Revalidate pattern)
+        async function backgroundSyncChapters() {
+            try {
+                const res = await fetch('chapters.json?v=' + Date.now(), { cache: 'no-cache' });
+                if (res.ok) {
+                    const freshData = await res.json();
+                    if (Array.isArray(freshData) && freshData.length > 0) {
+                        const hasNew = freshData.length !== allChapters.length;
+                        allChapters = freshData;
+                        buildToc();
+                        if (hasNew) {
+                            console.log('[App] New chapters detected! Count:', freshData.length);
+                            const btn = document.getElementById('btnRefresh');
+                            if (btn) {
+                                btn.innerText = '✨ มีตอนใหม่ (' + freshData.length + ')';
+                                setTimeout(() => { btn.innerText = '🔄 รีเฟรช'; }, 4000);
+                            }
+                        }
+                    }
+                }
+            } catch (err) {
+                console.log('[App] Background sync skipped (offline or network slow)');
+            }
+        }
+
+        async function fetchChaptersWithTimeout(timeoutMs = 15000) {
             const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 4000);
+            const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
             try {
-                // Try fetching latest with cache busting and a 4s timeout
+                // 1. Try network fetch with 15s timeout
                 const res = await fetch('chapters.json?v=' + Date.now(), { 
                     cache: 'no-cache',
                     signal: controller.signal
@@ -641,68 +657,121 @@
                 if (res.ok) {
                     return await res.json();
                 }
-                throw new Error('Network response not ok: ' + res.status);
-            } catch (e) {
+            } catch (netErr) {
                 clearTimeout(timeoutId);
-                console.warn('Network fetch chapters failed or timed out, trying cache/offline fallback...', e);
-
-                // Fallback 1: Fetch without cache-busting query parameter
-                try {
-                    const fallbackRes = await fetch('chapters.json');
-                    if (fallbackRes.ok) {
-                        return await fallbackRes.json();
-                    }
-                } catch (fallbackErr) {
-                    console.warn('Fallback fetch failed:', fallbackErr);
-                }
-
-                // Fallback 2: Direct CacheStorage access (offline PWA)
-                if ('caches' in window) {
-                    try {
-                        const cached = await caches.match('chapters.json', { ignoreSearch: true })
-                                    || await caches.match('./chapters.json', { ignoreSearch: true });
-                        if (cached) {
-                            return await cached.json();
-                        }
-                    } catch (cacheErr) {
-                        console.warn('Direct CacheStorage read failed:', cacheErr);
-                    }
-                }
-
-                throw e;
+                console.warn('Network fetch failed or timed out:', netErr);
             }
+
+            // 2. Fallback: Normal fetch without cache busting
+            try {
+                const fallbackRes = await fetch('chapters.json');
+                if (fallbackRes.ok) {
+                    return await fallbackRes.json();
+                }
+            } catch (fbErr) {
+                console.warn('Fallback fetch failed:', fbErr);
+            }
+
+            // 3. Fallback: Direct CacheStorage read (Offline PWA)
+            if ('caches' in window) {
+                try {
+                    const cached = await caches.match('chapters.json', { ignoreSearch: true })
+                                || await caches.match('./chapters.json', { ignoreSearch: true });
+                    if (cached) {
+                        return await cached.json();
+                    }
+                } catch (cacheErr) {
+                    console.warn('Direct CacheStorage read failed:', cacheErr);
+                }
+            }
+
+            throw new Error('ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์หรือดึงข้อมูลจากแคชได้');
         }
 
         async function forceRefresh() {
             try {
-                const btn = event.target;
+                const btn = document.getElementById('btnRefresh');
                 if (btn) btn.innerText = '⌛ กำลังโหลด...';
-                allChapters = await fetchChapters();
+                allChapters = await fetchChaptersWithTimeout(15000);
                 buildToc();
                 loadChapter(currentChapIndex, false);
                 if (btn) btn.innerText = '✓ ล่าสุดแล้ว';
                 setTimeout(() => { if (btn) btn.innerText = '🔄 รีเฟรช'; }, 2000);
             } catch (err) {
                 alert('ไม่สามารถอัพเดทได้ในขณะนี้: ' + err.message);
+                const btn = document.getElementById('btnRefresh');
+                if (btn) btn.innerText = '🔄 รีเฟรช';
             }
         }
 
         async function init() {
-            try {
-                allChapters = await fetchChapters();
-                buildToc();
+            // STEP 1: Instant Cache-First Launch (Opens in ~50ms on mobile!)
+            let hasLoadedFromCache = false;
+            if ('caches' in window) {
+                try {
+                    const cached = await caches.match('chapters.json', { ignoreSearch: true })
+                                || await caches.match('./chapters.json', { ignoreSearch: true });
+                    if (cached) {
+                        const cachedChapters = await cached.json();
+                        if (Array.isArray(cachedChapters) && cachedChapters.length > 0) {
+                            console.log('[App] Loaded instantly from cache! Chapters:', cachedChapters.length);
+                            allChapters = cachedChapters;
+                            buildToc();
 
-                // 1. Restore Theme
-                const savedTheme = localStorage.getItem('novel_theme') || 'sepia';
-                changeTheme(savedTheme);
+                            const savedTheme = localStorage.getItem('novel_theme') || 'sepia';
+                            changeTheme(savedTheme);
 
-                // 2. Restore Last Read Chapter
-                const savedChap = parseInt(localStorage.getItem('novel_last_chapter') || '1', 10);
-                const targetIdx = allChapters.findIndex(c => c.id === savedChap);
-                loadChapter(targetIdx >= 0 ? targetIdx : 0, true);
+                            const savedChap = parseInt(localStorage.getItem('novel_last_chapter') || '1', 10);
+                            const targetIdx = allChapters.findIndex(c => c.id === savedChap);
+                            loadChapter(targetIdx >= 0 ? targetIdx : 0, true);
 
-            } catch (err) {
-                document.getElementById('readerArea').innerHTML = '<p>โหลดข้อมูลนิยายไม่สำเร็จ กรุณาลองใหม่อีกครั้ง</p>';
+                            hasLoadedFromCache = true;
+                            // Silently check for new chapters in background
+                            backgroundSyncChapters();
+                            return;
+                        }
+                    }
+                } catch (cacheErr) {
+                    console.warn('[App] Cache-first lookup skipped:', cacheErr);
+                }
+            }
+
+            // STEP 2: First-time open (No cache yet) -> Show friendly spinner & fetch
+            if (!hasLoadedFromCache) {
+                const reader = document.getElementById('readerArea');
+                if (reader) {
+                    reader.innerHTML = `
+                        <div style="text-align:center;padding:60px 20px;color:var(--text-muted);">
+                            <div style="font-size:42px;margin-bottom:12px;animation:spin 2s linear infinite;">⏳</div>
+                            <h3 style="margin-bottom:8px;color:var(--text);">กำลังเปิดสมุดบันทึกธุลีเหนือสวรรค์...</h3>
+                            <p style="font-size:14px;">กำลังดาวน์โหลดเนื้อหาสำหรับอ่านออฟไลน์ กรุณารอสักครู่</p>
+                        </div>
+                    `;
+                }
+
+                try {
+                    allChapters = await fetchChaptersWithTimeout(20000);
+                    buildToc();
+
+                    const savedTheme = localStorage.getItem('novel_theme') || 'sepia';
+                    changeTheme(savedTheme);
+
+                    const savedChap = parseInt(localStorage.getItem('novel_last_chapter') || '1', 10);
+                    const targetIdx = allChapters.findIndex(c => c.id === savedChap);
+                    loadChapter(targetIdx >= 0 ? targetIdx : 0, true);
+                } catch (err) {
+                    console.error('[App] Init failed:', err);
+                    if (reader) {
+                        reader.innerHTML = `
+                            <div style="text-align:center;padding:50px 20px;">
+                                <div style="font-size:48px;margin-bottom:16px;">⚠️</div>
+                                <h3 style="margin-bottom:12px;color:var(--text);">ไม่สามารถโหลดเนื้อหานิยายได้</h3>
+                                <p style="font-size:14px;color:var(--text-muted);margin-bottom:24px;">การเชื่อมต่ออินเทอร์เน็ตอาจช้าหรือไม่เสถียร</p>
+                                <button onclick="init()" style="padding:10px 24px;border-radius:24px;background:var(--accent);color:#fff;border:none;font-size:16px;cursor:pointer;font-weight:600;">🔄 กดเพื่อลองใหม่อีกครั้ง</button>
+                            </div>
+                        `;
+                    }
+                }
             }
         }
 
