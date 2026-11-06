@@ -331,24 +331,80 @@
             background: var(--header-bg);
         }
 
-        /* TOC Hero Cover Header Banner */
+        /* TOC Volume Sections & Collapsible Accordion */
+        .toc-body {
+            overflow-y: auto;
+            padding: 12px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .toc-volume-card {
+            border-radius: 12px;
+            border: 1px solid var(--card-border);
+            background: var(--card-bg);
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .toc-volume-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+        }
+
         .toc-hero-banner {
             display: flex;
             align-items: center;
-            gap: 16px;
-            padding: 14px 18px;
+            gap: 14px;
+            padding: 12px 14px;
             background: var(--card-bg);
-            border-bottom: 1px solid var(--card-border);
             cursor: pointer;
+            user-select: none;
+            position: relative;
+            transition: background 0.2s ease;
+        }
+
+        .toc-hero-banner:hover {
+            background: var(--quote-bg);
+        }
+
+        .toc-hero-cover-wrap {
+            position: relative;
+            width: 54px;
+            height: 78px;
+            flex-shrink: 0;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+            cursor: zoom-in;
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .toc-hero-cover {
-            width: 64px;
-            height: 96px;
+            width: 100%;
+            height: 100%;
             object-fit: cover;
-            border-radius: 6px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-            flex-shrink: 0;
+            display: block;
+        }
+
+        .toc-hero-cover-wrap .zoom-badge {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.65);
+            color: #fff;
+            font-size: 9px;
+            text-align: center;
+            padding: 1px 0;
+            font-weight: 600;
+            letter-spacing: 0.5px;
         }
 
         .toc-hero-details {
@@ -378,31 +434,65 @@
         .toc-hero-sub {
             font-size: 12px;
             color: var(--text);
-            opacity: 0.8;
+            opacity: 0.85;
             margin: 0;
+        }
+
+        .toc-vol-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--bg);
+            border: 1px solid var(--card-border);
+            color: var(--accent);
+            font-size: 12px;
+            flex-shrink: 0;
+            transition: transform 0.25s ease, background 0.2s ease;
+        }
+
+        .toc-volume-card.collapsed .toc-vol-toggle {
+            transform: rotate(-90deg);
+        }
+
+        .toc-volume-card.collapsed .toc-list {
+            display: none;
         }
 
         .toc-list {
-            overflow-y: auto;
-            padding: 10px;
             list-style: none;
+            padding: 8px 12px 10px 12px;
             margin: 0;
+            border-top: 1px dashed var(--card-border);
+            background: var(--bg);
         }
 
         .toc-item {
-            padding: 13px 16px;
-            border-radius: 8px;
+            padding: 11px 14px;
+            border-radius: 6px;
             cursor: pointer;
-            margin-bottom: 4px;
-            font-size: 17px;
+            margin-bottom: 3px;
+            font-size: 15px;
             font-weight: 500;
             border-bottom: 1px solid var(--card-border);
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .toc-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
         }
 
         .toc-item:hover, .toc-item.active {
             background: var(--card-bg);
             color: var(--accent);
             font-weight: 700;
+            padding-left: 18px;
         }
 
         .reading-progress-bar {
@@ -477,25 +567,9 @@
                 </div>
             </div>
 
-            <!-- Hero Cover Header inside TOC -->
-            <div class="toc-hero-banner" onclick="showCoverLightbox()" title="คลิกเพื่อดูหน้าปกขนาดเต็ม">
-                <img src="Cover_Vol1.jpg" alt="หน้าปก เล่มที่ 1" class="toc-hero-cover">
-                <div class="toc-hero-details">
-                    <div class="toc-hero-tag">เล่มที่ ๑ · ภาค ๑</div>
-                    <div class="toc-hero-title">ตะกอนใต้เงาศิลาคราม</div>
-                    <p class="toc-hero-sub">ผู้เขียน: หวงตี้ปิ้ง · ตอนที่ 1–25</p>
-                </div>
+            <div class="toc-body" id="tocContainer">
+                <!-- Volume cards and chapters rendered dynamically -->
             </div>
-            <div class="toc-hero-banner" onclick="showCoverLightbox(2)" title="คลิกเพื่อดูหน้าปกขนาดเต็ม">
-                <img src="Cover_Vol2.png" alt="หน้าปก เล่มที่ 2" class="toc-hero-cover">
-                <div class="toc-hero-details">
-                    <div class="toc-hero-tag">เล่มที่ ๒ · ภาค ๒</div>
-                    <div class="toc-hero-title">รอยเลือดริมแม่น้ำหมอก</div>
-                    <p class="toc-hero-sub">ผู้เขียน: หวงตี้ปิ้ง · ตอนที่ 26–50</p>
-                </div>
-            </div>
-
-            <ul class="toc-list" id="tocList"></ul>
         </div>
     </div>
 
@@ -604,13 +678,112 @@
             if (theme === 'light') document.getElementById('btn-light')?.classList.add('active');
         }
 
+        const VOLUMES = [
+            {
+                id: 1,
+                tag: 'เล่มที่ ๑ · ภาค ๑',
+                title: 'ตะกอนใต้เงาศิลาคราม',
+                sub: 'ตอนที่ 1–25',
+                cover: 'Cover_Vol1.jpg',
+                start: 1,
+                end: 25
+            },
+            {
+                id: 2,
+                tag: 'เล่มที่ ๒ · ภาค ๒',
+                title: 'รอยเลือดริมแม่น้ำหมอก',
+                sub: 'ตอนที่ 26–50',
+                cover: 'Cover_Vol2.png',
+                start: 26,
+                end: 50
+            },
+            {
+                id: 3,
+                tag: 'เล่มที่ ๓ · ภาค ๓',
+                title: 'แดนรกร้างและแนวกำแพงเหล็ก',
+                sub: 'ตอนที่ 51 เป็นต้นไป',
+                cover: null,
+                icon: '🏔️',
+                start: 51,
+                end: 9999
+            }
+        ];
+
+        let collapsedVolumes = {};
+
+        function toggleVolume(volId) {
+            collapsedVolumes[volId] = !collapsedVolumes[volId];
+            const card = document.getElementById(`vol-card-${volId}`);
+            if (card) {
+                if (collapsedVolumes[volId]) {
+                    card.classList.add('collapsed');
+                } else {
+                    card.classList.remove('collapsed');
+                }
+            }
+        }
+
         function buildToc() {
-            const list = document.getElementById('tocList');
-            list.innerHTML = allChapters.map((chap, i) => 
-                `<li class="toc-item ${i === currentChapIndex ? 'active' : ''}" onclick="selectChapter(${i})">
-                    ${chap.title}
-                </li>`
-            ).join('');
+            const container = document.getElementById('tocContainer');
+            if (!container) return;
+
+            const currentChap = allChapters[currentChapIndex];
+            const currentChapId = currentChap ? currentChap.id : 1;
+            const activeVolId = VOLUMES.find(v => currentChapId >= v.start && currentChapId <= v.end)?.id || 1;
+
+            container.innerHTML = VOLUMES.map(vol => {
+                const volChapters = allChapters.filter(c => c.id >= vol.start && c.id <= vol.end);
+                if (volChapters.length === 0) return '';
+
+                if (collapsedVolumes[vol.id] === undefined) {
+                    collapsedVolumes[vol.id] = (vol.id !== activeVolId);
+                }
+                const isCollapsed = collapsedVolumes[vol.id];
+
+                let coverHtml = '';
+                if (vol.cover) {
+                    coverHtml = `
+                        <div class="toc-hero-cover-wrap" onclick="event.stopPropagation(); showCoverLightbox(${vol.id});" title="คลิกเพื่อดูหน้าปกขนาดเต็ม">
+                            <img src="${vol.cover}" alt="หน้าปก ${vol.title}" class="toc-hero-cover">
+                            <span class="zoom-badge">🔍 ขยาย</span>
+                        </div>
+                    `;
+                } else {
+                    coverHtml = `
+                        <div class="toc-hero-cover-wrap" style="font-size:28px;">
+                            ${vol.icon || '📜'}
+                        </div>
+                    `;
+                }
+
+                const chaptersListHtml = volChapters.map(chap => {
+                    const idx = allChapters.findIndex(c => c.id === chap.id);
+                    const isActive = idx === currentChapIndex ? 'active' : '';
+                    return `
+                        <li class="toc-item ${isActive}" onclick="selectChapter(${idx})">
+                            <span>${chap.title}</span>
+                            ${isActive ? '<span style="font-size:12px;color:var(--accent);">📖 กำลังอ่าน</span>' : ''}
+                        </li>
+                    `;
+                }).join('');
+
+                return `
+                    <div class="toc-volume-card ${isCollapsed ? 'collapsed' : ''}" id="vol-card-${vol.id}">
+                        <div class="toc-hero-banner" onclick="toggleVolume(${vol.id})" title="คลิกเพื่อย่อ/ขยายเล่ม">
+                            ${coverHtml}
+                            <div class="toc-hero-details">
+                                <div class="toc-hero-tag">${vol.tag}</div>
+                                <div class="toc-hero-title">${vol.title}</div>
+                                <p class="toc-hero-sub">${vol.sub} · (${volChapters.length} ตอน)</p>
+                            </div>
+                            <div class="toc-vol-toggle" title="ย่อ/ขยายเล่ม">▼</div>
+                        </div>
+                        <ul class="toc-list">
+                            ${chaptersListHtml}
+                        </ul>
+                    </div>
+                `;
+            }).join('');
         }
 
         function selectChapter(idx) {
@@ -652,6 +825,22 @@
                             <span class="vol-cover-badge">เล่มที่ ๒ · ภาค : รอยเลือดริมแม่น้ำหมอก</span>
                             <div class="vol-cover-title">ธุลีเหนือสวรรค์ (《尘上天》)</div>
                             <p class="vol-cover-desc">ผู้เขียน: หวงตี้ปิ้ง (KaPonGZaYo) · ตอนที่ 26–50</p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Display Volume 3 badge at Chapter 51.
+            if (chap.id === 51) {
+                htmlStr += `
+                    <div class="vol-cover-card">
+                        <div class="vol-cover-img-wrapper" style="display:flex;align-items:center;justify-content:center;background:var(--card-bg);font-size:42px;">
+                            🏔️
+                        </div>
+                        <div class="vol-cover-info">
+                            <span class="vol-cover-badge">เล่มที่ ๓ · ภาค : แดนรกร้างและแนวกำแพงเหล็ก</span>
+                            <div class="vol-cover-title">ธุลีเหนือสวรรค์ (《尘上天》)</div>
+                            <p class="vol-cover-desc">ผู้เขียน: หวงตี้ปิ้ง (KaPonGZaYo) · ตอนที่ 51 เป็นต้นไป</p>
                         </div>
                     </div>
                 `;
@@ -712,7 +901,21 @@
         });
 
         function openToc() {
+            const currentChap = allChapters[currentChapIndex];
+            if (currentChap) {
+                const activeVol = VOLUMES.find(v => currentChap.id >= v.start && currentChap.id <= v.end);
+                if (activeVol) {
+                    collapsedVolumes[activeVol.id] = false;
+                }
+            }
+            buildToc();
             document.getElementById('tocModal').classList.add('open');
+            setTimeout(() => {
+                const activeItem = document.querySelector('.toc-item.active');
+                if (activeItem) {
+                    activeItem.scrollIntoView({ block: 'center', behavior: 'smooth' });
+                }
+            }, 100);
         }
 
         function closeToc(e) {

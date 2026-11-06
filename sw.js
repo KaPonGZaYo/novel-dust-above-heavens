@@ -1,4 +1,4 @@
-const CACHE_NAME = 'dust-above-heavens-v5';
+const CACHE_NAME = 'dust-above-heavens-v6';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
