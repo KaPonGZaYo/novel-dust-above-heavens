@@ -486,6 +486,14 @@
                     <p class="toc-hero-sub">ผู้เขียน: หวงตี้ปิ้ง · ตอนที่ 1–25</p>
                 </div>
             </div>
+            <div class="toc-hero-banner" onclick="showCoverLightbox(2)" title="คลิกเพื่อดูหน้าปกขนาดเต็ม">
+                <img src="Cover_Vol2.png" alt="หน้าปก เล่มที่ 2" class="toc-hero-cover">
+                <div class="toc-hero-details">
+                    <div class="toc-hero-tag">เล่มที่ ๒ · ภาค ๒</div>
+                    <div class="toc-hero-title">รอยเลือดริมแม่น้ำหมอก</div>
+                    <p class="toc-hero-sub">ผู้เขียน: หวงตี้ปิ้ง · ตอนที่ 26–50</p>
+                </div>
+            </div>
 
             <ul class="toc-list" id="tocList"></ul>
         </div>
@@ -633,6 +641,22 @@
                 `;
             }
 
+            // Display Volume 2 at its opening chapter.
+            if (chap.id === 26) {
+                htmlStr += `
+                    <div class="vol-cover-card">
+                        <div class="vol-cover-img-wrapper" onclick="showCoverLightbox(2)" title="คลิกเพื่อดูหน้าปกขนาดเต็ม">
+                            <img src="Cover_Vol2.png" alt="หน้าปก ธุลีเหนือสวรรค์ เล่มที่ 2" class="vol-cover-img">
+                        </div>
+                        <div class="vol-cover-info">
+                            <span class="vol-cover-badge">เล่มที่ ๒ · ภาค : รอยเลือดริมแม่น้ำหมอก</span>
+                            <div class="vol-cover-title">ธุลีเหนือสวรรค์ (《尘上天》)</div>
+                            <p class="vol-cover-desc">ผู้เขียน: หวงตี้ปิ้ง (KaPonGZaYo) · ตอนที่ 26–50</p>
+                        </div>
+                    </div>
+                `;
+            }
+
             htmlStr += `<h1 class="chapter-title">${chap.title}</h1>`;
             chap.paragraphs.forEach(p => {
                 if (p.type === 'divider') htmlStr += `<div class="divider">❖ ❖ ❖</div>`;
@@ -695,7 +719,10 @@
             document.getElementById('tocModal').classList.remove('open');
         }
 
-        function showCoverLightbox() {
+        function showCoverLightbox(volume = 1) {
+            const image = document.querySelector('#coverLightbox .lightbox-img');
+            image.src = volume === 2 ? 'Cover_Vol2.png' : 'Cover_Vol1.jpg';
+            image.alt = 'หน้าปก เล่มที่ ' + volume + ' ขนาดเต็ม';
             document.getElementById('coverLightbox').classList.add('open');
         }
 
