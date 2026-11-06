@@ -1,8 +1,9 @@
-const CACHE_NAME = 'dust-above-heavens-v8';
+const CACHE_NAME = 'dust-above-heavens-v10';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
   './manifest.json',
+  './chapters.json',
   './Cover_Vol1.png',
   './Cover_Vol1.jpg',
   './Cover_Vol1_Duo_v2.png',
@@ -37,21 +38,25 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
 
   // Network-First strategy for chapters.json (always fetch latest novel content if online)
-  if (url.pathname.includes('chapters.json')) {
+  if (url.pathname.endsWith('chapters.json')) {
     event.respondWith(
       fetch(event.request)
         .then((response) => {
           if (response && response.status === 200) {
-            const copy = response.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
+            const copy1 = response.clone();
+            const copy2 = response.clone();
+            caches.open(CACHE_NAME).then((cache) => {
+              cache.put(event.request, copy1);
+              cache.put('./chapters.json', copy2);
+            });
           }
           return response;
         })
         .catch(() => {
-          // If offline or network fails, fallback to cache
-          return caches.match(event.request).then((cached) => {
+          // If offline or network fails, fallback to cache (ignore query params like ?v=...)
+          return caches.match(event.request, { ignoreSearch: true }).then((cached) => {
             if (cached) return cached;
-            return caches.match('chapters.json');
+            return caches.match('./chapters.json');
           });
         })
     );

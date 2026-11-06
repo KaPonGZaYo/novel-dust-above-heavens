@@ -334,14 +334,17 @@
         /* TOC Volume Sections & Collapsible Accordion */
         .toc-body {
             overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
             padding: 12px;
             flex: 1;
+            min-height: 0;
             display: flex;
             flex-direction: column;
             gap: 12px;
         }
 
         .toc-volume-card {
+            flex-shrink: 0;
             border-radius: 12px;
             border: 1px solid var(--card-border);
             background: var(--card-bg);
@@ -625,14 +628,48 @@
         }
 
         async function fetchChapters() {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 4000);
+
             try {
-                // Try fetching latest with cache busting
-                const res = await fetch('chapters.json?v=' + Date.now(), { cache: 'no-cache' });
-                return await res.json();
+                // Try fetching latest with cache busting and a 4s timeout
+                const res = await fetch('chapters.json?v=' + Date.now(), { 
+                    cache: 'no-cache',
+                    signal: controller.signal
+                });
+                clearTimeout(timeoutId);
+                if (res.ok) {
+                    return await res.json();
+                }
+                throw new Error('Network response not ok: ' + res.status);
             } catch (e) {
-                // Fallback to cache/offline
-                const res = await fetch('chapters.json');
-                return await res.json();
+                clearTimeout(timeoutId);
+                console.warn('Network fetch chapters failed or timed out, trying cache/offline fallback...', e);
+
+                // Fallback 1: Fetch without cache-busting query parameter
+                try {
+                    const fallbackRes = await fetch('chapters.json');
+                    if (fallbackRes.ok) {
+                        return await fallbackRes.json();
+                    }
+                } catch (fallbackErr) {
+                    console.warn('Fallback fetch failed:', fallbackErr);
+                }
+
+                // Fallback 2: Direct CacheStorage access (offline PWA)
+                if ('caches' in window) {
+                    try {
+                        const cached = await caches.match('chapters.json', { ignoreSearch: true })
+                                    || await caches.match('./chapters.json', { ignoreSearch: true });
+                        if (cached) {
+                            return await cached.json();
+                        }
+                    } catch (cacheErr) {
+                        console.warn('Direct CacheStorage read failed:', cacheErr);
+                    }
+                }
+
+                throw e;
             }
         }
 
