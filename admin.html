@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ระบบหลังบ้านจัดการเนื้อหา - ธุลีเหนือสวรรค์ (Admin)</title>
     <link rel="icon" type="image/png" href="icon-192.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,7 +23,7 @@
             --accent-glow: rgba(212, 163, 89, 0.25);
             --danger: #ef4444;
             --success: #10b981;
-            --header-h: 60px;
+            --header-h: 56px;
         }
 
         * {
@@ -40,13 +40,13 @@
             overflow-x: hidden;
         }
 
-        /* Login Screen */
+        /* 1. LOGIN SCREEN */
         .login-wrap {
             display: flex;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            padding: 20px;
+            padding: 16px;
             background: radial-gradient(circle at top, #1e2436 0%, #0c0e14 100%);
         }
 
@@ -54,29 +54,29 @@
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: 18px;
-            padding: 40px 32px;
+            padding: 32px 24px;
             width: 100%;
-            max-width: 420px;
+            max-width: 400px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 30px var(--accent-glow);
             text-align: center;
         }
 
         .login-logo {
             font-family: 'Charm', cursive;
-            font-size: 32px;
+            font-size: 30px;
             color: var(--accent);
             font-weight: 700;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
 
         .login-subtitle {
-            font-size: 14px;
+            font-size: 13px;
             color: var(--text-muted);
-            margin-bottom: 28px;
+            margin-bottom: 24px;
         }
 
         .form-group {
-            margin-bottom: 18px;
+            margin-bottom: 16px;
             text-align: left;
         }
 
@@ -90,7 +90,7 @@
 
         .form-control {
             width: 100%;
-            padding: 12px 14px;
+            padding: 11px 13px;
             background: var(--bg-input);
             border: 1px solid var(--border);
             border-radius: 10px;
@@ -108,15 +108,15 @@
 
         .login-btn {
             width: 100%;
-            padding: 13px;
+            padding: 12px;
             background: linear-gradient(135deg, #c49348 0%, #e0b067 100%);
             border: none;
             border-radius: 10px;
             color: #10121a;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 700;
             cursor: pointer;
-            margin-top: 10px;
+            margin-top: 8px;
             transition: transform 0.15s, box-shadow 0.15s;
         }
 
@@ -137,19 +137,20 @@
         }
 
         .login-badge-info {
-            margin-top: 24px;
+            margin-top: 20px;
             font-size: 12px;
             color: var(--text-muted);
             border-top: 1px solid var(--border);
-            padding-top: 16px;
+            padding-top: 14px;
         }
 
-        /* Admin App Screen */
+        /* 2. ADMIN APP SCREEN */
         .app-wrap {
             display: none;
             height: 100vh;
             flex-direction: column;
             overflow: hidden;
+            width: 100%;
         }
 
         header.admin-header {
@@ -159,40 +160,50 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 16px;
+            padding: 0 12px;
             flex-shrink: 0;
             z-index: 100;
+            position: relative;
+            gap: 8px;
         }
 
         .header-brand {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 8px;
+            min-width: 0;
+            flex: 1;
         }
 
         .header-title {
             font-family: 'Charm', cursive;
-            font-size: 22px;
+            font-size: 20px;
             color: var(--accent);
             font-weight: 700;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .server-status-pill {
             display: flex;
             align-items: center;
-            gap: 6px;
-            font-size: 12px;
-            padding: 4px 10px;
-            border-radius: 20px;
+            gap: 5px;
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 16px;
             border: 1px solid var(--border);
             background: var(--bg-card);
+            white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .status-dot {
-            width: 8px;
-            height: 8px;
+            width: 7px;
+            height: 7px;
             border-radius: 50%;
             background: var(--success);
+            flex-shrink: 0;
         }
 
         .status-dot.offline {
@@ -202,23 +213,26 @@
         .header-actions {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
+            flex-shrink: 0;
         }
 
         .btn {
             background: var(--bg-card);
             color: var(--text-main);
             border: 1px solid var(--border);
-            padding: 7px 14px;
+            padding: 6px 11px;
             border-radius: 8px;
             font-size: 13px;
             font-weight: 600;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
             transition: all 0.15s ease;
             text-decoration: none;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .btn:hover {
@@ -247,26 +261,82 @@
             background: rgba(239, 68, 68, 0.25);
         }
 
+        .btn-more-menu {
+            display: none;
+            padding: 6px 10px;
+            font-size: 15px;
+        }
+
+        /* Dropdown Menu for Mobile / Compact Screens */
+        .more-dropdown {
+            display: none;
+            position: absolute;
+            top: calc(var(--header-h) + 4px);
+            right: 12px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.6);
+            min-width: 220px;
+            z-index: 500;
+            padding: 6px 0;
+            animation: fadeIn 0.15s ease-out;
+        }
+
+        .more-dropdown.open {
+            display: block;
+        }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 16px;
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            width: 100%;
+            text-align: left;
+            transition: background 0.15s;
+        }
+
+        .dropdown-item:hover {
+            background: var(--bg-input);
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            background: var(--border);
+            margin: 6px 0;
+        }
+
         /* Main Workspace Layout */
         .workspace {
             display: flex;
             flex: 1;
             min-height: 0;
             position: relative;
+            overflow: hidden;
+            width: 100%;
         }
 
         /* Sidebar: Chapters */
         aside.sidebar {
-            width: 320px;
+            width: 300px;
             background: var(--bg-sidebar);
             border-right: 1px solid var(--border);
             display: flex;
             flex-direction: column;
             flex-shrink: 0;
+            transition: transform 0.25s ease;
         }
 
         .sidebar-search-box {
-            padding: 12px;
+            padding: 10px;
             border-bottom: 1px solid var(--border);
         }
 
@@ -289,6 +359,7 @@
             flex: 1;
             overflow-y: auto;
             padding: 8px;
+            -webkit-overflow-scrolling: touch;
         }
 
         .chapter-card {
@@ -318,16 +389,16 @@
         }
 
         .chapter-card-id {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 700;
             color: var(--accent);
             background: var(--bg-input);
-            padding: 2px 7px;
+            padding: 2px 6px;
             border-radius: 4px;
         }
 
         .chapter-card-title {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600;
             color: var(--text-main);
             white-space: nowrap;
@@ -351,25 +422,26 @@
             background: var(--bg-main);
             min-width: 0;
             position: relative;
+            overflow: hidden;
         }
 
         .editor-topbar {
-            padding: 10px 18px;
+            padding: 8px 14px;
             border-bottom: 1px solid var(--border);
             display: flex;
             align-items: center;
             justify-content: space-between;
             background: var(--bg-card);
-            gap: 12px;
-            flex-wrap: wrap;
+            gap: 10px;
+            flex-shrink: 0;
         }
 
         .editor-title-input {
             flex: 1;
-            min-width: 250px;
-            font-size: 16px;
+            min-width: 0;
+            font-size: 15px;
             font-weight: 600;
-            padding: 8px 12px;
+            padding: 7px 10px;
             background: var(--bg-input);
             border: 1px solid var(--border);
             border-radius: 6px;
@@ -384,9 +456,11 @@
         .editor-stats {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             font-size: 12px;
             color: var(--text-muted);
+            flex-shrink: 0;
+            white-space: nowrap;
         }
 
         .dirty-badge {
@@ -397,13 +471,23 @@
         }
 
         .editor-toolbar {
-            padding: 6px 14px;
+            padding: 6px 12px;
             background: var(--bg-sidebar);
             border-bottom: 1px solid var(--border);
             display: flex;
             gap: 6px;
             align-items: center;
             overflow-x: auto;
+            flex-shrink: 0;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .editor-toolbar::-webkit-scrollbar {
+            height: 3px;
+        }
+        .editor-toolbar::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 3px;
         }
 
         .tool-btn {
@@ -416,6 +500,7 @@
             font-weight: 600;
             cursor: pointer;
             white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .tool-btn:hover {
@@ -427,6 +512,8 @@
             display: flex;
             flex: 1;
             min-height: 0;
+            overflow: hidden;
+            position: relative;
         }
 
         .editor-textarea-wrap {
@@ -443,15 +530,16 @@
             height: 100%;
             background: var(--bg-main);
             color: #e2e8f0;
-            padding: 20px 24px;
+            padding: 16px 20px;
             font-family: 'Sarabun', monospace, sans-serif;
-            font-size: 17px;
+            font-size: 16px;
             line-height: 1.85;
             border: none;
             outline: none;
             resize: none;
             white-space: pre-wrap;
             overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         /* Preview Panel */
@@ -464,6 +552,7 @@
             flex-direction: column;
             overflow: hidden;
             transition: all 0.2s ease;
+            position: relative;
         }
 
         aside.preview-pane.hidden {
@@ -471,7 +560,7 @@
         }
 
         .preview-header {
-            padding: 8px 16px;
+            padding: 8px 14px;
             background: #ede6d6;
             border-bottom: 1px solid #d8ceba;
             color: #665b4f;
@@ -480,22 +569,37 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-shrink: 0;
+        }
+
+        .btn-preview-back {
+            display: none;
+            background: #9a7432;
+            color: #fff;
+            border: none;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
         }
 
         .preview-content {
             flex: 1;
             overflow-y: auto;
-            padding: 24px 30px;
+            padding: 20px 24px;
             font-family: 'Sarabun', sans-serif;
             font-size: 18px;
             line-height: 1.95;
+            -webkit-overflow-scrolling: touch;
         }
 
         .preview-content h1 {
-            font-size: 24px;
+            font-size: 22px;
             color: #181410;
             text-align: center;
-            margin: 10px 0 24px 0;
+            margin: 8px 0 20px 0;
+            line-height: 1.4;
         }
 
         .preview-content p {
@@ -507,17 +611,28 @@
         .preview-content .divider {
             text-align: center;
             color: #9a7432;
-            margin: 28px 0;
+            margin: 24px 0;
             letter-spacing: 6px;
+            font-size: 16px;
         }
 
         .preview-content .quote-box {
             background-color: #ece5d3;
             border-left: 4px solid #b89758;
             padding: 12px 16px;
-            margin: 20px 0;
+            margin: 18px 0;
             border-radius: 0 6px 6px 0;
             font-style: italic;
+        }
+
+        .preview-content strong {
+            font-weight: 700;
+            color: #1a1612;
+        }
+
+        .preview-content em {
+            font-style: italic;
+            color: #554a3d;
         }
 
         /* Modal Dialogs */
@@ -543,29 +658,30 @@
             border: 1px solid var(--border);
             border-radius: 14px;
             width: 100%;
-            max-width: 560px;
+            max-width: 520px;
             overflow: hidden;
             box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+            animation: zoomIn 0.2s ease-out;
         }
 
         .modal-card-header {
-            padding: 16px 20px;
+            padding: 14px 18px;
             border-bottom: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
             align-items: center;
             font-weight: 700;
-            font-size: 16px;
+            font-size: 15px;
         }
 
         .modal-card-body {
-            padding: 20px;
+            padding: 16px 18px;
             max-height: 60vh;
             overflow-y: auto;
         }
 
         .modal-card-footer {
-            padding: 14px 20px;
+            padding: 12px 18px;
             border-top: 1px solid var(--border);
             display: flex;
             justify-content: flex-end;
@@ -573,29 +689,46 @@
             background: var(--bg-sidebar);
         }
 
+        /* Sidebar backdrop for mobile */
+        .sidebar-backdrop {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(2px);
+            z-index: 55;
+        }
+
+        .sidebar-backdrop.active {
+            display: block;
+        }
+
         /* Toast Notifications */
         .toast-box {
             position: fixed;
-            bottom: 24px;
-            right: 24px;
+            bottom: 20px;
+            right: 20px;
             z-index: 2000;
             display: flex;
             flex-direction: column;
             gap: 8px;
+            max-width: calc(100vw - 40px);
         }
 
         .toast {
             background: #1e293b;
             color: #fff;
             border: 1px solid var(--border);
-            padding: 12px 18px;
+            padding: 10px 16px;
             border-radius: 8px;
             box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-            font-size: 14px;
+            font-size: 13px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             animation: slideIn 0.25s ease-out;
+            word-break: break-word;
         }
 
         .toast.success {
@@ -609,36 +742,99 @@
         }
 
         @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+            from { transform: translateY(100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
 
-        /* Responsive */
-        @media (max-width: 900px) {
-            aside.sidebar {
-                width: 250px;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes zoomIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* RESPONSIVE DESIGN FOR TABLETS & MOBILES */
+        @media (max-width: 880px) {
+            .desktop-only {
+                display: none !important;
             }
+            .btn-more-menu {
+                display: inline-flex;
+            }
+            .header-title {
+                font-size: 17px;
+            }
+            .server-status-pill .status-text-full {
+                display: none;
+            }
+            .server-status-pill .status-text-short {
+                display: inline;
+            }
+
+            aside.sidebar {
+                position: fixed;
+                top: 0; left: 0;
+                width: 280px; height: 100%;
+                z-index: 60;
+                transform: translateX(-100%);
+                box-shadow: 4px 0 24px rgba(0,0,0,0.5);
+            }
+            aside.sidebar.mobile-open {
+                transform: translateX(0);
+            }
+
+            /* Preview Pane Mobile Full Overlay */
             aside.preview-pane {
                 display: none;
+                position: absolute;
+                top: 0; left: 0;
+                width: 100%; height: 100%;
+                z-index: 40;
+                border-left: none;
             }
             aside.preview-pane.mobile-active {
                 display: flex;
-                position: absolute;
-                top: 0; left: 0; width: 100%; height: 100%;
-                z-index: 50;
+            }
+            .btn-preview-back {
+                display: inline-block;
+            }
+
+            .editor-topbar {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 6px;
+                padding: 8px 12px;
+            }
+            .editor-stats {
+                justify-content: space-between;
+                width: 100%;
             }
         }
 
-        @media (max-width: 680px) {
-            aside.sidebar {
-                position: absolute;
-                top: 0; left: -280px;
-                width: 280px; height: 100%;
-                z-index: 60;
-                transition: transform 0.25s;
+        @media (min-width: 881px) {
+            .server-status-pill .status-text-short {
+                display: none;
             }
-            aside.sidebar.mobile-open {
-                transform: translateX(280px);
+        }
+
+        @media (max-width: 480px) {
+            .btn {
+                padding: 5px 8px;
+                font-size: 12px;
+            }
+            .header-title {
+                max-width: 110px;
+            }
+            textarea.chapter-textarea {
+                padding: 12px 14px;
+                font-size: 15px;
+            }
+            .preview-content {
+                padding: 16px 16px;
+                font-size: 17px;
             }
         }
     </style>
@@ -663,7 +859,7 @@
                     <input type="password" id="passwordInput" class="form-control" autocomplete="current-password" placeholder="ระบุ password" required>
                 </div>
 
-                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; font-size: 13px;">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; font-size: 13px;">
                     <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
                         <input type="checkbox" id="rememberMe" checked> จดจำการเข้าสู่ระบบ
                     </label>
@@ -683,39 +879,72 @@
         <!-- Header -->
         <header class="admin-header">
             <div class="header-brand">
-                <button class="btn" onclick="toggleSidebar()" title="เปิด/ปิด รายการตอน" id="btnToggleSidebar">📚 รายการตอน</button>
-                <div class="header-title">ธุลีเหนือสวรรค์ (Admin)</div>
+                <button class="btn" onclick="toggleSidebar()" title="เปิด/ปิด รายการตอน" id="btnToggleSidebar">
+                    📚 <span class="desktop-only">รายการ</span>ตอน
+                </button>
+                <div class="header-title" title="ธุลีเหนือสวรรค์">ธุลีเหนือสวรรค์</div>
                 <div class="server-status-pill" id="serverStatusPill">
                     <span class="status-dot" id="serverStatusDot"></span>
-                    <span id="serverStatusText">กำลังตรวจสอบเซิร์ฟเวอร์...</span>
+                    <span class="status-text-full" id="serverStatusTextFull">กำลังตรวจสอบ...</span>
+                    <span class="status-text-short" id="serverStatusTextShort">ตรวจ...</span>
                 </div>
             </div>
 
             <div class="header-actions">
                 <button class="btn btn-accent" onclick="saveCurrentChapter()" id="btnSave" title="บันทึกไฟล์ (Ctrl+S)">
-                    💾 บันทึกเนื้อหา
+                    💾 <span class="btn-save-text">บันทึก</span>
                 </button>
                 <button class="btn" onclick="togglePreview()" id="btnPreview" title="สลับเปิด/ปิด หน้าจอจำลองมุมมองผู้อ่าน">
-                    👁️ ดูตัวอย่างผู้อ่าน
+                    👁️ <span class="desktop-only">ดูตัวอย่าง</span><span class="mobile-only" style="display:none;">พรีวิว</span>
                 </button>
-                <button class="btn" onclick="openPublishModal()" title="เผยแพร่ขึ้น GitHub Pages & Google Drive">
+
+                <!-- Desktop Actions -->
+                <button class="btn desktop-only" onclick="openPublishModal()" title="เผยแพร่ขึ้น GitHub Pages & Google Drive">
                     🚀 เผยแพร่เว็บ
                 </button>
-                <a href="index.html" target="_blank" class="btn" title="เปิดหน้าเว็บอ่านนิยายหลัก">
-                    📖 เปิดเว็บอ่านนิยาย
+                <a href="index.html" target="_blank" class="btn desktop-only" title="เปิดหน้าเว็บอ่านนิยายหลัก">
+                    📖 เปิดเว็บอ่าน
                 </a>
-                <button class="btn btn-danger" onclick="logout()" title="ออกจากระบบ">
+                <button class="btn btn-danger desktop-only" onclick="logout()" title="ออกจากระบบ">
                     🚪 ออก
+                </button>
+
+                <!-- Mobile / Tablet More Menu Button -->
+                <button class="btn btn-more-menu" onclick="toggleMoreMenu(event)" title="เมนูเพิ่มเติม">
+                    ⋮
+                </button>
+            </div>
+
+            <!-- Mobile Dropdown Menu -->
+            <div class="more-dropdown" id="moreDropdown">
+                <button class="dropdown-item" onclick="openPublishModal(); closeMoreMenu();">
+                    🚀 เผยแพร่เว็บ (GitHub & GDrive)
+                </button>
+                <a href="index.html" target="_blank" class="dropdown-item" onclick="closeMoreMenu();">
+                    📖 เปิดหน้าเว็บอ่านนิยาย
+                </a>
+                <button class="dropdown-item" onclick="downloadCurrentMarkdown(); closeMoreMenu();">
+                    📥 ดาวน์โหลดไฟล์ .md
+                </button>
+                <button class="dropdown-item" onclick="openSearchReplaceModal(); closeMoreMenu();">
+                    🔍 ค้นหาและแทนที่คำ
+                </button>
+                <div class="dropdown-divider"></div>
+                <button class="dropdown-item" style="color: #fca5a5;" onclick="logout(); closeMoreMenu();">
+                    🚪 ออกจากระบบ
                 </button>
             </div>
         </header>
 
         <!-- Main Workspace -->
         <div class="workspace">
+            <!-- Sidebar Backdrop for mobile -->
+            <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="closeSidebar()"></div>
+
             <!-- Sidebar: Chapter List -->
             <aside class="sidebar" id="sidebar">
                 <div class="sidebar-search-box">
-                    <input type="text" id="chapterSearch" class="sidebar-search-input" placeholder="🔍 ค้นหาตอน (เลขตอน หรือ ชื่อ)..." oninput="filterChapters()">
+                    <input type="text" id="chapterSearch" class="sidebar-search-input" placeholder="🔍 ค้นหาตอน (เลข หรือ ชื่อ)..." oninput="filterChapters()">
                 </div>
                 <div class="chapter-list" id="chapterList">
                     <!-- Chapters rendered dynamically -->
@@ -725,9 +954,9 @@
             <!-- Editor Pane -->
             <main class="editor-pane">
                 <div class="editor-topbar">
-                    <input type="text" id="chapterTitleInput" class="editor-title-input" placeholder="# ตอนที่ X: ชื่อตอน..." oninput="markDirty()">
+                    <input type="text" id="chapterTitleInput" class="editor-title-input" placeholder="# ตอนที่ X: ชื่อตอน..." oninput="handleTitleInput()">
                     <div class="editor-stats">
-                        <span class="dirty-badge" id="dirtyBadge">⚠️ ยังไม่ได้บันทึก</span>
+                        <span class="dirty-badge" id="dirtyBadge">⚠️ ยังไม่บันทึก</span>
                         <span id="statWordCount">คำ: 0</span>
                         <span id="statCharCount">ตัวอักษร: 0</span>
                     </div>
@@ -740,7 +969,7 @@
                     <button class="tool-btn" onclick="insertLineSyntax('# ')" title="หัวข้อตอน">H1</button>
                     <button class="tool-btn" onclick="insertLineSyntax('> ')" title="กล่องความคิด/คำพูด">&gt; คำพูด</button>
                     <button class="tool-btn" onclick="insertText('\n---\n')" title="เส้นแบ่งฉาก">❖ เส้นคั่น</button>
-                    <button class="tool-btn" onclick="openSearchReplaceModal()" title="ค้นหาและแทนที่คำ">🔍 ค้นหา/แทนที่</button>
+                    <button class="tool-btn" onclick="openSearchReplaceModal()" title="ค้นหาและแทนที่คำ">🔍 ค้นหา</button>
                     <button class="tool-btn" onclick="downloadCurrentMarkdown()" title="ดาวน์โหลดไฟล์ .md ลงเครื่อง">📥 โหลด .md</button>
                 </div>
 
@@ -753,11 +982,11 @@
                     <!-- Live Preview Pane -->
                     <aside class="preview-pane" id="previewPane">
                         <div class="preview-header">
-                            <span>👀 มุมมองจำลองผู้อ่าน (Live Reader Preview)</span>
-                            <span id="previewChapterTag">ตอนปัจจุบัน</span>
+                            <span id="previewChapterTag">👀 ตัวอย่างผู้อ่าน</span>
+                            <button class="btn-preview-back" onclick="togglePreview()">✍️ กลับไปแก้ไข</button>
                         </div>
                         <div class="preview-content" id="previewContent">
-                            <!-- Preview rendered here -->
+                            <!-- Preview rendered dynamically -->
                         </div>
                     </aside>
                 </div>
@@ -797,17 +1026,17 @@
                 <button class="btn" onclick="closePublishModal()">✕</button>
             </div>
             <div class="modal-card-body">
-                <p style="font-size: 14px; margin-bottom: 14px; color: var(--text-muted);">
-                    การกดเผยแพร่จะรันระบบอัตโนมัติ (Publish Pipeline):<br>
-                    1. สร้างข้อมูล chapters.json ล่าสุด<br>
+                <p style="font-size: 13px; margin-bottom: 12px; color: var(--text-muted); line-height: 1.6;">
+                    ระบบจะรันกระบวนการอัตโนมัติ:<br>
+                    1. Rebuild ข้อมูลเว็บและตอนล่าสุด<br>
                     2. Git Commit & Push ขึ้น GitHub Pages ทันที<br>
-                    3. ซิงค์สำเนาไปยัง Google Drive โฟลเดอร์สำรอง
+                    3. ซิงค์ต้นฉบับและ Google Docs ไปยังโฟลเดอร์ Google Drive
                 </p>
                 <div class="form-group">
                     <label>ข้อความระบุการอัปเดต (Commit Message)</label>
                     <input type="text" id="commitMsgInput" class="form-control" value="Update manuscript via Web Admin">
                 </div>
-                <div id="publishOutputArea" style="display: none; margin-top: 14px; background: #0b0c10; border: 1px solid var(--border); border-radius: 8px; padding: 12px; font-family: 'Fira Code', monospace; font-size: 12px; max-height: 180px; overflow-y: auto; white-space: pre-wrap; color: #a5f3fc;">
+                <div id="publishOutputArea" style="display: none; margin-top: 12px; background: #0b0c10; border: 1px solid var(--border); border-radius: 8px; padding: 12px; font-family: 'Fira Code', monospace; font-size: 11px; max-height: 180px; overflow-y: auto; white-space: pre-wrap; color: #a5f3fc;">
                 </div>
             </div>
             <div class="modal-card-footer">
@@ -848,6 +1077,15 @@
                     saveCurrentChapter();
                 }
             });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', (e) => {
+                const dd = document.getElementById('moreDropdown');
+                const btn = document.querySelector('.btn-more-menu');
+                if (dd && dd.classList.contains('open') && !dd.contains(e.target) && !btn.contains(e.target)) {
+                    dd.classList.remove('open');
+                }
+            });
         });
 
         // 1. SERVER STATUS CHECK
@@ -858,24 +1096,24 @@
                     const data = await res.json();
                     if (data.ok) {
                         isLocalServer = true;
-                        setServerStatusUI(true, 'เชื่อมต่อ Local Server (บันทึกตรงลงไฟล์ .md)');
+                        setServerStatusUI(true, 'Local Server (เชื่อมต่อสมบูรณ์)', 'Local');
                         return;
                     }
                 }
             } catch (e) {
-                // Not running on local server (e.g. static GitHub Pages)
+                // Static GitHub Pages or offline
             }
             isLocalServer = false;
-            setServerStatusUI(false, 'โหมดเว็บตรง / ออฟไลน์ (บันทึกในเครื่อง + โหลด .md)');
+            setServerStatusUI(false, 'โหมดเว็บตรง (GitHub Pages)', 'Web');
         }
 
-        function setServerStatusUI(isLive, label) {
+        function setServerStatusUI(isLive, labelFull, labelShort) {
             const dot = document.getElementById('serverStatusDot');
-            const text = document.getElementById('serverStatusText');
-            if (dot && text) {
-                dot.className = isLive ? 'status-dot' : 'status-dot offline';
-                text.innerText = label;
-            }
+            const textFull = document.getElementById('serverStatusTextFull');
+            const textShort = document.getElementById('serverStatusTextShort');
+            if (dot) dot.className = isLive ? 'status-dot' : 'status-dot offline';
+            if (textFull) textFull.innerText = labelFull;
+            if (textShort) textShort.innerText = labelShort;
         }
 
         // 2. AUTHENTICATION
@@ -888,7 +1126,6 @@
 
             errBox.style.display = 'none';
 
-            // If local server is running, use /api/login
             if (isLocalServer) {
                 try {
                     const res = await fetch('/api/login', {
@@ -910,11 +1147,11 @@
                         return;
                     }
                 } catch (err) {
-                    console.warn('API login failed, checking static credentials', err);
+                    console.warn('API login error, checking fallback', err);
                 }
             }
 
-            // Client-side fixed credential fallback (matches requirement kapongzayo / 019774089)
+            // Fixed credential verification (kapongzayo / 019774089)
             if (username === FIXED_USER && password === FIXED_PASS) {
                 authToken = 'static-token-' + Date.now();
                 if (remember) {
@@ -958,9 +1195,25 @@
             document.getElementById('appWrap').style.display = 'flex';
         }
 
-        // 3. CHAPTER MANAGEMENT
+        // 3. CHAPTER MANAGEMENT & HTML-TO-MARKDOWN CONVERSION
+        function htmlToMarkdown(htmlStr) {
+            if (!htmlStr) return '';
+            let text = htmlStr;
+            // Convert tags back to markdown
+            text = text.replace(/<strong>(.*?)<\/strong>/gi, '**$1**');
+            text = text.replace(/<b>(.*?)<\/b>/gi, '**$1**');
+            text = text.replace(/<em>(.*?)<\/em>/gi, '*$1*');
+            text = text.replace(/<i>(.*?)<\/i>/gi, '*$1*');
+            // Decode entities
+            text = text.replace(/&amp;/g, '&');
+            text = text.replace(/&lt;/g, '<');
+            text = text.replace(/&gt;/g, '>');
+            text = text.replace(/&quot;/g, '"');
+            text = text.replace(/&#039;/g, "'");
+            return text;
+        }
+
         async function loadChapterList() {
-            // First try local server /api/chapters
             if (isLocalServer) {
                 try {
                     const res = await fetch('/api/chapters', {
@@ -978,7 +1231,7 @@
                         }
                     }
                 } catch (e) {
-                    console.warn('Error fetching from /api/chapters:', e);
+                    console.warn('Error fetching /api/chapters:', e);
                 }
             }
 
@@ -1010,7 +1263,7 @@
             const search = filterText.toLowerCase();
 
             const filtered = allChapters.filter(c => {
-                const titleMatch = c.title.toLowerCase().includes(search);
+                const titleMatch = (c.title || '').toLowerCase().includes(search);
                 const idMatch = String(c.id).includes(search);
                 return titleMatch || idMatch;
             });
@@ -1045,10 +1298,10 @@
                 }
             }
             selectChapter(chapId);
+            closeSidebar();
         }
 
         async function selectChapter(chapId) {
-            // Check local storage overrides first
             const localOverride = localStorage.getItem('novel_draft_ch_' + chapId);
 
             if (isLocalServer) {
@@ -1075,12 +1328,11 @@
                 }
             }
 
-            // Static / GitHub Pages fallback: Find in chapters.json or localStorage
+            // Static fallback: reconstruct from chapters.json with CLEAN MARKDOWN
             const found = allChapters.find(c => c.id === chapId);
             if (found) {
                 let content = localOverride;
                 if (!content) {
-                    // Try reconstruct markdown from chapters.json if not cached
                     try {
                         const res = await fetch('chapters.json');
                         const data = await res.json();
@@ -1088,8 +1340,8 @@
                         if (cd) {
                             content = `# ${cd.title}\n\n` + cd.paragraphs.map(p => {
                                 if (p.type === 'divider') return '---';
-                                if (p.type === 'quote') return `> ${p.text}`;
-                                return p.text;
+                                if (p.type === 'quote') return `> ${htmlToMarkdown(p.text)}`;
+                                return htmlToMarkdown(p.text);
                             }).join('\n\n');
                         }
                     } catch (e) {}
@@ -1110,12 +1362,18 @@
             const titleInput = document.getElementById('chapterTitleInput');
             const textarea = document.getElementById('chapterContent');
 
-            // Extract title and content
             titleInput.value = currentChapter.title || `# ตอนที่ ${currentChapter.id}`;
             textarea.value = currentChapter.content || '';
 
             setDirty(false);
             updateStats();
+            updateLivePreview();
+        }
+
+        function handleTitleInput() {
+            markDirty();
+            const val = document.getElementById('chapterTitleInput').value.trim();
+            if (currentChapter) currentChapter.title = val;
             updateLivePreview();
         }
 
@@ -1127,7 +1385,6 @@
 
         function markDirty() {
             setDirty(true);
-            // Save auto draft to local storage
             if (currentChapter) {
                 localStorage.setItem('novel_draft_ch_' + currentChapter.id, document.getElementById('chapterContent').value);
             }
@@ -1156,7 +1413,7 @@
             const content = document.getElementById('chapterContent').value;
             const btnSave = document.getElementById('btnSave');
             btnSave.disabled = true;
-            btnSave.innerText = '⏳ กำลังบันทึก...';
+            btnSave.querySelector('.btn-save-text').innerText = 'กำลังเซฟ...';
 
             if (isLocalServer) {
                 try {
@@ -1175,7 +1432,7 @@
                         showToast(`✅ ${data.message} ${data.backup ? `(สำรอง: ${data.backup})` : ''}`, 'success');
                         await loadChapterList();
                         btnSave.disabled = false;
-                        btnSave.innerText = '💾 บันทึกเนื้อหา';
+                        btnSave.querySelector('.btn-save-text').innerText = 'บันทึก';
                         return;
                     } else {
                         showToast('เกิดข้อผิดพลาด: ' + (data.error || 'บันทึกไม่สำเร็จ'), 'error');
@@ -1189,26 +1446,36 @@
             localStorage.setItem('novel_saved_ch_' + currentChapter.id, content);
             localStorage.removeItem('novel_draft_ch_' + currentChapter.id);
             setDirty(false);
-            showToast('✅ บันทึกสำเนาลงเบราว์เซอร์เครื่องนี้เรียบร้อย (กด "โหลด .md" หากต้องการไฟล์)', 'success');
+            showToast('✅ บันทึกสำเนาลงเบราว์เซอร์เรียบร้อย (กด "โหลด .md" หากต้องการไฟล์)', 'success');
             btnSave.disabled = false;
-            btnSave.innerText = '💾 บันทึกเนื้อหา';
+            btnSave.querySelector('.btn-save-text').innerText = 'บันทึก';
         }
 
-        // 5. LIVE PREVIEW
+        // 5. LIVE READER PREVIEW - ROBUST FORMATTING
         function updateLivePreview() {
             const raw = document.getElementById('chapterContent').value;
+            const titleInputVal = document.getElementById('chapterTitleInput').value.trim();
             const lines = raw.split('\n');
             let previewHtml = '';
-            let titleFound = false;
+            let titleRendered = false;
+
+            // Render Header Title from input if not starting with # in lines
+            if (titleInputVal) {
+                let cleanTitle = titleInputVal.startsWith('# ') ? titleInputVal.slice(2) : titleInputVal;
+                previewHtml += `<h1>${escapeHtml(cleanTitle)}</h1>`;
+                titleRendered = true;
+            }
 
             for (let line of lines) {
                 let trimmed = line.trim();
                 if (!trimmed) continue;
 
-                if (trimmed.startsWith('# ') && !titleFound) {
-                    previewHtml += `<h1>${escapeHtml(trimmed.slice(2))}</h1>`;
-                    titleFound = true;
-                } else if (trimmed.startsWith('---')) {
+                if (trimmed.startsWith('# ')) {
+                    if (!titleRendered) {
+                        previewHtml += `<h1>${escapeHtml(trimmed.slice(2))}</h1>`;
+                        titleRendered = true;
+                    }
+                } else if (trimmed === '---' || trimmed === '***' || trimmed.startsWith('❖ ❖ ❖')) {
                     previewHtml += `<div class="divider">❖ ❖ ❖</div>`;
                 } else if (trimmed.startsWith('> ')) {
                     previewHtml += `<div class="quote-box">${formatMarkdown(trimmed.slice(2))}</div>`;
@@ -1219,20 +1486,34 @@
 
             document.getElementById('previewContent').innerHTML = previewHtml;
             if (currentChapter) {
-                document.getElementById('previewChapterTag').innerText = `ตอนที่ ${currentChapter.id}`;
+                document.getElementById('previewChapterTag').innerText = `ตอนที่ ${currentChapter.id} · มุมมองผู้อ่าน`;
             }
         }
 
+        // Clean parser that prevents raw <em> or <strong> code leaks
         function formatMarkdown(text) {
-            let out = escapeHtml(text);
-            // bold
-            out = out.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-            // italic
-            out = out.replace(/\*(.*?)\*/g, '<em>$1</em>');
+            if (!text) return '';
+            // 1. Normalize existing HTML tags to markdown so they don't get escaped into literal code
+            let clean = text
+                .replace(/<strong>(.*?)<\/strong>/gi, '**$1**')
+                .replace(/<b>(.*?)<\/b>/gi, '**$1**')
+                .replace(/<em>(.*?)<\/em>/gi, '*$1*')
+                .replace(/<i>(.*?)<\/i>/gi, '*$1*');
+
+            // 2. Escape HTML entities
+            let out = escapeHtml(clean);
+
+            // 3. Convert Markdown bold: **text**
+            out = out.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+
+            // 4. Convert Markdown italic: *text* (excluding asterisks inside words/numbers)
+            out = out.replace(/(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)/g, '<em>$1</em>');
+
             return out;
         }
 
         function escapeHtml(str) {
+            if (!str) return '';
             return str.replace(/&/g, '&amp;')
                       .replace(/</g, '&lt;')
                       .replace(/>/g, '&gt;')
@@ -1242,7 +1523,7 @@
 
         function togglePreview() {
             const pane = document.getElementById('previewPane');
-            if (window.innerWidth <= 900) {
+            if (window.innerWidth <= 880) {
                 pane.classList.toggle('mobile-active');
             } else {
                 pane.classList.toggle('hidden');
@@ -1251,7 +1532,27 @@
 
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
+            const backdrop = document.getElementById('sidebarBackdrop');
             sidebar.classList.toggle('mobile-open');
+            if (backdrop) backdrop.classList.toggle('active', sidebar.classList.contains('mobile-open'));
+        }
+
+        function closeSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const backdrop = document.getElementById('sidebarBackdrop');
+            if (sidebar) sidebar.classList.remove('mobile-open');
+            if (backdrop) backdrop.classList.remove('active');
+        }
+
+        function toggleMoreMenu(e) {
+            if (e) e.stopPropagation();
+            const dd = document.getElementById('moreDropdown');
+            if (dd) dd.classList.toggle('open');
+        }
+
+        function closeMoreMenu() {
+            const dd = document.getElementById('moreDropdown');
+            if (dd) dd.classList.remove('open');
         }
 
         // 6. EDITOR TOOLS
