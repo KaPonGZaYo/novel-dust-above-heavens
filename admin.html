@@ -23,7 +23,7 @@
             --accent-glow: rgba(212, 163, 89, 0.25);
             --danger: #ef4444;
             --success: #10b981;
-            --header-h: 56px;
+            --header-h: 54px;
         }
 
         * {
@@ -264,10 +264,11 @@
         .btn-more-menu {
             display: none;
             padding: 6px 10px;
-            font-size: 15px;
+            font-size: 16px;
+            font-weight: 700;
         }
 
-        /* Dropdown Menu for Mobile / Compact Screens */
+        /* Mobile Dropdown Menu */
         .more-dropdown {
             display: none;
             position: absolute;
@@ -324,25 +325,65 @@
             width: 100%;
         }
 
-        /* Sidebar: Chapters */
+        /* Sidebar: Chapter List */
         aside.sidebar {
-            width: 300px;
+            width: 320px;
             background: var(--bg-sidebar);
             border-right: 1px solid var(--border);
             display: flex;
             flex-direction: column;
             flex-shrink: 0;
             transition: transform 0.25s ease;
+            z-index: 60;
+        }
+
+        .sidebar-header {
+            padding: 12px 14px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--bg-card);
+        }
+
+        .sidebar-vol-tabs {
+            display: flex;
+            gap: 4px;
+            padding: 8px 10px;
+            background: var(--bg-sidebar);
+            border-bottom: 1px solid var(--border);
+            overflow-x: auto;
+            flex-shrink: 0;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .vol-tab-btn {
+            background: var(--bg-input);
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 4px 8px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .vol-tab-btn.active {
+            background: var(--accent);
+            color: #11141d;
+            border-color: var(--accent);
+            font-weight: 700;
         }
 
         .sidebar-search-box {
-            padding: 10px;
+            padding: 8px 10px;
             border-bottom: 1px solid var(--border);
         }
 
         .sidebar-search-input {
             width: 100%;
-            padding: 8px 12px;
+            padding: 7px 12px;
             background: var(--bg-input);
             border: 1px solid var(--border);
             border-radius: 8px;
@@ -377,7 +418,7 @@
         }
 
         .chapter-card.active {
-            background: rgba(212, 163, 89, 0.12);
+            background: rgba(212, 163, 89, 0.15);
             border-color: var(--accent);
         }
 
@@ -412,6 +453,64 @@
             display: flex;
             justify-content: space-between;
             margin-top: 4px;
+        }
+
+        /* Mobile Prominent Chapter Selector Bar */
+        .mobile-chapter-selector-bar {
+            display: none;
+            background: linear-gradient(90deg, #1f2537 0%, #151822 100%);
+            border-bottom: 1px solid var(--border);
+            padding: 8px 12px;
+            cursor: pointer;
+            user-select: none;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            flex-shrink: 0;
+            transition: background 0.15s;
+        }
+
+        .mobile-chapter-selector-bar:active {
+            background: #262c40;
+        }
+
+        .selector-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 0;
+            flex: 1;
+        }
+
+        .selector-badge {
+            background: var(--accent);
+            color: #11141d;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 6px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .selector-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .selector-action {
+            font-size: 11px;
+            color: var(--accent);
+            font-weight: 700;
+            white-space: nowrap;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            gap: 4px;
         }
 
         /* Editor Area */
@@ -764,6 +863,9 @@
             .btn-more-menu {
                 display: inline-flex;
             }
+            .mobile-chapter-selector-bar {
+                display: flex;
+            }
             .header-title {
                 font-size: 17px;
             }
@@ -777,10 +879,11 @@
             aside.sidebar {
                 position: fixed;
                 top: 0; left: 0;
-                width: 280px; height: 100%;
+                width: 300px; max-width: 85vw;
+                height: 100%;
                 z-index: 60;
                 transform: translateX(-100%);
-                box-shadow: 4px 0 24px rgba(0,0,0,0.5);
+                box-shadow: 4px 0 30px rgba(0,0,0,0.7);
             }
             aside.sidebar.mobile-open {
                 transform: translateX(0);
@@ -816,6 +919,9 @@
 
         @media (min-width: 881px) {
             .server-status-pill .status-text-short {
+                display: none;
+            }
+            .sidebar-header .btn-close-sidebar {
                 display: none;
             }
         }
@@ -941,8 +1047,22 @@
             <!-- Sidebar Backdrop for mobile -->
             <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="closeSidebar()"></div>
 
-            <!-- Sidebar: Chapter List -->
+            <!-- Sidebar: Chapter List Drawer -->
             <aside class="sidebar" id="sidebar">
+                <div class="sidebar-header">
+                    <span style="font-weight: 700; color: var(--accent); font-size: 14px;">📑 สารบัญตอน (ธุลีเหนือสวรรค์)</span>
+                    <button class="btn btn-close-sidebar" onclick="closeSidebar()" style="padding: 3px 8px; font-size: 12px;">✕ ปิด</button>
+                </div>
+
+                <!-- Volume Jump Tabs -->
+                <div class="sidebar-vol-tabs">
+                    <button class="vol-tab-btn active" onclick="setVolumeFilter(0, this)">ทั้งหมด</button>
+                    <button class="vol-tab-btn" onclick="setVolumeFilter(1, this)">เล่ม 1 (1–25)</button>
+                    <button class="vol-tab-btn" onclick="setVolumeFilter(2, this)">เล่ม 2 (26–50)</button>
+                    <button class="vol-tab-btn" onclick="setVolumeFilter(3, this)">เล่ม 3 (51–75)</button>
+                    <button class="vol-tab-btn" onclick="setVolumeFilter(4, this)">เล่ม 4 (76–100)</button>
+                </div>
+
                 <div class="sidebar-search-box">
                     <input type="text" id="chapterSearch" class="sidebar-search-input" placeholder="🔍 ค้นหาตอน (เลข หรือ ชื่อ)..." oninput="filterChapters()">
                 </div>
@@ -953,6 +1073,15 @@
 
             <!-- Editor Pane -->
             <main class="editor-pane">
+                <!-- Mobile Prominent Chapter Selector Bar (Always visible on mobile) -->
+                <div class="mobile-chapter-selector-bar" onclick="openSidebar()" title="แตะเพื่อเลือกตอนอื่น">
+                    <div class="selector-info">
+                        <span class="selector-badge" id="currentChapBadge">ตอนที่ 1</span>
+                        <span class="selector-title" id="currentChapTitle">กำลังโหลด...</span>
+                    </div>
+                    <span class="selector-action">📑 เปลี่ยนตอน ▾</span>
+                </div>
+
                 <div class="editor-topbar">
                     <input type="text" id="chapterTitleInput" class="editor-title-input" placeholder="# ตอนที่ X: ชื่อตอน..." oninput="handleTitleInput()">
                     <div class="editor-stats">
@@ -976,7 +1105,7 @@
                 <!-- Editor Body -->
                 <div class="editor-body-wrap">
                     <div class="editor-textarea-wrap">
-                        <textarea id="chapterContent" class="chapter-textarea" placeholder="พิมพ์เนื้อหานิยายที่นี่..." oninput="handleContentInput()"></textarea>
+                        <textarea id="chapterContent" class="chapter-textarea" placeholder="⏳ กำลังโหลดเนื้อหานิยาย..." oninput="handleContentInput()"></textarea>
                     </div>
 
                     <!-- Live Preview Pane -->
@@ -1057,8 +1186,10 @@
         let authToken = localStorage.getItem('novel_admin_token') || sessionStorage.getItem('novel_admin_token') || null;
         let isLocalServer = false;
         let allChapters = [];
+        let rawChaptersCache = null; // Store full chapters JSON in memory once!
         let currentChapter = null;
         let isDirty = false;
+        let activeVolumeFilter = 0; // 0 = all
 
         // INITIALIZATION
         window.addEventListener('DOMContentLoaded', async () => {
@@ -1195,16 +1326,14 @@
             document.getElementById('appWrap').style.display = 'flex';
         }
 
-        // 3. CHAPTER MANAGEMENT & HTML-TO-MARKDOWN CONVERSION
+        // 3. CHAPTER MANAGEMENT & RESILIENT DATA FETCH
         function htmlToMarkdown(htmlStr) {
             if (!htmlStr) return '';
             let text = htmlStr;
-            // Convert tags back to markdown
             text = text.replace(/<strong>(.*?)<\/strong>/gi, '**$1**');
             text = text.replace(/<b>(.*?)<\/b>/gi, '**$1**');
             text = text.replace(/<em>(.*?)<\/em>/gi, '*$1*');
             text = text.replace(/<i>(.*?)<\/i>/gi, '*$1*');
-            // Decode entities
             text = text.replace(/&amp;/g, '&');
             text = text.replace(/&lt;/g, '<');
             text = text.replace(/&gt;/g, '>');
@@ -1213,7 +1342,71 @@
             return text;
         }
 
+        // Multi-tier fetcher with timeout and cache support
+        async function fetchChaptersJSONWithFallback() {
+            if (rawChaptersCache && Array.isArray(rawChaptersCache) && rawChaptersCache.length > 0) {
+                return rawChaptersCache;
+            }
+
+            // 1. Network with 12s timeout
+            try {
+                const controller = new AbortController();
+                const tid = setTimeout(() => controller.abort(), 12000);
+                const res = await fetch('chapters.json?v=' + Date.now(), {
+                    cache: 'no-cache',
+                    signal: controller.signal
+                });
+                clearTimeout(tid);
+                if (res.ok) {
+                    const data = await res.json();
+                    if (Array.isArray(data) && data.length > 0) {
+                        rawChaptersCache = data;
+                        return data;
+                    }
+                }
+            } catch (e) {
+                console.warn('Network chapters fetch error, trying normal fetch:', e);
+            }
+
+            // 2. Normal relative fetch
+            try {
+                const res = await fetch('chapters.json');
+                if (res.ok) {
+                    const data = await res.json();
+                    if (Array.isArray(data) && data.length > 0) {
+                        rawChaptersCache = data;
+                        return data;
+                    }
+                }
+            } catch (e) {
+                console.warn('Fallback relative fetch error:', e);
+            }
+
+            // 3. CacheStorage check (Offline PWA)
+            if ('caches' in window) {
+                try {
+                    const cached = await caches.match('chapters.json', { ignoreSearch: true })
+                                || await caches.match('./chapters.json', { ignoreSearch: true });
+                    if (cached) {
+                        const data = await cached.json();
+                        if (Array.isArray(data) && data.length > 0) {
+                            rawChaptersCache = data;
+                            return data;
+                        }
+                    }
+                } catch (ce) {
+                    console.warn('CacheStorage read error:', ce);
+                }
+            }
+
+            return [];
+        }
+
         async function loadChapterList() {
+            const listEl = document.getElementById('chapterList');
+            listEl.innerHTML = '<div style="padding: 24px 16px; text-align: center; color: var(--accent); font-size: 13px;">⏳ กำลังโหลดรายชื่อตอนทั้งหมด...</div>';
+
+            // 1. If Local Server is active
             if (isLocalServer) {
                 try {
                     const res = await fetch('/api/chapters', {
@@ -1225,7 +1418,7 @@
                             allChapters = data.chapters;
                             renderChapterList();
                             if (allChapters.length > 0 && !currentChapter) {
-                                selectChapter(allChapters[0].id);
+                                await selectChapter(allChapters[0].id);
                             }
                             return;
                         }
@@ -1235,38 +1428,66 @@
                 }
             }
 
-            // Fallback: Fetch chapters.json from web_app
+            // 2. Static / GitHub Pages mode: Load chapters.json once into memory
             try {
-                const res = await fetch('chapters.json?v=' + Date.now());
-                if (res.ok) {
-                    const jsonChaps = await res.json();
-                    allChapters = jsonChaps.map(c => ({
-                        id: c.id,
-                        filename: `Chapter_${String(c.id).padStart(3, '0')}.md`,
-                        title: c.title,
-                        chars: 0,
-                        words: 0,
-                        modified: '-'
-                    }));
+                const jsonChaps = await fetchChaptersJSONWithFallback();
+                if (Array.isArray(jsonChaps) && jsonChaps.length > 0) {
+                    allChapters = jsonChaps.map(c => {
+                        let wordEst = 0;
+                        if (Array.isArray(c.paragraphs)) {
+                            const sampleText = c.paragraphs.map(p => p.text || '').join(' ');
+                            wordEst = sampleText.trim().split(/\s+/).length;
+                        }
+                        return {
+                            id: c.id,
+                            filename: `Chapter_${String(c.id).padStart(3, '0')}.md`,
+                            title: c.title,
+                            chars: 0,
+                            words: wordEst,
+                            modified: '-'
+                        };
+                    });
                     renderChapterList();
                     if (allChapters.length > 0 && !currentChapter) {
-                        selectChapter(allChapters[0].id);
+                        await selectChapter(allChapters[0].id);
                     }
+                } else {
+                    listEl.innerHTML = '<div style="padding: 24px; text-align: center; color: #fca5a5; font-size: 13px;">❌ ไม่สามารถโหลดข้อมูลตอนได้ กรุณารีเฟรชหน้าเว็บอีกครั้ง</div>';
                 }
             } catch (err) {
+                listEl.innerHTML = `<div style="padding: 24px; text-align: center; color: #fca5a5; font-size: 13px;">❌ เกิดข้อผิดพลาด: ${escapeHtml(err.message)}</div>`;
                 showToast('ไม่สามารถโหลดรายการตอนได้: ' + err.message, 'error');
             }
         }
 
+        function setVolumeFilter(volId, btnEl) {
+            activeVolumeFilter = volId;
+            document.querySelectorAll('.vol-tab-btn').forEach(b => b.classList.remove('active'));
+            if (btnEl) btnEl.classList.add('active');
+            filterChapters();
+        }
+
         function renderChapterList(filterText = '') {
             const listEl = document.getElementById('chapterList');
-            const search = filterText.toLowerCase();
+            const search = filterText.toLowerCase().trim();
 
-            const filtered = allChapters.filter(c => {
+            let filtered = allChapters.filter(c => {
+                // Volume range filter
+                if (activeVolumeFilter === 1 && (c.id < 1 || c.id > 25)) return false;
+                if (activeVolumeFilter === 2 && (c.id < 26 || c.id > 50)) return false;
+                if (activeVolumeFilter === 3 && (c.id < 51 || c.id > 75)) return false;
+                if (activeVolumeFilter === 4 && (c.id < 76 || c.id > 100)) return false;
+
+                if (!search) return true;
                 const titleMatch = (c.title || '').toLowerCase().includes(search);
                 const idMatch = String(c.id).includes(search);
                 return titleMatch || idMatch;
             });
+
+            if (filtered.length === 0) {
+                listEl.innerHTML = '<div style="padding: 20px; text-align: center; color: var(--text-muted); font-size: 13px;">ไม่พบตอนที่ค้นหา</div>';
+                return;
+            }
 
             listEl.innerHTML = filtered.map(c => {
                 const activeCls = (currentChapter && currentChapter.id === c.id) ? 'active' : '';
@@ -1274,7 +1495,7 @@
                     <div class="chapter-card ${activeCls}" onclick="confirmAndSelectChapter(${c.id})">
                         <div class="chapter-card-top">
                             <span class="chapter-card-id">ตอนที่ ${c.id}</span>
-                            <span style="font-size: 11px; color: var(--text-muted);">${c.words ? c.words + ' คำ' : ''}</span>
+                            <span style="font-size: 11px; color: var(--text-muted);">${c.words ? c.words.toLocaleString() + ' คำ' : ''}</span>
                         </div>
                         <div class="chapter-card-title">${escapeHtml(c.title)}</div>
                         <div class="chapter-card-meta">
@@ -1304,6 +1525,7 @@
         async function selectChapter(chapId) {
             const localOverride = localStorage.getItem('novel_draft_ch_' + chapId);
 
+            // 1. If Local Server is running: fetch from /api/chapter/<id>
             if (isLocalServer) {
                 try {
                     const res = await fetch(`/api/chapter/${chapId}`, {
@@ -1328,29 +1550,26 @@
                 }
             }
 
-            // Static fallback: reconstruct from chapters.json with CLEAN MARKDOWN
+            // 2. Static / GitHub Pages mode: Read DIRECTLY from in-memory rawChaptersCache!
             const found = allChapters.find(c => c.id === chapId);
             if (found) {
                 let content = localOverride;
-                if (!content) {
-                    try {
-                        const res = await fetch('chapters.json');
-                        const data = await res.json();
-                        const cd = data.find(c => c.id === chapId);
-                        if (cd) {
-                            content = `# ${cd.title}\n\n` + cd.paragraphs.map(p => {
-                                if (p.type === 'divider') return '---';
-                                if (p.type === 'quote') return `> ${htmlToMarkdown(p.text)}`;
-                                return htmlToMarkdown(p.text);
-                            }).join('\n\n');
-                        }
-                    } catch (e) {}
+                if (!content && rawChaptersCache) {
+                    const cd = rawChaptersCache.find(c => c.id === chapId);
+                    if (cd && Array.isArray(cd.paragraphs)) {
+                        content = `# ${cd.title}\n\n` + cd.paragraphs.map(p => {
+                            if (p.type === 'divider') return '---';
+                            if (p.type === 'quote') return `> ${htmlToMarkdown(p.text)}`;
+                            return htmlToMarkdown(p.text);
+                        }).join('\n\n');
+                    }
                 }
+
                 currentChapter = {
                     id: chapId,
                     filename: found.filename,
                     title: found.title,
-                    content: content || `# ตอนที่ ${chapId}\n\nเนื้อหา...`
+                    content: content || `# ตอนที่ ${chapId}\n\n(ยังไม่มีเนื้อหา)`
                 };
                 populateEditor();
                 renderChapterList(document.getElementById('chapterSearch').value);
@@ -1361,9 +1580,19 @@
             if (!currentChapter) return;
             const titleInput = document.getElementById('chapterTitleInput');
             const textarea = document.getElementById('chapterContent');
+            const badge = document.getElementById('currentChapBadge');
+            const mobileTitle = document.getElementById('currentChapTitle');
 
+            // Set inputs
             titleInput.value = currentChapter.title || `# ตอนที่ ${currentChapter.id}`;
             textarea.value = currentChapter.content || '';
+
+            // Update mobile prominent chapter selector bar
+            if (badge) badge.innerText = `ตอนที่ ${currentChapter.id}`;
+            if (mobileTitle) {
+                let cleanT = currentChapter.title.startsWith('# ') ? currentChapter.title.slice(2) : currentChapter.title;
+                mobileTitle.innerText = cleanT;
+            }
 
             setDirty(false);
             updateStats();
@@ -1374,6 +1603,11 @@
             markDirty();
             const val = document.getElementById('chapterTitleInput').value.trim();
             if (currentChapter) currentChapter.title = val;
+            const mobileTitle = document.getElementById('currentChapTitle');
+            if (mobileTitle) {
+                let cleanT = val.startsWith('# ') ? val.slice(2) : val;
+                mobileTitle.innerText = cleanT;
+            }
             updateLivePreview();
         }
 
@@ -1459,7 +1693,6 @@
             let previewHtml = '';
             let titleRendered = false;
 
-            // Render Header Title from input if not starting with # in lines
             if (titleInputVal) {
                 let cleanTitle = titleInputVal.startsWith('# ') ? titleInputVal.slice(2) : titleInputVal;
                 previewHtml += `<h1>${escapeHtml(cleanTitle)}</h1>`;
@@ -1490,25 +1723,17 @@
             }
         }
 
-        // Clean parser that prevents raw <em> or <strong> code leaks
         function formatMarkdown(text) {
             if (!text) return '';
-            // 1. Normalize existing HTML tags to markdown so they don't get escaped into literal code
             let clean = text
                 .replace(/<strong>(.*?)<\/strong>/gi, '**$1**')
                 .replace(/<b>(.*?)<\/b>/gi, '**$1**')
                 .replace(/<em>(.*?)<\/em>/gi, '*$1*')
                 .replace(/<i>(.*?)<\/i>/gi, '*$1*');
 
-            // 2. Escape HTML entities
             let out = escapeHtml(clean);
-
-            // 3. Convert Markdown bold: **text**
             out = out.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-
-            // 4. Convert Markdown italic: *text* (excluding asterisks inside words/numbers)
             out = out.replace(/(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)/g, '<em>$1</em>');
-
             return out;
         }
 
@@ -1535,6 +1760,13 @@
             const backdrop = document.getElementById('sidebarBackdrop');
             sidebar.classList.toggle('mobile-open');
             if (backdrop) backdrop.classList.toggle('active', sidebar.classList.contains('mobile-open'));
+        }
+
+        function openSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const backdrop = document.getElementById('sidebarBackdrop');
+            if (sidebar) sidebar.classList.add('mobile-open');
+            if (backdrop) backdrop.classList.add('active');
         }
 
         function closeSidebar() {
