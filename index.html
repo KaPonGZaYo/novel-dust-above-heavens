@@ -811,8 +811,44 @@
                 cover: 'Cover_Vol3.png',
                 start: 51,
                 end: 75
+            },
+            {
+                id: 4,
+                tag: 'เล่มที่ ๔ · ภาค ๔',
+                title: 'เก้าแคว้นและเงาสะท้อนเมืองหลวง',
+                sub: 'ตอนที่ 76–100',
+                cover: '',
+                icon: '🦅',
+                start: 76,
+                end: 100
             }
         ];
+
+        function getEffectiveVolumes() {
+            let vols = [...VOLUMES];
+            const maxEnd = Math.max(...VOLUMES.map(v => v.end), 0);
+            const extraChapters = allChapters.filter(c => c.id > maxEnd);
+            if (extraChapters.length > 0) {
+                let currentStart = maxEnd + 1;
+                const highestId = Math.max(...extraChapters.map(c => c.id));
+                while (currentStart <= highestId) {
+                    const currentEnd = currentStart + 24;
+                    const vNum = Math.floor((currentStart - 1) / 25) + 1;
+                    vols.push({
+                        id: vNum,
+                        tag: `เล่มที่ ${vNum} · ภาค ${vNum}`,
+                        title: 'ภาคใหม่ (กำลังเผยแพร่)',
+                        sub: `ตอนที่ ${currentStart}–${currentEnd}`,
+                        cover: '',
+                        icon: '📜',
+                        start: currentStart,
+                        end: currentEnd
+                    });
+                    currentStart = currentEnd + 1;
+                }
+            }
+            return vols;
+        }
 
         let collapsedVolumes = {};
 
@@ -832,11 +868,12 @@
             const container = document.getElementById('tocContainer');
             if (!container) return;
 
+            const effectiveVolumes = getEffectiveVolumes();
             const currentChap = allChapters[currentChapIndex];
             const currentChapId = currentChap ? currentChap.id : 1;
-            const activeVolId = VOLUMES.find(v => currentChapId >= v.start && currentChapId <= v.end)?.id || 1;
+            const activeVolId = effectiveVolumes.find(v => currentChapId >= v.start && currentChapId <= v.end)?.id || 1;
 
-            container.innerHTML = VOLUMES.map(vol => {
+            container.innerHTML = effectiveVolumes.map(vol => {
                 const volChapters = allChapters.filter(c => c.id >= vol.start && c.id <= vol.end);
                 if (volChapters.length === 0) return '';
 
@@ -951,6 +988,19 @@
                 `;
             }
 
+            // Display Volume 4 at its opening chapter.
+            if (chap.id === 76) {
+                htmlStr += `
+                    <div class="vol-cover-card">
+                        <div class="vol-cover-info" style="width: 100%;">
+                            <span class="vol-cover-badge">เล่มที่ ๔ · ภาค : เก้าแคว้นและเงาสะท้อนเมืองหลวง</span>
+                            <div class="vol-cover-title">ธุลีเหนือสวรรค์ (《尘上天》)</div>
+                            <p class="vol-cover-desc">ผู้เขียน: หวงตี้ปิ้ง (KaPonGZaYo) · ตอนที่ 76–100</p>
+                        </div>
+                    </div>
+                `;
+            }
+
             htmlStr += `<h1 class="chapter-title">${chap.title}</h1>`;
             chap.paragraphs.forEach(p => {
                 if (p.type === 'divider') htmlStr += `<div class="divider">❖ ❖ ❖</div>`;
@@ -1006,9 +1056,10 @@
         });
 
         function openToc() {
+            const effectiveVolumes = getEffectiveVolumes();
             const currentChap = allChapters[currentChapIndex];
             if (currentChap) {
-                const activeVol = VOLUMES.find(v => currentChap.id >= v.start && currentChap.id <= v.end);
+                const activeVol = effectiveVolumes.find(v => currentChap.id >= v.start && currentChap.id <= v.end);
                 if (activeVol) {
                     collapsedVolumes[activeVol.id] = false;
                 }
@@ -1028,10 +1079,14 @@
         }
 
         function showCoverLightbox(volume = 1) {
-            const image = document.querySelector('#coverLightbox .lightbox-img');
-            image.src = volume === 3 ? 'Cover_Vol3.png' : (volume === 2 ? 'Cover_Vol2.png' : 'Cover_Vol1.png');
-            image.alt = 'หน้าปก เล่มที่ ' + volume + ' ขนาดเต็ม';
-            document.getElementById('coverLightbox').classList.add('open');
+            const effectiveVolumes = getEffectiveVolumes();
+            const vol = effectiveVolumes.find(v => v.id === volume);
+            if (vol && vol.cover) {
+                const image = document.querySelector('#coverLightbox .lightbox-img');
+                image.src = vol.cover;
+                image.alt = 'หน้าปก เล่มที่ ' + volume + ' ขนาดเต็ม';
+                document.getElementById('coverLightbox').classList.add('open');
+            }
         }
 
         function closeCoverLightbox() {
