@@ -817,7 +817,7 @@
                 tag: 'เล่มที่ ๔ · ภาค ๔',
                 title: 'เก้าแคว้นและเงาสะท้อนเมืองหลวง',
                 sub: 'ตอนที่ 76–100',
-                cover: '',
+                cover: 'Cover_Vol4.png',
                 icon: '🦅',
                 start: 76,
                 end: 100
@@ -992,7 +992,10 @@
             if (chap.id === 76) {
                 htmlStr += `
                     <div class="vol-cover-card">
-                        <div class="vol-cover-info" style="width: 100%;">
+                        <div class="vol-cover-img-wrapper" onclick="showCoverLightbox(4)" title="คลิกเพื่อดูหน้าปกขนาดเต็ม">
+                            <img src="Cover_Vol4.png" alt="หน้าปก ธุลีเหนือสวรรค์ เล่มที่ 4" class="vol-cover-img">
+                        </div>
+                        <div class="vol-cover-info">
                             <span class="vol-cover-badge">เล่มที่ ๔ · ภาค : เก้าแคว้นและเงาสะท้อนเมืองหลวง</span>
                             <div class="vol-cover-title">ธุลีเหนือสวรรค์ (《尘上天》)</div>
                             <p class="vol-cover-desc">ผู้เขียน: หวงตี้ปิ้ง (KaPonGZaYo) · ตอนที่ 76–100</p>
