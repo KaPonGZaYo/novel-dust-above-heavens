@@ -1,0 +1,1399 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระบบหลังบ้านจัดการเนื้อหา - ธุลีเหนือสวรรค์ (Admin)</title>
+    <link rel="icon" type="image/png" href="icon-192.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Charm:wght@400;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #0f1117;
+            --bg-card: #181b24;
+            --bg-sidebar: #13151e;
+            --bg-input: #202433;
+            --border: #2c3245;
+            --border-hover: #404963;
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --accent: #d4a359;
+            --accent-hover: #e5b56b;
+            --accent-glow: rgba(212, 163, 89, 0.25);
+            --danger: #ef4444;
+            --success: #10b981;
+            --header-h: 60px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Sarabun', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Login Screen */
+        .login-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            background: radial-gradient(circle at top, #1e2436 0%, #0c0e14 100%);
+        }
+
+        .login-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 40px 32px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 30px var(--accent-glow);
+            text-align: center;
+        }
+
+        .login-logo {
+            font-family: 'Charm', cursive;
+            font-size: 32px;
+            color: var(--accent);
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .login-subtitle {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 28px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 6px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 14px;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 15px;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-control:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 13px;
+            background: linear-gradient(135deg, #c49348 0%, #e0b067 100%);
+            border: none;
+            border-radius: 10px;
+            color: #10121a;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px var(--accent-glow);
+        }
+
+        .login-error {
+            display: none;
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            color: #fca5a5;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 13px;
+            margin-bottom: 16px;
+        }
+
+        .login-badge-info {
+            margin-top: 24px;
+            font-size: 12px;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border);
+            padding-top: 16px;
+        }
+
+        /* Admin App Screen */
+        .app-wrap {
+            display: none;
+            height: 100vh;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        header.admin-header {
+            height: var(--header-h);
+            background: var(--bg-sidebar);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            flex-shrink: 0;
+            z-index: 100;
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-title {
+            font-family: 'Charm', cursive;
+            font-size: 22px;
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .server-status-pill {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--success);
+        }
+
+        .status-dot.offline {
+            background: #f59e0b;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn {
+            background: var(--bg-card);
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            padding: 7px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.15s ease;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            border-color: var(--border-hover);
+            background: var(--bg-input);
+        }
+
+        .btn-accent {
+            background: var(--accent);
+            color: #11141d;
+            border-color: var(--accent);
+            font-weight: 700;
+        }
+
+        .btn-accent:hover {
+            background: var(--accent-hover);
+        }
+
+        .btn-danger {
+            background: rgba(239, 68, 68, 0.15);
+            border-color: rgba(239, 68, 68, 0.3);
+            color: #fca5a5;
+        }
+
+        .btn-danger:hover {
+            background: rgba(239, 68, 68, 0.25);
+        }
+
+        /* Main Workspace Layout */
+        .workspace {
+            display: flex;
+            flex: 1;
+            min-height: 0;
+            position: relative;
+        }
+
+        /* Sidebar: Chapters */
+        aside.sidebar {
+            width: 320px;
+            background: var(--bg-sidebar);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+
+        .sidebar-search-box {
+            padding: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .sidebar-search-input {
+            width: 100%;
+            padding: 8px 12px;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 13px;
+            outline: none;
+        }
+
+        .sidebar-search-input:focus {
+            border-color: var(--accent);
+        }
+
+        .chapter-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px;
+        }
+
+        .chapter-card {
+            padding: 10px 12px;
+            border-radius: 8px;
+            margin-bottom: 6px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all 0.15s;
+        }
+
+        .chapter-card:hover {
+            background: var(--bg-card);
+            border-color: var(--border);
+        }
+
+        .chapter-card.active {
+            background: rgba(212, 163, 89, 0.12);
+            border-color: var(--accent);
+        }
+
+        .chapter-card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+
+        .chapter-card-id {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--accent);
+            background: var(--bg-input);
+            padding: 2px 7px;
+            border-radius: 4px;
+        }
+
+        .chapter-card-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-main);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .chapter-card-meta {
+            font-size: 11px;
+            color: var(--text-muted);
+            display: flex;
+            justify-content: space-between;
+            margin-top: 4px;
+        }
+
+        /* Editor Area */
+        main.editor-pane {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: var(--bg-main);
+            min-width: 0;
+            position: relative;
+        }
+
+        .editor-topbar {
+            padding: 10px 18px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--bg-card);
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .editor-title-input {
+            flex: 1;
+            min-width: 250px;
+            font-size: 16px;
+            font-weight: 600;
+            padding: 8px 12px;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: #fff;
+            outline: none;
+        }
+
+        .editor-title-input:focus {
+            border-color: var(--accent);
+        }
+
+        .editor-stats {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .dirty-badge {
+            display: none;
+            color: #fbbf24;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .editor-toolbar {
+            padding: 6px 14px;
+            background: var(--bg-sidebar);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            overflow-x: auto;
+        }
+
+        .tool-btn {
+            background: var(--bg-input);
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 4px 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .tool-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .editor-body-wrap {
+            display: flex;
+            flex: 1;
+            min-height: 0;
+        }
+
+        .editor-textarea-wrap {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            height: 100%;
+        }
+
+        textarea.chapter-textarea {
+            flex: 1;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-main);
+            color: #e2e8f0;
+            padding: 20px 24px;
+            font-family: 'Sarabun', monospace, sans-serif;
+            font-size: 17px;
+            line-height: 1.85;
+            border: none;
+            outline: none;
+            resize: none;
+            white-space: pre-wrap;
+            overflow-y: auto;
+        }
+
+        /* Preview Panel */
+        aside.preview-pane {
+            width: 50%;
+            border-left: 1px solid var(--border);
+            background: #f8f5ec;
+            color: #2d2925;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+
+        aside.preview-pane.hidden {
+            display: none;
+        }
+
+        .preview-header {
+            padding: 8px 16px;
+            background: #ede6d6;
+            border-bottom: 1px solid #d8ceba;
+            color: #665b4f;
+            font-size: 12px;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .preview-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px 30px;
+            font-family: 'Sarabun', sans-serif;
+            font-size: 18px;
+            line-height: 1.95;
+        }
+
+        .preview-content h1 {
+            font-size: 24px;
+            color: #181410;
+            text-align: center;
+            margin: 10px 0 24px 0;
+        }
+
+        .preview-content p {
+            margin-bottom: 18px;
+            text-indent: 1.8em;
+            text-align: justify;
+        }
+
+        .preview-content .divider {
+            text-align: center;
+            color: #9a7432;
+            margin: 28px 0;
+            letter-spacing: 6px;
+        }
+
+        .preview-content .quote-box {
+            background-color: #ece5d3;
+            border-left: 4px solid #b89758;
+            padding: 12px 16px;
+            margin: 20px 0;
+            border-radius: 0 6px 6px 0;
+            font-style: italic;
+        }
+
+        /* Modal Dialogs */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+
+        .modal.open {
+            display: flex;
+        }
+
+        .modal-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            width: 100%;
+            max-width: 560px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+        }
+
+        .modal-card-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .modal-card-body {
+            padding: 20px;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+
+        .modal-card-footer {
+            padding: 14px 20px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            background: var(--bg-sidebar);
+        }
+
+        /* Toast Notifications */
+        .toast-box {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .toast {
+            background: #1e293b;
+            color: #fff;
+            border: 1px solid var(--border);
+            padding: 12px 18px;
+            border-radius: 8px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: slideIn 0.25s ease-out;
+        }
+
+        .toast.success {
+            border-color: rgba(16, 185, 129, 0.6);
+            background: #064e3b;
+        }
+
+        .toast.error {
+            border-color: rgba(239, 68, 68, 0.6);
+            background: #7f1d1d;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            aside.sidebar {
+                width: 250px;
+            }
+            aside.preview-pane {
+                display: none;
+            }
+            aside.preview-pane.mobile-active {
+                display: flex;
+                position: absolute;
+                top: 0; left: 0; width: 100%; height: 100%;
+                z-index: 50;
+            }
+        }
+
+        @media (max-width: 680px) {
+            aside.sidebar {
+                position: absolute;
+                top: 0; left: -280px;
+                width: 280px; height: 100%;
+                z-index: 60;
+                transition: transform 0.25s;
+            }
+            aside.sidebar.mobile-open {
+                transform: translateX(280px);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. LOGIN SCREEN -->
+    <div class="login-wrap" id="loginWrap">
+        <div class="login-card">
+            <div class="login-logo">ธุลีเหนือสวรรค์</div>
+            <div class="login-subtitle">ระบบจัดการเนื้อหาต้นฉบับหลังบ้าน (Author Admin)</div>
+
+            <div class="login-error" id="loginError">ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง</div>
+
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="usernameInput">ชื่อผู้ใช้ (Admin Username)</label>
+                    <input type="text" id="usernameInput" class="form-control" autocomplete="username" placeholder="ระบุ username" required>
+                </div>
+                <div class="form-group">
+                    <label for="passwordInput">รหัสผ่าน (Password)</label>
+                    <input type="password" id="passwordInput" class="form-control" autocomplete="current-password" placeholder="ระบุ password" required>
+                </div>
+
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; font-size: 13px;">
+                    <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                        <input type="checkbox" id="rememberMe" checked> จดจำการเข้าสู่ระบบ
+                    </label>
+                </div>
+
+                <button type="submit" class="login-btn" id="loginSubmitBtn">เข้าสู่ระบบหลังบ้าน</button>
+            </form>
+
+            <div class="login-badge-info">
+                🔒 ระบบสงวนสิทธิ์เฉพาะผู้แต่งเท่านั้น · ไม่เปิดรับสมัครสมาชิกทั่วไป
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. ADMIN DASHBOARD SCREEN -->
+    <div class="app-wrap" id="appWrap">
+        <!-- Header -->
+        <header class="admin-header">
+            <div class="header-brand">
+                <button class="btn" onclick="toggleSidebar()" title="เปิด/ปิด รายการตอน" id="btnToggleSidebar">📚 รายการตอน</button>
+                <div class="header-title">ธุลีเหนือสวรรค์ (Admin)</div>
+                <div class="server-status-pill" id="serverStatusPill">
+                    <span class="status-dot" id="serverStatusDot"></span>
+                    <span id="serverStatusText">กำลังตรวจสอบเซิร์ฟเวอร์...</span>
+                </div>
+            </div>
+
+            <div class="header-actions">
+                <button class="btn btn-accent" onclick="saveCurrentChapter()" id="btnSave" title="บันทึกไฟล์ (Ctrl+S)">
+                    💾 บันทึกเนื้อหา
+                </button>
+                <button class="btn" onclick="togglePreview()" id="btnPreview" title="สลับเปิด/ปิด หน้าจอจำลองมุมมองผู้อ่าน">
+                    👁️ ดูตัวอย่างผู้อ่าน
+                </button>
+                <button class="btn" onclick="openPublishModal()" title="เผยแพร่ขึ้น GitHub Pages & Google Drive">
+                    🚀 เผยแพร่เว็บ
+                </button>
+                <a href="index.html" target="_blank" class="btn" title="เปิดหน้าเว็บอ่านนิยายหลัก">
+                    📖 เปิดเว็บอ่านนิยาย
+                </a>
+                <button class="btn btn-danger" onclick="logout()" title="ออกจากระบบ">
+                    🚪 ออก
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Workspace -->
+        <div class="workspace">
+            <!-- Sidebar: Chapter List -->
+            <aside class="sidebar" id="sidebar">
+                <div class="sidebar-search-box">
+                    <input type="text" id="chapterSearch" class="sidebar-search-input" placeholder="🔍 ค้นหาตอน (เลขตอน หรือ ชื่อ)..." oninput="filterChapters()">
+                </div>
+                <div class="chapter-list" id="chapterList">
+                    <!-- Chapters rendered dynamically -->
+                </div>
+            </aside>
+
+            <!-- Editor Pane -->
+            <main class="editor-pane">
+                <div class="editor-topbar">
+                    <input type="text" id="chapterTitleInput" class="editor-title-input" placeholder="# ตอนที่ X: ชื่อตอน..." oninput="markDirty()">
+                    <div class="editor-stats">
+                        <span class="dirty-badge" id="dirtyBadge">⚠️ ยังไม่ได้บันทึก</span>
+                        <span id="statWordCount">คำ: 0</span>
+                        <span id="statCharCount">ตัวอักษร: 0</span>
+                    </div>
+                </div>
+
+                <!-- Markdown Formatting Toolbar -->
+                <div class="editor-toolbar">
+                    <button class="tool-btn" onclick="insertSyntax('**', '**')" title="ตัวหนา"><strong>B</strong></button>
+                    <button class="tool-btn" onclick="insertSyntax('*', '*')" title="ตัวเอียง"><em>I</em></button>
+                    <button class="tool-btn" onclick="insertLineSyntax('# ')" title="หัวข้อตอน">H1</button>
+                    <button class="tool-btn" onclick="insertLineSyntax('> ')" title="กล่องความคิด/คำพูด">&gt; คำพูด</button>
+                    <button class="tool-btn" onclick="insertText('\n---\n')" title="เส้นแบ่งฉาก">❖ เส้นคั่น</button>
+                    <button class="tool-btn" onclick="openSearchReplaceModal()" title="ค้นหาและแทนที่คำ">🔍 ค้นหา/แทนที่</button>
+                    <button class="tool-btn" onclick="downloadCurrentMarkdown()" title="ดาวน์โหลดไฟล์ .md ลงเครื่อง">📥 โหลด .md</button>
+                </div>
+
+                <!-- Editor Body -->
+                <div class="editor-body-wrap">
+                    <div class="editor-textarea-wrap">
+                        <textarea id="chapterContent" class="chapter-textarea" placeholder="พิมพ์เนื้อหานิยายที่นี่..." oninput="handleContentInput()"></textarea>
+                    </div>
+
+                    <!-- Live Preview Pane -->
+                    <aside class="preview-pane" id="previewPane">
+                        <div class="preview-header">
+                            <span>👀 มุมมองจำลองผู้อ่าน (Live Reader Preview)</span>
+                            <span id="previewChapterTag">ตอนปัจจุบัน</span>
+                        </div>
+                        <div class="preview-content" id="previewContent">
+                            <!-- Preview rendered here -->
+                        </div>
+                    </aside>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- 3. SEARCH & REPLACE MODAL -->
+    <div class="modal" id="searchReplaceModal">
+        <div class="modal-card">
+            <div class="modal-card-header">
+                <span>🔍 ค้นหาและแทนที่คำในตอนนี้</span>
+                <button class="btn" onclick="closeSearchReplaceModal()">✕</button>
+            </div>
+            <div class="modal-card-body">
+                <div class="form-group">
+                    <label>คำที่ต้องการค้นหา</label>
+                    <input type="text" id="findInput" class="form-control" placeholder="ข้อความเดิม...">
+                </div>
+                <div class="form-group">
+                    <label>แทนที่ด้วย</label>
+                    <input type="text" id="replaceInput" class="form-control" placeholder="ข้อความใหม่...">
+                </div>
+            </div>
+            <div class="modal-card-footer">
+                <button class="btn" onclick="closeSearchReplaceModal()">ยกเลิก</button>
+                <button class="btn btn-accent" onclick="performReplaceAll()">แทนที่ทั้งหมด</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. PUBLISH PIPELINE MODAL -->
+    <div class="modal" id="publishModal">
+        <div class="modal-card">
+            <div class="modal-card-header">
+                <span>🚀 เผยแพร่เว็บ (GitHub Pages & Google Drive)</span>
+                <button class="btn" onclick="closePublishModal()">✕</button>
+            </div>
+            <div class="modal-card-body">
+                <p style="font-size: 14px; margin-bottom: 14px; color: var(--text-muted);">
+                    การกดเผยแพร่จะรันระบบอัตโนมัติ (Publish Pipeline):<br>
+                    1. สร้างข้อมูล chapters.json ล่าสุด<br>
+                    2. Git Commit & Push ขึ้น GitHub Pages ทันที<br>
+                    3. ซิงค์สำเนาไปยัง Google Drive โฟลเดอร์สำรอง
+                </p>
+                <div class="form-group">
+                    <label>ข้อความระบุการอัปเดต (Commit Message)</label>
+                    <input type="text" id="commitMsgInput" class="form-control" value="Update manuscript via Web Admin">
+                </div>
+                <div id="publishOutputArea" style="display: none; margin-top: 14px; background: #0b0c10; border: 1px solid var(--border); border-radius: 8px; padding: 12px; font-family: 'Fira Code', monospace; font-size: 12px; max-height: 180px; overflow-y: auto; white-space: pre-wrap; color: #a5f3fc;">
+                </div>
+            </div>
+            <div class="modal-card-footer">
+                <button class="btn" onclick="closePublishModal()">ปิด</button>
+                <button class="btn btn-accent" id="btnExecutePublish" onclick="executePublish()">เริ่มเผยแพร่ทันที</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-box" id="toastBox"></div>
+
+    <script>
+        // CONFIG & STATE
+        const FIXED_USER = "kapongzayo";
+        const FIXED_PASS = "019774089";
+
+        let authToken = localStorage.getItem('novel_admin_token') || sessionStorage.getItem('novel_admin_token') || null;
+        let isLocalServer = false;
+        let allChapters = [];
+        let currentChapter = null;
+        let isDirty = false;
+
+        // INITIALIZATION
+        window.addEventListener('DOMContentLoaded', async () => {
+            await checkServerStatus();
+            if (authToken) {
+                showApp();
+                await loadChapterList();
+            } else {
+                showLogin();
+            }
+
+            // Keyboard shortcut Ctrl+S / Cmd+S
+            window.addEventListener('keydown', (e) => {
+                if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+                    e.preventDefault();
+                    saveCurrentChapter();
+                }
+            });
+        });
+
+        // 1. SERVER STATUS CHECK
+        async function checkServerStatus() {
+            try {
+                const res = await fetch('/api/status', { method: 'GET' });
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.ok) {
+                        isLocalServer = true;
+                        setServerStatusUI(true, 'เชื่อมต่อ Local Server (บันทึกตรงลงไฟล์ .md)');
+                        return;
+                    }
+                }
+            } catch (e) {
+                // Not running on local server (e.g. static GitHub Pages)
+            }
+            isLocalServer = false;
+            setServerStatusUI(false, 'โหมดเว็บตรง / ออฟไลน์ (บันทึกในเครื่อง + โหลด .md)');
+        }
+
+        function setServerStatusUI(isLive, label) {
+            const dot = document.getElementById('serverStatusDot');
+            const text = document.getElementById('serverStatusText');
+            if (dot && text) {
+                dot.className = isLive ? 'status-dot' : 'status-dot offline';
+                text.innerText = label;
+            }
+        }
+
+        // 2. AUTHENTICATION
+        async function handleLogin(e) {
+            e.preventDefault();
+            const username = document.getElementById('usernameInput').value.trim();
+            const password = document.getElementById('passwordInput').value.trim();
+            const remember = document.getElementById('rememberMe').checked;
+            const errBox = document.getElementById('loginError');
+
+            errBox.style.display = 'none';
+
+            // If local server is running, use /api/login
+            if (isLocalServer) {
+                try {
+                    const res = await fetch('/api/login', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ username, password })
+                    });
+                    const data = await res.json();
+                    if (res.ok && data.ok) {
+                        authToken = data.token;
+                        if (remember) {
+                            localStorage.setItem('novel_admin_token', authToken);
+                        } else {
+                            sessionStorage.setItem('novel_admin_token', authToken);
+                        }
+                        showToast('เข้าสู่ระบบสำเร็จ ยินดีต้อนรับท่านผู้แต่ง!', 'success');
+                        showApp();
+                        await loadChapterList();
+                        return;
+                    }
+                } catch (err) {
+                    console.warn('API login failed, checking static credentials', err);
+                }
+            }
+
+            // Client-side fixed credential fallback (matches requirement kapongzayo / 019774089)
+            if (username === FIXED_USER && password === FIXED_PASS) {
+                authToken = 'static-token-' + Date.now();
+                if (remember) {
+                    localStorage.setItem('novel_admin_token', authToken);
+                } else {
+                    sessionStorage.setItem('novel_admin_token', authToken);
+                }
+                showToast('เข้าสู่ระบบสำเร็จ ยินดีต้อนรับท่านผู้แต่ง!', 'success');
+                showApp();
+                await loadChapterList();
+            } else {
+                errBox.style.display = 'block';
+                errBox.innerText = 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง (เฉพาะผู้ดูแลระบบเท่านั้น)';
+            }
+        }
+
+        function logout() {
+            if (isDirty) {
+                if (!confirm('คุณมีเนื้อหาที่ยังไม่ได้บันทึก ต้องการออกจากระบบหรือไม่?')) return;
+            }
+            if (isLocalServer && authToken) {
+                fetch('/api/logout', {
+                    method: 'POST',
+                    headers: { 'Authorization': 'Bearer ' + authToken }
+                }).catch(() => {});
+            }
+            localStorage.removeItem('novel_admin_token');
+            sessionStorage.removeItem('novel_admin_token');
+            authToken = null;
+            showLogin();
+            showToast('ออกจากระบบเรียบร้อย', 'info');
+        }
+
+        function showLogin() {
+            document.getElementById('loginWrap').style.display = 'flex';
+            document.getElementById('appWrap').style.display = 'none';
+        }
+
+        function showApp() {
+            document.getElementById('loginWrap').style.display = 'none';
+            document.getElementById('appWrap').style.display = 'flex';
+        }
+
+        // 3. CHAPTER MANAGEMENT
+        async function loadChapterList() {
+            // First try local server /api/chapters
+            if (isLocalServer) {
+                try {
+                    const res = await fetch('/api/chapters', {
+                        headers: { 'Authorization': 'Bearer ' + authToken }
+                    });
+                    if (res.ok) {
+                        const data = await res.json();
+                        if (data.ok && Array.isArray(data.chapters)) {
+                            allChapters = data.chapters;
+                            renderChapterList();
+                            if (allChapters.length > 0 && !currentChapter) {
+                                selectChapter(allChapters[0].id);
+                            }
+                            return;
+                        }
+                    }
+                } catch (e) {
+                    console.warn('Error fetching from /api/chapters:', e);
+                }
+            }
+
+            // Fallback: Fetch chapters.json from web_app
+            try {
+                const res = await fetch('chapters.json?v=' + Date.now());
+                if (res.ok) {
+                    const jsonChaps = await res.json();
+                    allChapters = jsonChaps.map(c => ({
+                        id: c.id,
+                        filename: `Chapter_${String(c.id).padStart(3, '0')}.md`,
+                        title: c.title,
+                        chars: 0,
+                        words: 0,
+                        modified: '-'
+                    }));
+                    renderChapterList();
+                    if (allChapters.length > 0 && !currentChapter) {
+                        selectChapter(allChapters[0].id);
+                    }
+                }
+            } catch (err) {
+                showToast('ไม่สามารถโหลดรายการตอนได้: ' + err.message, 'error');
+            }
+        }
+
+        function renderChapterList(filterText = '') {
+            const listEl = document.getElementById('chapterList');
+            const search = filterText.toLowerCase();
+
+            const filtered = allChapters.filter(c => {
+                const titleMatch = c.title.toLowerCase().includes(search);
+                const idMatch = String(c.id).includes(search);
+                return titleMatch || idMatch;
+            });
+
+            listEl.innerHTML = filtered.map(c => {
+                const activeCls = (currentChapter && currentChapter.id === c.id) ? 'active' : '';
+                return `
+                    <div class="chapter-card ${activeCls}" onclick="confirmAndSelectChapter(${c.id})">
+                        <div class="chapter-card-top">
+                            <span class="chapter-card-id">ตอนที่ ${c.id}</span>
+                            <span style="font-size: 11px; color: var(--text-muted);">${c.words ? c.words + ' คำ' : ''}</span>
+                        </div>
+                        <div class="chapter-card-title">${escapeHtml(c.title)}</div>
+                        <div class="chapter-card-meta">
+                            <span>${c.filename}</span>
+                            <span>${c.modified || ''}</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function filterChapters() {
+            const q = document.getElementById('chapterSearch').value;
+            renderChapterList(q);
+        }
+
+        function confirmAndSelectChapter(chapId) {
+            if (isDirty) {
+                if (!confirm('คุณมีการแก้ไขที่ยังไม่ได้บันทึก ต้องการสลับตอนโดยไม่บันทึกหรือไม่?')) {
+                    return;
+                }
+            }
+            selectChapter(chapId);
+        }
+
+        async function selectChapter(chapId) {
+            // Check local storage overrides first
+            const localOverride = localStorage.getItem('novel_draft_ch_' + chapId);
+
+            if (isLocalServer) {
+                try {
+                    const res = await fetch(`/api/chapter/${chapId}`, {
+                        headers: { 'Authorization': 'Bearer ' + authToken }
+                    });
+                    if (res.ok) {
+                        const data = await res.json();
+                        if (data.ok) {
+                            currentChapter = {
+                                id: chapId,
+                                filename: data.filename,
+                                title: data.title,
+                                content: localOverride || data.content
+                            };
+                            populateEditor();
+                            renderChapterList(document.getElementById('chapterSearch').value);
+                            return;
+                        }
+                    }
+                } catch (e) {
+                    console.warn('Error loading chapter via API:', e);
+                }
+            }
+
+            // Static / GitHub Pages fallback: Find in chapters.json or localStorage
+            const found = allChapters.find(c => c.id === chapId);
+            if (found) {
+                let content = localOverride;
+                if (!content) {
+                    // Try reconstruct markdown from chapters.json if not cached
+                    try {
+                        const res = await fetch('chapters.json');
+                        const data = await res.json();
+                        const cd = data.find(c => c.id === chapId);
+                        if (cd) {
+                            content = `# ${cd.title}\n\n` + cd.paragraphs.map(p => {
+                                if (p.type === 'divider') return '---';
+                                if (p.type === 'quote') return `> ${p.text}`;
+                                return p.text;
+                            }).join('\n\n');
+                        }
+                    } catch (e) {}
+                }
+                currentChapter = {
+                    id: chapId,
+                    filename: found.filename,
+                    title: found.title,
+                    content: content || `# ตอนที่ ${chapId}\n\nเนื้อหา...`
+                };
+                populateEditor();
+                renderChapterList(document.getElementById('chapterSearch').value);
+            }
+        }
+
+        function populateEditor() {
+            if (!currentChapter) return;
+            const titleInput = document.getElementById('chapterTitleInput');
+            const textarea = document.getElementById('chapterContent');
+
+            // Extract title and content
+            titleInput.value = currentChapter.title || `# ตอนที่ ${currentChapter.id}`;
+            textarea.value = currentChapter.content || '';
+
+            setDirty(false);
+            updateStats();
+            updateLivePreview();
+        }
+
+        function handleContentInput() {
+            markDirty();
+            updateStats();
+            updateLivePreview();
+        }
+
+        function markDirty() {
+            setDirty(true);
+            // Save auto draft to local storage
+            if (currentChapter) {
+                localStorage.setItem('novel_draft_ch_' + currentChapter.id, document.getElementById('chapterContent').value);
+            }
+        }
+
+        function setDirty(dirty) {
+            isDirty = dirty;
+            document.getElementById('dirtyBadge').style.display = dirty ? 'inline' : 'none';
+        }
+
+        function updateStats() {
+            const text = document.getElementById('chapterContent').value;
+            const chars = text.length;
+            const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+            document.getElementById('statCharCount').innerText = `ตัวอักษร: ${chars.toLocaleString()}`;
+            document.getElementById('statWordCount').innerText = `คำ: ${words.toLocaleString()}`;
+        }
+
+        // 4. SAVE CHAPTER
+        async function saveCurrentChapter() {
+            if (!currentChapter) {
+                showToast('ยังไม่ได้เลือกตอน', 'error');
+                return;
+            }
+
+            const content = document.getElementById('chapterContent').value;
+            const btnSave = document.getElementById('btnSave');
+            btnSave.disabled = true;
+            btnSave.innerText = '⏳ กำลังบันทึก...';
+
+            if (isLocalServer) {
+                try {
+                    const res = await fetch(`/api/chapter/${currentChapter.id}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + authToken
+                        },
+                        body: JSON.stringify({ content })
+                    });
+                    const data = await res.json();
+                    if (res.ok && data.ok) {
+                        setDirty(false);
+                        localStorage.removeItem('novel_draft_ch_' + currentChapter.id);
+                        showToast(`✅ ${data.message} ${data.backup ? `(สำรอง: ${data.backup})` : ''}`, 'success');
+                        await loadChapterList();
+                        btnSave.disabled = false;
+                        btnSave.innerText = '💾 บันทึกเนื้อหา';
+                        return;
+                    } else {
+                        showToast('เกิดข้อผิดพลาด: ' + (data.error || 'บันทึกไม่สำเร็จ'), 'error');
+                    }
+                } catch (err) {
+                    showToast('เชื่อมต่อเซิร์ฟเวอร์ไม่ได้: ' + err.message, 'error');
+                }
+            }
+
+            // Static fallback: Save into localStorage and offer download
+            localStorage.setItem('novel_saved_ch_' + currentChapter.id, content);
+            localStorage.removeItem('novel_draft_ch_' + currentChapter.id);
+            setDirty(false);
+            showToast('✅ บันทึกสำเนาลงเบราว์เซอร์เครื่องนี้เรียบร้อย (กด "โหลด .md" หากต้องการไฟล์)', 'success');
+            btnSave.disabled = false;
+            btnSave.innerText = '💾 บันทึกเนื้อหา';
+        }
+
+        // 5. LIVE PREVIEW
+        function updateLivePreview() {
+            const raw = document.getElementById('chapterContent').value;
+            const lines = raw.split('\n');
+            let previewHtml = '';
+            let titleFound = false;
+
+            for (let line of lines) {
+                let trimmed = line.trim();
+                if (!trimmed) continue;
+
+                if (trimmed.startsWith('# ') && !titleFound) {
+                    previewHtml += `<h1>${escapeHtml(trimmed.slice(2))}</h1>`;
+                    titleFound = true;
+                } else if (trimmed.startsWith('---')) {
+                    previewHtml += `<div class="divider">❖ ❖ ❖</div>`;
+                } else if (trimmed.startsWith('> ')) {
+                    previewHtml += `<div class="quote-box">${formatMarkdown(trimmed.slice(2))}</div>`;
+                } else {
+                    previewHtml += `<p>${formatMarkdown(trimmed)}</p>`;
+                }
+            }
+
+            document.getElementById('previewContent').innerHTML = previewHtml;
+            if (currentChapter) {
+                document.getElementById('previewChapterTag').innerText = `ตอนที่ ${currentChapter.id}`;
+            }
+        }
+
+        function formatMarkdown(text) {
+            let out = escapeHtml(text);
+            // bold
+            out = out.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            // italic
+            out = out.replace(/\*(.*?)\*/g, '<em>$1</em>');
+            return out;
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/&/g, '&amp;')
+                      .replace(/</g, '&lt;')
+                      .replace(/>/g, '&gt;')
+                      .replace(/"/g, '&quot;')
+                      .replace(/'/g, '&#039;');
+        }
+
+        function togglePreview() {
+            const pane = document.getElementById('previewPane');
+            if (window.innerWidth <= 900) {
+                pane.classList.toggle('mobile-active');
+            } else {
+                pane.classList.toggle('hidden');
+            }
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('mobile-open');
+        }
+
+        // 6. EDITOR TOOLS
+        function insertSyntax(prefix, suffix) {
+            const textarea = document.getElementById('chapterContent');
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            const sel = textarea.value.substring(start, end);
+            const replacement = prefix + (sel || 'ข้อความ') + suffix;
+
+            textarea.setRangeText(replacement, start, end, 'select');
+            handleContentInput();
+        }
+
+        function insertLineSyntax(prefix) {
+            const textarea = document.getElementById('chapterContent');
+            const start = textarea.selectionStart;
+            const val = textarea.value;
+            const lineStart = val.lastIndexOf('\n', start - 1) + 1;
+
+            textarea.setRangeText(prefix, lineStart, lineStart, 'end');
+            handleContentInput();
+        }
+
+        function insertText(text) {
+            const textarea = document.getElementById('chapterContent');
+            const start = textarea.selectionStart;
+            textarea.setRangeText(text, start, start, 'end');
+            handleContentInput();
+        }
+
+        function downloadCurrentMarkdown() {
+            if (!currentChapter) return;
+            const content = document.getElementById('chapterContent').value;
+            const fname = currentChapter.filename || `Chapter_${String(currentChapter.id).padStart(3, '0')}.md`;
+            const blob = new Blob([content], { type: 'text/markdown;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fname;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('📥 ดาวน์โหลด ' + fname + ' เรียบร้อย', 'info');
+        }
+
+        // 7. SEARCH & REPLACE
+        function openSearchReplaceModal() {
+            document.getElementById('searchReplaceModal').classList.add('open');
+            document.getElementById('findInput').focus();
+        }
+
+        function closeSearchReplaceModal() {
+            document.getElementById('searchReplaceModal').classList.remove('open');
+        }
+
+        function performReplaceAll() {
+            const findText = document.getElementById('findInput').value;
+            const repText = document.getElementById('replaceInput').value;
+            if (!findText) return;
+
+            const textarea = document.getElementById('chapterContent');
+            const currentVal = textarea.value;
+            const count = (currentVal.split(findText).length - 1);
+
+            if (count === 0) {
+                showToast(`ไม่พบคำว่า "${findText}"`, 'info');
+                return;
+            }
+
+            textarea.value = currentVal.split(findText).join(repText);
+            handleContentInput();
+            closeSearchReplaceModal();
+            showToast(`แทนที่คำสำเร็จทั้งหมด ${count} จุด`, 'success');
+        }
+
+        // 8. PUBLISH PIPELINE
+        function openPublishModal() {
+            if (!isLocalServer) {
+                alert('ฟังก์ชันการเผยแพร่อัตโนมัติไปยัง GitHub Pages & Google Drive ใช้งานได้เมื่อเปิดผ่าน Local Server (ดับเบิ้ลคลิกไฟล์ "เริ่มระบบหลังบ้าน_Admin.bat" ในโฟลเดอร์โครงการ)');
+                return;
+            }
+            document.getElementById('publishOutputArea').style.display = 'none';
+            document.getElementById('publishModal').classList.add('open');
+        }
+
+        function closePublishModal() {
+            document.getElementById('publishModal').classList.remove('open');
+        }
+
+        async function executePublish() {
+            const btn = document.getElementById('btnExecutePublish');
+            const outArea = document.getElementById('publishOutputArea');
+            const msg = document.getElementById('commitMsgInput').value.trim() || 'Publish updates via Admin';
+
+            btn.disabled = true;
+            btn.innerText = '⏳ กำลังรัน Pipeline...';
+            outArea.style.display = 'block';
+            outArea.innerText = 'เริ่มต้นการเผยแพร่...\n[1/3] กำลังสร้างข้อมูลเว็บ (generate_web_app.py)...\n';
+
+            try {
+                const res = await fetch('/api/publish', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + authToken
+                    },
+                    body: JSON.stringify({ message: msg })
+                });
+                const data = await res.json();
+                outArea.innerText = (data.stdout || '') + '\n' + (data.stderr || '');
+                if (res.ok && data.ok) {
+                    showToast('🎉 เผยแพร่ขึ้น GitHub Pages และ Google Drive สำเร็จ!', 'success');
+                    btn.innerText = '✅ สำเร็จ';
+                } else {
+                    showToast('เกิดข้อผิดพลาดในการเผยแพร่: ' + (data.error || ''), 'error');
+                    btn.innerText = '❌ ผิดพลาด';
+                }
+            } catch (err) {
+                outArea.innerText += '\nข้อผิดพลาด: ' + err.message;
+                showToast('เกิดข้อผิดพลาด: ' + err.message, 'error');
+                btn.innerText = '❌ ผิดพลาด';
+            } finally {
+                setTimeout(() => {
+                    btn.disabled = false;
+                    btn.innerText = 'เริ่มเผยแพร่ทันที';
+                }, 3000);
+            }
+        }
+
+        // 9. TOAST NOTIFICATIONS
+        function showToast(message, type = 'info') {
+            const box = document.getElementById('toastBox');
+            const toast = document.createElement('div');
+            toast.className = 'toast ' + type;
+            toast.innerText = message;
+            box.appendChild(toast);
+            setTimeout(() => {
+                toast.style.transition = 'opacity 0.4s';
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 400);
+            }, 3500);
+        }
+    </script>
+</body>
+</html>
