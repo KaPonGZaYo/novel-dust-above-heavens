@@ -1,10 +1,11 @@
-const CACHE_NAME = 'dust-above-heavens-v18';
+const CACHE_NAME = 'dust-above-heavens-v19';
 
 // Cache ONLY core lightweight app shell assets on install (< 100 KB total)
 // High-res covers and audio are cached on-demand at runtime to prevent mobile install timeout/failure!
 const CORE_SHELL_ASSETS = [
   './',
   './index.html',
+  './reader.html',
   './manifest.json',
   './icon-192.png',
   './icon-512.png'

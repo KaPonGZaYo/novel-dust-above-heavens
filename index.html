@@ -2,1102 +2,553 @@
 <html lang="th">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=3.0, user-scalable=yes">
-    <title>ธุลีเหนือสวรรค์ (Dust Above the Heavens) - E-Reader</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ธุลีเหนือสวรรค์ (《尘上天》) — นิยายกำลังภายใน-เทพเซียน</title>
+    <meta name="description" content="ธุลีเหนือสวรรค์ (Dust Above the Heavens) นิยายกำลังภายในผสมเทพเซียน เรื่องราวของ กู้ฉางอัน เด็กหนุ่มไร้รากปราณที่ก้าวเดินบนเส้นทางสายกายเนื้อด้วยความสุขุมรอบคอบ">
 
-    <!-- PWA Settings for Mobile App Installation -->
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#9a7432">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="ธุลีเหนือสวรรค์">
+    <meta name="theme-color" content="#141210">
     <link rel="apple-touch-icon" href="icon-192.png">
     <link rel="icon" type="image/png" href="icon-192.png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Sarabun:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Charm:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Charm:wght@400;700&family=Noto+Serif+SC:wght@500;700&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #f8f5ec;
-            --text: #2d2925;
-            --title: #181410;
-            --card-bg: #ede6d6;
-            --card-border: #d8ceba;
-            --accent: #9a7432;
-            --accent-glow: rgba(154, 116, 50, 0.25);
-            --quote-bg: #ece5d3;
-            --quote-border: #b89758;
-            --header-bg: rgba(248, 245, 236, 0.95);
-            --header-border: #e2d7c3;
+            --bg: #110f0d;
+            --bg-soft: #1a1714;
+            --card: #1f1b17;
+            --border: rgba(207, 168, 94, 0.25);
+            --border-strong: rgba(207, 168, 94, 0.55);
+            --text: #ddd5c7;
+            --muted: #a69c8c;
+            --title: #f5ead6;
+            --gold: #cfa85e;
+            --gold-bright: #ecd095;
+            --crimson: #a8442a;
         }
-
-        [data-theme="warm-dark"] {
-            --bg: #191816;
-            --text: #c8c2b7;
-            --title: #ede6d8;
-            --card-bg: #262421;
-            --card-border: #3b3731;
-            --accent: #cfa85e;
-            --accent-glow: rgba(207, 168, 94, 0.25);
-            --quote-bg: #22201d;
-            --quote-border: #917540;
-            --header-bg: rgba(25, 24, 22, 0.95);
-            --header-border: #332f29;
-        }
-
-        [data-theme="light"] {
-            --bg: #ffffff;
-            --text: #222222;
-            --title: #0a0a0a;
-            --card-bg: #f2f2f2;
-            --card-border: #e0e0e0;
-            --accent: #555555;
-            --accent-glow: rgba(85, 85, 85, 0.2);
-            --quote-bg: #f6f6f6;
-            --quote-border: #999999;
-            --header-bg: rgba(255, 255, 255, 0.95);
-            --header-border: #eaeaea;
-        }
-
-        * {
-            box-sizing: border-box;
-            transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
         body {
-            font-family: 'Sarabun', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: var(--bg);
+            font-family: 'Sarabun', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: radial-gradient(circle at 50% 0%, #231c14 0%, var(--bg) 42%);
             color: var(--text);
-            margin: 0;
-            padding: 0;
-            line-height: 1.95;
-            font-size: 21px;
+            line-height: 1.75;
             -webkit-font-smoothing: antialiased;
         }
+        a { color: inherit; text-decoration: none; }
 
-        header {
+        /* Top Nav */
+        .topbar {
             position: sticky;
             top: 0;
-            background-color: var(--header-bg);
-            backdrop-filter: blur(8px);
-            border-bottom: 1px solid var(--header-border);
-            padding: 10px 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 1000;
+            z-index: 100;
+            background: rgba(17, 15, 13, 0.88);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
         }
-
-        .brand {
-            font-size: 15px;
-            font-weight: 700;
-            color: var(--accent);
-            cursor: pointer;
-            letter-spacing: 0.5px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .controls {
-            display: flex;
-            gap: 6px;
-            align-items: center;
-        }
-
-        .btn {
-            background-color: var(--card-bg);
-            color: var(--text);
-            border: 1px solid var(--card-border);
-            padding: 5px 11px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            outline: none;
-        }
-
-        .btn.active {
-            border-color: var(--accent);
-            color: var(--accent);
-            font-weight: 700;
-        }
-
-        .btn-install {
-            background-color: var(--accent);
-            color: #fff;
-            border-color: var(--accent);
-            border-radius: 20px;
-            font-size: 12px;
-            padding: 5px 10px;
-            display: none;
-            cursor: pointer;
-        }
-
-        .container {
-            max-width: 720px;
+        .topbar-inner {
+            max-width: 1120px;
             margin: 0 auto;
-            padding: 24px 20px 80px 20px;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
         }
-
-        /* Cover Hero Section (At Chapter 1 header) */
-        .vol-cover-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 16px;
-            padding: 20px;
-            margin: 0 0 32px 0;
-            text-align: center;
-            box-shadow: 0 8px 24px var(--accent-glow);
-        }
-
-        .vol-cover-img-wrapper {
-            display: inline-block;
-            position: relative;
-            cursor: pointer;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 10px 28px rgba(0,0,0,0.35);
-            transition: transform 0.25s ease, box-shadow 0.25s ease;
-        }
-
-        .vol-cover-img-wrapper:hover {
-            transform: translateY(-4px) scale(1.02);
-            box-shadow: 0 14px 34px rgba(0,0,0,0.45);
-        }
-
-        .vol-cover-img {
-            display: block;
-            max-width: 260px;
-            width: 100%;
-            height: auto;
-            border-radius: 12px;
-        }
-
-        .vol-cover-info {
-            margin-top: 14px;
-        }
-
-        .vol-cover-badge {
-            display: inline-block;
-            font-size: 12px;
-            font-weight: 700;
-            letter-spacing: 1px;
-            color: var(--accent);
-            background: var(--bg);
-            border: 1px solid var(--card-border);
-            padding: 3px 12px;
-            border-radius: 20px;
-            margin-bottom: 6px;
-        }
-
-        .vol-cover-title {
-            font-family: 'Charm', cursive, 'Sarabun', sans-serif;
+        .brand {
+            font-family: 'Charm', cursive;
             font-size: 24px;
             font-weight: 700;
-            color: var(--title);
-            margin: 4px 0 6px 0;
-            line-height: 1.3;
-        }
-
-        .vol-cover-desc {
-            font-size: 14px;
-            color: var(--text);
-            opacity: 0.85;
-            margin: 0;
-            line-height: 1.6;
-        }
-
-        h1.chapter-title {
-            font-size: 27px;
-            color: var(--title);
-            text-align: center;
-            margin: 16px 0 28px 0;
-            line-height: 1.4;
-            font-weight: 700;
-        }
-
-        p {
-            margin-bottom: 22px;
-            text-indent: 1.8em;
-            text-align: justify;
-        }
-
-        .divider {
-            text-align: center;
-            color: var(--accent);
-            margin: 36px 0;
-            letter-spacing: 8px;
-            font-size: 18px;
-            opacity: 0.8;
-        }
-
-        .quote-box {
-            background-color: var(--quote-bg);
-            border-left: 4px solid var(--quote-border);
-            padding: 14px 18px;
-            margin: 24px 0;
-            border-radius: 0 8px 8px 0;
-            font-style: italic;
-        }
-
-        .nav-footer {
+            color: var(--gold-bright);
             display: flex;
-            justify-content: space-between;
-            margin-top: 50px;
-            padding-top: 24px;
-            border-top: 1px solid var(--header-border);
+            align-items: center;
+            gap: 8px;
+        }
+        .brand .cn {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 17px;
+            color: var(--gold);
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            font-size: 15px;
+            color: var(--muted);
+        }
+        .nav-links a:hover { color: var(--gold-bright); }
+        .nav-cta {
+            background: linear-gradient(135deg, #b88c3e, #8f6826);
+            color: #fff8eb !important;
+            padding: 7px 16px;
+            border-radius: 99px;
+            font-weight: 600;
+            font-size: 14px;
+            border: 1px solid rgba(255, 224, 158, 0.35);
+            box-shadow: 0 4px 14px rgba(184, 140, 62, 0.25);
+        }
+        .nav-cta:hover { filter: brightness(1.08); }
+
+        .wrap {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Hero */
+        .hero {
+            padding: 48px 0 44px;
+            display: grid;
+            grid-template-columns: 310px 1fr;
+            gap: 42px;
+            align-items: center;
+        }
+        .cover-frame {
+            position: relative;
+            border-radius: 14px;
+            padding: 8px;
+            background: linear-gradient(145deg, rgba(207, 168, 94, 0.45), rgba(207, 168, 94, 0.08));
+            box-shadow: 0 24px 55px rgba(0, 0, 0, 0.65), 0 0 36px rgba(207, 168, 94, 0.14);
+        }
+        .cover-frame img {
+            width: 100%;
+            display: block;
+            border-radius: 10px;
+        }
+        .hero-eyebrow {
+            font-size: 13px;
+            letter-spacing: 2.2px;
+            color: var(--gold);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+        .hero-title {
+            font-family: 'Charm', cursive;
+            font-size: clamp(38px, 5vw, 54px);
+            line-height: 1.2;
+            color: var(--title);
+            margin-bottom: 6px;
+        }
+        .hero-subtitle {
+            font-size: 17px;
+            color: var(--gold-bright);
+            margin-bottom: 14px;
+        }
+        .hero-subtitle .cn {
+            font-family: 'Noto Serif SC', serif;
+        }
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 18px;
+        }
+        .tag {
+            font-size: 13px;
+            padding: 3px 12px;
+            border-radius: 99px;
+            background: rgba(207, 168, 94, 0.12);
+            border: 1px solid var(--border);
+            color: var(--gold-bright);
+        }
+        .synopsis {
+            font-size: 17px;
+            color: var(--text);
+            margin-bottom: 24px;
+            line-height: 1.85;
+        }
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
             gap: 12px;
         }
-
-        .nav-link {
-            background-color: var(--card-bg);
-            border: 1px solid var(--card-border);
-            color: var(--text);
-            padding: 10px 18px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            flex: 1;
-            text-align: center;
-        }
-
-        .nav-link.next {
-            background-color: var(--accent);
-            color: #ffffff;
-            border-color: var(--accent);
-        }
-
-        .nav-link:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-        }
-
-        /* Modal TOC */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6);
-            backdrop-filter: blur(4px);
-            z-index: 2000;
-            justify-content: center;
-            align-items: flex-end;
-        }
-
-        @media (min-width: 600px) {
-            .modal {
-                align-items: center;
-            }
-        }
-
-        .modal.open {
-            display: flex;
-        }
-
-        .modal-content {
-            background: var(--bg);
-            width: 100%;
-            max-width: 520px;
-            max-height: 85vh;
-            border-radius: 16px 16px 0 0;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            box-shadow: 0 -4px 20px rgba(0,0,0,0.25);
-        }
-
-        @media (min-width: 600px) {
-            .modal-content {
-                border-radius: 16px;
-                max-height: 80vh;
-            }
-        }
-
-        .modal-header {
-            padding: 14px 18px;
-            border-bottom: 1px solid var(--header-border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .btn-primary {
+            background: linear-gradient(135deg, #c79a49, #946b25);
+            color: #fff9ee;
+            padding: 12px 24px;
+            border-radius: 10px;
             font-weight: 700;
             font-size: 16px;
+            border: 1px solid rgba(255, 224, 158, 0.4);
+            box-shadow: 0 8px 24px rgba(184, 140, 62, 0.28);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        .btn-primary:hover { transform: translateY(-1px); filter: brightness(1.07); }
+        .btn-secondary {
+            background: var(--card);
             color: var(--title);
-            background: var(--header-bg);
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 15px;
+            border: 1px solid var(--border-strong);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        .btn-secondary:hover { border-color: var(--gold-bright); color: var(--gold-bright); }
+
+        /* Section */
+        section {
+            padding: 40px 0;
+            border-top: 1px solid rgba(207, 168, 94, 0.14);
+        }
+        .sec-head {
+            margin-bottom: 22px;
+        }
+        .sec-title {
+            font-family: 'Charm', cursive;
+            font-size: 32px;
+            color: var(--gold-bright);
+            margin-bottom: 4px;
+        }
+        .sec-desc {
+            color: var(--muted);
+            font-size: 15px;
         }
 
-        /* TOC Volume Sections & Collapsible Accordion */
-        .toc-body {
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
-            padding: 12px;
-            flex: 1;
-            min-height: 0;
+        /* Pillars */
+        .pillars {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+        .pillar-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+        }
+        .pillar-card h3 {
+            color: var(--gold-bright);
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+        .pillar-card p {
+            color: var(--text);
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        /* Volumes */
+        .vol-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+        .vol-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            transition: transform 0.2s ease, border-color 0.2s ease;
         }
-
-        .toc-volume-card {
-            flex-shrink: 0;
-            border-radius: 12px;
-            border: 1px solid var(--card-border);
-            background: var(--card-bg);
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        .vol-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--border-strong);
         }
-
-        .toc-volume-card:hover {
-            border-color: var(--accent);
-            box-shadow: 0 4px 14px rgba(0,0,0,0.12);
-        }
-
-        .toc-hero-banner {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 12px 14px;
-            background: var(--card-bg);
-            cursor: pointer;
-            user-select: none;
-            position: relative;
-            transition: background 0.2s ease;
-        }
-
-        .toc-hero-banner:hover {
-            background: var(--quote-bg);
-        }
-
-        .toc-hero-cover-wrap {
-            position: relative;
-            width: 54px;
-            height: 78px;
-            flex-shrink: 0;
-            border-radius: 6px;
-            overflow: hidden;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.25);
-            cursor: zoom-in;
-            background: var(--bg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .toc-hero-cover {
+        .vol-card img {
             width: 100%;
-            height: 100%;
+            aspect-ratio: 3 / 4;
             object-fit: cover;
             display: block;
         }
-
-        .toc-hero-cover-wrap .zoom-badge {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(0,0,0,0.65);
-            color: #fff;
-            font-size: 9px;
-            text-align: center;
-            padding: 1px 0;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-        }
-
-        .toc-hero-details {
+        .vol-body {
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
             flex: 1;
-            min-width: 0;
         }
-
-        .toc-hero-tag {
-            font-size: 11px;
+        .vol-badge {
+            font-size: 12px;
+            color: var(--gold);
             font-weight: 700;
-            color: var(--accent);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            margin-bottom: 2px;
         }
-
-        .toc-hero-title {
-            font-family: 'Charm', cursive, 'Sarabun', sans-serif;
-            font-size: 18px;
+        .vol-name {
+            font-size: 16px;
             font-weight: 700;
             color: var(--title);
-            margin: 2px 0;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            margin-bottom: 4px;
         }
-
-        .toc-hero-sub {
-            font-size: 12px;
-            color: var(--text);
-            opacity: 0.85;
-            margin: 0;
+        .vol-range {
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 12px;
         }
-
-        .toc-vol-toggle {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: var(--bg);
-            border: 1px solid var(--card-border);
-            color: var(--accent);
-            font-size: 12px;
-            flex-shrink: 0;
-            transition: transform 0.25s ease, background 0.2s ease;
+        .vol-btn {
+            margin-top: auto;
+            text-align: center;
+            padding: 8px 12px;
+            border-radius: 8px;
+            background: rgba(207, 168, 94, 0.14);
+            border: 1px solid var(--border-strong);
+            color: var(--gold-bright);
+            font-weight: 600;
+            font-size: 14px;
         }
+        .vol-btn:hover { background: rgba(207, 168, 94, 0.26); }
 
-        .toc-volume-card.collapsed .toc-vol-toggle {
-            transform: rotate(-90deg);
-        }
-
-        .toc-volume-card.collapsed .toc-list {
-            display: none;
-        }
-
-        .toc-list {
-            list-style: none;
-            padding: 8px 12px 10px 12px;
-            margin: 0;
-            border-top: 1px dashed var(--card-border);
-            background: var(--bg);
-        }
-
-        .toc-item {
-            padding: 11px 14px;
-            border-radius: 6px;
-            cursor: pointer;
-            margin-bottom: 3px;
-            font-size: 15px;
-            font-weight: 500;
-            border-bottom: 1px solid var(--card-border);
-            transition: all 0.15s ease;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .toc-item:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-        }
-
-        .toc-item:hover, .toc-item.active {
-            background: var(--card-bg);
-            color: var(--accent);
-            font-weight: 700;
-            padding-left: 18px;
-        }
-
-        .reading-progress-bar {
-            position: fixed;
-            top: 0; left: 0;
-            height: 3px;
-            background: var(--accent);
-            width: 0%;
-            z-index: 9999;
-            transition: width 0.1s linear;
-        }
-
-        /* Fullscreen Image Preview Lightbox */
-        .lightbox-modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.88);
-            backdrop-filter: blur(8px);
-            z-index: 3000;
-            justify-content: center;
-            align-items: center;
+        /* Power System Image Showcase */
+        .chart-card {
+            background: var(--card);
+            border: 1px solid var(--border-strong);
+            border-radius: 14px;
             padding: 16px;
-            cursor: zoom-out;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
         }
-
-        .lightbox-modal.open {
+        .chart-img-wrap {
+            position: relative;
+            cursor: zoom-in;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .chart-img-wrap img {
+            width: 100%;
+            display: block;
+            border-radius: 10px;
+        }
+        .chart-toolbar {
             display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-top: 14px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border);
+            font-size: 14px;
+            color: var(--muted);
         }
 
-        .lightbox-img {
-            max-width: 90vw;
-            max-height: 90vh;
-            border-radius: 12px;
-            box-shadow: 0 16px 48px rgba(0,0,0,0.7);
-            object-fit: contain;
-            animation: zoomIn 0.25s ease-out;
+        /* Lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(0, 0, 0, 0.92);
+            padding: 20px;
+            overflow: auto;
+            align-items: flex-start;
+            justify-content: center;
+        }
+        .lightbox.open { display: flex; }
+        .lightbox img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.8);
+        }
+        .lightbox-close {
+            position: fixed;
+            top: 16px;
+            right: 20px;
+            background: rgba(30, 26, 22, 0.9);
+            color: var(--gold-bright);
+            border: 1px solid var(--border-strong);
+            padding: 8px 14px;
+            border-radius: 99px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 14px;
         }
 
-        @keyframes zoomIn {
-            from { transform: scale(0.9); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 28px 20px 40px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 14px;
+        }
+        footer a { color: var(--gold); }
+        footer a:hover { text-decoration: underline; }
+
+        @media (max-width: 900px) {
+            .hero { grid-template-columns: 1fr; text-align: center; gap: 28px; }
+            .cover-frame { max-width: 260px; margin: 0 auto; }
+            .tags, .hero-actions { justify-content: center; }
+            .pillars { grid-template-columns: 1fr; }
+            .vol-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 560px) {
+            .nav-links .hide-sm { display: none; }
+            .vol-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
-    <div class="reading-progress-bar" id="progressBar"></div>
-
-    <header>
-        <span class="brand" onclick="openToc()">📖 สารบัญ</span>
-        <div class="controls">
-            <button class="btn-install" id="btnInstall" onclick="installPWA()">📲 ติดตั้งแอป</button>
-            <button class="btn" id="btn-sepia" onclick="changeTheme('sepia')">📜 ซีเปีย</button>
-            <button class="btn" id="btn-dark" onclick="changeTheme('warm-dark')">🌙 มืดอุ่น</button>
-            <button class="btn" id="btn-light" onclick="changeTheme('light')">☀️ สว่าง</button>
+    <nav class="topbar">
+        <div class="topbar-inner">
+            <a href="#" class="brand">ธุลีเหนือสวรรค์ <span class="cn">《尘上天》</span></a>
+            <div class="nav-links">
+                <a href="#synopsis" class="hide-sm">เรื่องย่อ</a>
+                <a href="#volumes" class="hide-sm">สารบัญเล่ม</a>
+                <a href="#power-system" class="hide-sm">ระบบพลัง</a>
+                <a href="reader.html" class="nav-cta">📖 เข้าสู่หน้าอ่าน</a>
+            </div>
         </div>
-    </header>
+    </nav>
 
-    <div class="container" id="readerArea">
-        <!-- Chapter loaded dynamically -->
-    </div>
-
-    <!-- TOC Modal -->
-    <div class="modal" id="tocModal" onclick="closeToc(event)">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <div class="modal-header">
-                <span>📑 เลือกตอนอ่าน (ธุลีเหนือสวรรค์)</span>
-                <div style="display: flex; gap: 8px;">
-                    <a href="admin.html" class="btn" title="ระบบหลังบ้านสำหรับผู้แต่ง (Admin)" style="text-decoration: none;">⚙️ Admin</a>
-                    <button class="btn" onclick="forceRefresh()" title="ดึงตอนใหม่ล่าสุด">🔄 รีเฟรช</button>
-                    <button class="btn" onclick="closeToc()">✕ ปิด</button>
+    <main class="wrap">
+        <section class="hero" style="border-top:none;">
+            <div class="cover-frame">
+                <img src="Cover_Vol1.png" alt="ปกนิยาย ธุลีเหนือสวรรค์ เล่มที่ 1">
+            </div>
+            <div>
+                <div class="hero-eyebrow">Dust Above the Heavens · Eastern Cultivation Epic</div>
+                <h1 class="hero-title">ธุลีเหนือสวรรค์</h1>
+                <div class="hero-subtitle"><span class="cn">《尘上天》</span> · ผู้เขียน: หวงตี้ปิ้ง (KaPonGZaYo)</div>
+                <div class="tags">
+                    <span class="tag">กำลังภายใน</span>
+                    <span class="tag">เทพเซียน</span>
+                    <span class="tag">สายสุขุมรอบคอบ</span>
+                    <span class="tag">ชิงไหวชิงพริบ</span>
+                </div>
+                <p class="synopsis">
+                    ในโลกที่ผู้ฝึกปราณเหาะเหินเหนือเมฆาและมีอายุขัยยืนยาวนับร้อยปี ส่วนสามัญชนล่างเขาเป็นดั่งธุลีใต้ฝ่าเท้า...
+                    <strong>กู้ฉางอัน</strong> เด็กหนุ่มยากจนไร้รากปราณจากเมืองเล็กๆ นามชิงเหอ
+                    ต้องอาศัยความสุขุมรอบคอบ การคำนวณที่เฉียบคม และวิถีแห่งสายกายเนื้อที่ค่อยๆ แกะสลักจากเลือดเนื้อของตนเอง
+                    เพื่อเอาชีวิตรอดท่ามกลางคมกระบี่ สำนักเซียน และคลื่นใต้น้ำของยุทธภพ
+                </p>
+                <div class="hero-actions">
+                    <a href="reader.html?ch=1" class="btn-primary">📖 เริ่มอ่านตอนที่ 1</a>
+                    <a href="reader.html" class="btn-secondary" id="continueBtn">🔖 อ่านต่อจากล่าสุด</a>
+                    <a href="#power-system" class="btn-secondary">📜 ตารางระบบพลัง</a>
                 </div>
             </div>
+        </section>
 
-            <div class="toc-body" id="tocContainer">
-                <!-- Volume cards and chapters rendered dynamically -->
+        <section id="synopsis">
+            <div class="sec-head">
+                <h2 class="sec-title">จุดเด่นแห่งโลกธุลีเหนือสวรรค์</h2>
+                <p class="sec-desc">กฎเกณฑ์ที่รัดกุม ตรรกะการต่อสู้ที่สมเหตุสมผล และเส้นแบ่งระหว่างปุถุชนกับเซียนบนเขา</p>
             </div>
-        </div>
+            <div class="pillars">
+                <div class="pillar-card">
+                    <h3>⚔️ กฎระยะสิบก้าว</h3>
+                    <p>&ldquo;นอกสิบก้าว ผู้ฝึกปราณเป็นจ้าว... ภายในสิบก้าว วู่ฟูครองพิภพ&rdquo; — การปะทะไม่ได้วัดกันแค่ตัวเลขขั้นพลัง แต่ขึ้นอยู่กับระยะห่าง จังหวะ และกลยุทธ์</p>
+                </div>
+                <div class="pillar-card">
+                    <h3>⛰️ คนล่างเขา กับ คนบนเขา</h3>
+                    <p>จุดตัดสำคัญอยู่ที่ขั้นที่ 6 ของทั้งสองสาย พ้นพื้นดินเมื่อใดจึงนับเป็นคนบนเขา ทิ้งพื้นที่สีเทาอันดุเดือดให้จอมยุทธ์สายกายขั้น 5 ได้ท้าทายแก่นทองคำ</p>
+                </div>
+                <div class="pillar-card">
+                    <h3>🧭 สุขุม รอบคอบ ไม่ประมาท</h3>
+                    <p>ไม่มีโชคช่วยไร้เหตุผล ตัวเอกไต่เต้าจากจุดต่ำสุดด้วยสติปัญญา การสะสมทรัพยากร และการอ่านเกมล่วงหน้าในโลกที่เต็มไปด้วยอันตราย</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="volumes">
+            <div class="sec-head">
+                <h2 class="sec-title">ม้วนทั้ง 4 เล่ม</h2>
+                <p class="sec-desc">เลือกเปิดอ่านตั้งแต่ต้นม้วน หรือเข้าสู่หน้าอ่านเพื่อเลือกตอนรายบท <span id="chapCountBadge"></span></p>
+            </div>
+            <div class="vol-grid">
+                <div class="vol-card">
+                    <img src="Cover_Vol1.png" alt="ปกเล่มที่ 1">
+                    <div class="vol-body">
+                        <div class="vol-badge">เล่มที่ ๑</div>
+                        <div class="vol-name">ตะกอนใต้เงาศิลาคราม</div>
+                        <div class="vol-range">ตอนที่ 1 – 25</div>
+                        <a href="reader.html?ch=1" class="vol-btn">📖 อ่านเล่มที่ 1</a>
+                    </div>
+                </div>
+                <div class="vol-card">
+                    <img src="Cover_Vol2.png" alt="ปกเล่มที่ 2">
+                    <div class="vol-body">
+                        <div class="vol-badge">เล่มที่ ๒</div>
+                        <div class="vol-name">รอยเลือดริมแม่น้ำหมอก</div>
+                        <div class="vol-range">ตอนที่ 26 – 50</div>
+                        <a href="reader.html?ch=26" class="vol-btn">📖 อ่านเล่มที่ 2</a>
+                    </div>
+                </div>
+                <div class="vol-card">
+                    <img src="Cover_Vol3.png" alt="ปกเล่มที่ 3">
+                    <div class="vol-body">
+                        <div class="vol-badge">เล่มที่ ๓</div>
+                        <div class="vol-name">แดนรกร้างและแนวกำแพงเหล็ก</div>
+                        <div class="vol-range">ตอนที่ 51 – 75</div>
+                        <a href="reader.html?ch=51" class="vol-btn">📖 อ่านเล่มที่ 3</a>
+                    </div>
+                </div>
+                <div class="vol-card">
+                    <img src="Cover_Vol4.png" alt="ปกเล่มที่ 4">
+                    <div class="vol-body">
+                        <div class="vol-badge">เล่มที่ ๔</div>
+                        <div class="vol-name">เก้าแคว้นและเงาสะท้อนเมืองหลวง</div>
+                        <div class="vol-range">ตอนที่ 76 – 100</div>
+                        <a href="reader.html?ch=76" class="vol-btn">📖 อ่านเล่มที่ 4</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="power-system">
+            <div class="sec-head">
+                <h2 class="sec-title">ทำเนียบเทียบเคียงระบบพลัง</h2>
+                <p class="sec-desc">ตารางเปรียบเทียบสายวรยุทธ์กายเนื้อ (วู่ฟู 10 ขั้น) กับ สายฝึกปราณฟ้าดิน (เซียน 15 ขั้น) พร้อมเส้นแบ่งเขตคนล่างเขา–คนบนเขา</p>
+            </div>
+            <div class="chart-card">
+                <div class="chart-img-wrap" onclick="openChartLightbox()" title="คลิกเพื่อขยายดูภาพขนาดเต็ม">
+                    <img src="power_system_table.png" alt="ตารางเปรียบเทียบขั้นระบบพลัง ธุลีเหนือสวรรค์">
+                </div>
+                <div class="chart-toolbar">
+                    <span>💡 คลิกที่รูปตารางเพื่อขยายดูขนาดเต็มได้</span>
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                        <button class="btn-secondary" style="padding:8px 14px;font-size:14px;" onclick="openChartLightbox()">🔍 ขยายภาพ</button>
+                        <a href="power_system_table.png" download="ธุลีเหนือสวรรค์_ตารางระบบพลัง.png" class="btn-primary" style="padding:8px 16px;font-size:14px;">⬇️ ดาวน์โหลดรูป (PNG)</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div class="lightbox" id="chartLightbox" onclick="closeChartLightbox()">
+        <button class="lightbox-close" onclick="closeChartLightbox()">✕ ปิด</button>
+        <img src="power_system_table.png" alt="ตารางเปรียบเทียบขั้นระบบพลัง ขนาดเต็ม" onclick="event.stopPropagation()">
     </div>
 
-    <!-- Lightbox for Cover Preview -->
-    <div class="lightbox-modal" id="coverLightbox" onclick="closeCoverLightbox()">
-        <img src="Cover_Vol1.png" alt="หน้าปก เล่มที่ 1 ขนาดเต็ม" class="lightbox-img">
-    </div>
+    <footer>
+        <div>ธุลีเหนือสวรรค์ (《尘上天》 — Dust Above the Heavens) · โดย หวงตี้ปิ้ง (KaPonGZaYo)</div>
+        <div style="margin-top:6px;">
+            <a href="reader.html">เข้าสู่หน้าอ่านนิยาย</a> · <a href="admin.html">ระบบหลังบ้าน (Admin)</a>
+        </div>
+    </footer>
 
     <script>
-        let allChapters = [];
-        let currentChapIndex = 0;
-        let deferredPrompt;
-
-        // Register Service Worker for PWA
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js')
-                    .then(reg => {
-                        console.log('SW Registered');
-                        reg.update();
-                    })
-                    .catch(err => console.log('SW Error:', err));
-            });
-        }
-
-        // PWA Install prompt
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            const btn = document.getElementById('btnInstall');
-            if (btn) btn.style.display = 'inline-block';
-        });
-
-        function installPWA() {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                deferredPrompt.userChoice.then((choiceResult) => {
-                    if (choiceResult.outcome === 'accepted') {
-                        document.getElementById('btnInstall').style.display = 'none';
+        (function() {
+            const lastChap = localStorage.getItem('novel_last_chapter');
+            const btn = document.getElementById('continueBtn');
+            if (btn && lastChap && parseInt(lastChap, 10) > 1) {
+                btn.innerText = '🔖 อ่านต่อ (ตอนที่ ' + lastChap + ')';
+            }
+            fetch('chapters.json', { cache: 'no-cache' })
+                .then(r => r.ok ? r.json() : null)
+                .then(data => {
+                    if (Array.isArray(data) && data.length > 0) {
+                        const badge = document.getElementById('chapCountBadge');
+                        if (badge) badge.innerText = '· อัปเดตแล้ว ' + data.length + ' ตอน';
                     }
-                    deferredPrompt = null;
-                });
-            }
+                })
+                .catch(() => {});
+        })();
+
+        function openChartLightbox() {
+            document.getElementById('chartLightbox').classList.add('open');
         }
-
-        // Background update check (Stale-While-Revalidate pattern)
-        async function backgroundSyncChapters() {
-            try {
-                const res = await fetch('chapters.json?v=' + Date.now(), { cache: 'no-cache' });
-                if (res.ok) {
-                    const freshData = await res.json();
-                    if (Array.isArray(freshData) && freshData.length > 0) {
-                        const hasNew = freshData.length !== allChapters.length;
-                        allChapters = freshData;
-                        buildToc();
-                        if (hasNew) {
-                            console.log('[App] New chapters detected! Count:', freshData.length);
-                            const btn = document.getElementById('btnRefresh');
-                            if (btn) {
-                                btn.innerText = '✨ มีตอนใหม่ (' + freshData.length + ')';
-                                setTimeout(() => { btn.innerText = '🔄 รีเฟรช'; }, 4000);
-                            }
-                        }
-                    }
-                }
-            } catch (err) {
-                console.log('[App] Background sync skipped (offline or network slow)');
-            }
+        function closeChartLightbox() {
+            document.getElementById('chartLightbox').classList.remove('open');
         }
-
-        async function fetchChaptersWithTimeout(timeoutMs = 15000) {
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
-
-            try {
-                // 1. Try network fetch with 15s timeout
-                const res = await fetch('chapters.json?v=' + Date.now(), { 
-                    cache: 'no-cache',
-                    signal: controller.signal
-                });
-                clearTimeout(timeoutId);
-                if (res.ok) {
-                    return await res.json();
-                }
-            } catch (netErr) {
-                clearTimeout(timeoutId);
-                console.warn('Network fetch failed or timed out:', netErr);
-            }
-
-            // 2. Fallback: Normal fetch without cache busting
-            try {
-                const fallbackRes = await fetch('chapters.json');
-                if (fallbackRes.ok) {
-                    return await fallbackRes.json();
-                }
-            } catch (fbErr) {
-                console.warn('Fallback fetch failed:', fbErr);
-            }
-
-            // 3. Fallback: Direct CacheStorage read (Offline PWA)
-            if ('caches' in window) {
-                try {
-                    const cached = await caches.match('chapters.json', { ignoreSearch: true })
-                                || await caches.match('./chapters.json', { ignoreSearch: true });
-                    if (cached) {
-                        return await cached.json();
-                    }
-                } catch (cacheErr) {
-                    console.warn('Direct CacheStorage read failed:', cacheErr);
-                }
-            }
-
-            throw new Error('ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์หรือดึงข้อมูลจากแคชได้');
-        }
-
-        async function forceRefresh() {
-            try {
-                const btn = document.getElementById('btnRefresh');
-                if (btn) btn.innerText = '⌛ กำลังโหลด...';
-                allChapters = await fetchChaptersWithTimeout(15000);
-                buildToc();
-                loadChapter(currentChapIndex, false);
-                if (btn) btn.innerText = '✓ ล่าสุดแล้ว';
-                setTimeout(() => { if (btn) btn.innerText = '🔄 รีเฟรช'; }, 2000);
-            } catch (err) {
-                alert('ไม่สามารถอัพเดทได้ในขณะนี้: ' + err.message);
-                const btn = document.getElementById('btnRefresh');
-                if (btn) btn.innerText = '🔄 รีเฟรช';
-            }
-        }
-
-        async function init() {
-            // STEP 1: Instant Cache-First Launch (Opens in ~50ms on mobile!)
-            let hasLoadedFromCache = false;
-            if ('caches' in window) {
-                try {
-                    const cached = await caches.match('chapters.json', { ignoreSearch: true })
-                                || await caches.match('./chapters.json', { ignoreSearch: true });
-                    if (cached) {
-                        const cachedChapters = await cached.json();
-                        if (Array.isArray(cachedChapters) && cachedChapters.length > 0) {
-                            console.log('[App] Loaded instantly from cache! Chapters:', cachedChapters.length);
-                            allChapters = cachedChapters;
-                            buildToc();
-
-                            const savedTheme = localStorage.getItem('novel_theme') || 'sepia';
-                            changeTheme(savedTheme);
-
-                            const savedChap = parseInt(localStorage.getItem('novel_last_chapter') || '1', 10);
-                            const targetIdx = allChapters.findIndex(c => c.id === savedChap);
-                            loadChapter(targetIdx >= 0 ? targetIdx : 0, true);
-
-                            hasLoadedFromCache = true;
-                            // Silently check for new chapters in background
-                            backgroundSyncChapters();
-                            return;
-                        }
-                    }
-                } catch (cacheErr) {
-                    console.warn('[App] Cache-first lookup skipped:', cacheErr);
-                }
-            }
-
-            // STEP 2: First-time open (No cache yet) -> Show friendly spinner & fetch
-            if (!hasLoadedFromCache) {
-                const reader = document.getElementById('readerArea');
-                if (reader) {
-                    reader.innerHTML = `
-                        <div style="text-align:center;padding:60px 20px;color:var(--text-muted);">
-                            <div style="font-size:42px;margin-bottom:12px;animation:spin 2s linear infinite;">⏳</div>
-                            <h3 style="margin-bottom:8px;color:var(--text);">กำลังเปิดสมุดบันทึกธุลีเหนือสวรรค์...</h3>
-                            <p style="font-size:14px;">กำลังดาวน์โหลดเนื้อหาสำหรับอ่านออฟไลน์ กรุณารอสักครู่</p>
-                        </div>
-                    `;
-                }
-
-                try {
-                    allChapters = await fetchChaptersWithTimeout(20000);
-                    buildToc();
-
-                    const savedTheme = localStorage.getItem('novel_theme') || 'sepia';
-                    changeTheme(savedTheme);
-
-                    const savedChap = parseInt(localStorage.getItem('novel_last_chapter') || '1', 10);
-                    const targetIdx = allChapters.findIndex(c => c.id === savedChap);
-                    loadChapter(targetIdx >= 0 ? targetIdx : 0, true);
-                } catch (err) {
-                    console.error('[App] Init failed:', err);
-                    if (reader) {
-                        reader.innerHTML = `
-                            <div style="text-align:center;padding:50px 20px;">
-                                <div style="font-size:48px;margin-bottom:16px;">⚠️</div>
-                                <h3 style="margin-bottom:12px;color:var(--text);">ไม่สามารถโหลดเนื้อหานิยายได้</h3>
-                                <p style="font-size:14px;color:var(--text-muted);margin-bottom:24px;">การเชื่อมต่ออินเทอร์เน็ตอาจช้าหรือไม่เสถียร</p>
-                                <button onclick="init()" style="padding:10px 24px;border-radius:24px;background:var(--accent);color:#fff;border:none;font-size:16px;cursor:pointer;font-weight:600;">🔄 กดเพื่อลองใหม่อีกครั้ง</button>
-                            </div>
-                        `;
-                    }
-                }
-            }
-        }
-
-        function changeTheme(theme) {
-            document.documentElement.setAttribute('data-theme', theme);
-            localStorage.setItem('novel_theme', theme);
-            document.querySelectorAll('.controls .btn').forEach(b => b.classList.remove('active'));
-            if (theme === 'sepia') document.getElementById('btn-sepia')?.classList.add('active');
-            if (theme === 'warm-dark') document.getElementById('btn-dark')?.classList.add('active');
-            if (theme === 'light') document.getElementById('btn-light')?.classList.add('active');
-        }
-
-        const VOLUMES = [
-            {
-                id: 1,
-                tag: 'เล่มที่ ๑ · ภาค ๑',
-                title: 'ตะกอนใต้เงาศิลาคราม',
-                sub: 'ตอนที่ 1–25',
-                cover: 'Cover_Vol1.png',
-                start: 1,
-                end: 25
-            },
-            {
-                id: 2,
-                tag: 'เล่มที่ ๒ · ภาค ๒',
-                title: 'รอยเลือดริมแม่น้ำหมอก',
-                sub: 'ตอนที่ 26–50',
-                cover: 'Cover_Vol2.png',
-                start: 26,
-                end: 50
-            },
-            {
-                id: 3,
-                tag: 'เล่มที่ ๓ · ภาค ๓',
-                title: 'แดนรกร้างและแนวกำแพงเหล็ก',
-                sub: 'ตอนที่ 51–75',
-                cover: 'Cover_Vol3.png',
-                start: 51,
-                end: 75
-            },
-            {
-                id: 4,
-                tag: 'เล่มที่ ๔ · ภาค ๔',
-                title: 'เก้าแคว้นและเงาสะท้อนเมืองหลวง',
-                sub: 'ตอนที่ 76–100',
-                cover: 'Cover_Vol4.png',
-                icon: '🦅',
-                start: 76,
-                end: 100
-            }
-        ];
-
-        function getEffectiveVolumes() {
-            let vols = [...VOLUMES];
-            const maxEnd = Math.max(...VOLUMES.map(v => v.end), 0);
-            const extraChapters = allChapters.filter(c => c.id > maxEnd);
-            if (extraChapters.length > 0) {
-                let currentStart = maxEnd + 1;
-                const highestId = Math.max(...extraChapters.map(c => c.id));
-                while (currentStart <= highestId) {
-                    const currentEnd = currentStart + 24;
-                    const vNum = Math.floor((currentStart - 1) / 25) + 1;
-                    vols.push({
-                        id: vNum,
-                        tag: `เล่มที่ ${vNum} · ภาค ${vNum}`,
-                        title: 'ภาคใหม่ (กำลังเผยแพร่)',
-                        sub: `ตอนที่ ${currentStart}–${currentEnd}`,
-                        cover: '',
-                        icon: '📜',
-                        start: currentStart,
-                        end: currentEnd
-                    });
-                    currentStart = currentEnd + 1;
-                }
-            }
-            return vols;
-        }
-
-        let collapsedVolumes = {};
-
-        function toggleVolume(volId) {
-            collapsedVolumes[volId] = !collapsedVolumes[volId];
-            const card = document.getElementById(`vol-card-${volId}`);
-            if (card) {
-                if (collapsedVolumes[volId]) {
-                    card.classList.add('collapsed');
-                } else {
-                    card.classList.remove('collapsed');
-                }
-            }
-        }
-
-        function buildToc() {
-            const container = document.getElementById('tocContainer');
-            if (!container) return;
-
-            const effectiveVolumes = getEffectiveVolumes();
-            const currentChap = allChapters[currentChapIndex];
-            const currentChapId = currentChap ? currentChap.id : 1;
-            const activeVolId = effectiveVolumes.find(v => currentChapId >= v.start && currentChapId <= v.end)?.id || 1;
-
-            container.innerHTML = effectiveVolumes.map(vol => {
-                const volChapters = allChapters.filter(c => c.id >= vol.start && c.id <= vol.end);
-                if (volChapters.length === 0) return '';
-
-                if (collapsedVolumes[vol.id] === undefined) {
-                    collapsedVolumes[vol.id] = (vol.id !== activeVolId);
-                }
-                const isCollapsed = collapsedVolumes[vol.id];
-
-                let coverHtml = '';
-                if (vol.cover) {
-                    coverHtml = `
-                        <div class="toc-hero-cover-wrap" onclick="event.stopPropagation(); showCoverLightbox(${vol.id});" title="คลิกเพื่อดูหน้าปกขนาดเต็ม">
-                            <img src="${vol.cover}" alt="หน้าปก ${vol.title}" class="toc-hero-cover">
-                            <span class="zoom-badge">🔍 ขยาย</span>
-                        </div>
-                    `;
-                } else {
-                    coverHtml = `
-                        <div class="toc-hero-cover-wrap" style="font-size:28px;">
-                            ${vol.icon || '📜'}
-                        </div>
-                    `;
-                }
-
-                const chaptersListHtml = volChapters.map(chap => {
-                    const idx = allChapters.findIndex(c => c.id === chap.id);
-                    const isActive = idx === currentChapIndex ? 'active' : '';
-                    return `
-                        <li class="toc-item ${isActive}" onclick="selectChapter(${idx})">
-                            <span>${chap.title}</span>
-                            ${isActive ? '<span style="font-size:12px;color:var(--accent);">📖 กำลังอ่าน</span>' : ''}
-                        </li>
-                    `;
-                }).join('');
-
-                return `
-                    <div class="toc-volume-card ${isCollapsed ? 'collapsed' : ''}" id="vol-card-${vol.id}">
-                        <div class="toc-hero-banner" onclick="toggleVolume(${vol.id})" title="คลิกเพื่อย่อ/ขยายเล่ม">
-                            ${coverHtml}
-                            <div class="toc-hero-details">
-                                <div class="toc-hero-tag">${vol.tag}</div>
-                                <div class="toc-hero-title">${vol.title}</div>
-                                <p class="toc-hero-sub">${vol.sub} · (${volChapters.length} ตอน)</p>
-                            </div>
-                            <div class="toc-vol-toggle" title="ย่อ/ขยายเล่ม">▼</div>
-                        </div>
-                        <ul class="toc-list">
-                            ${chaptersListHtml}
-                        </ul>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function selectChapter(idx) {
-            closeToc();
-            loadChapter(idx, false);
-        }
-
-        function loadChapter(idx, shouldRestoreScroll) {
-            currentChapIndex = idx;
-            const chap = allChapters[idx];
-            localStorage.setItem('novel_last_chapter', chap.id);
-
-            let htmlStr = '';
-
-            // If Chapter 1, display the elegant Hero Volume 1 Cover Card
-            if (idx === 0) {
-                htmlStr += `
-                    <div class="vol-cover-card">
-                        <div class="vol-cover-img-wrapper" onclick="showCoverLightbox()" title="คลิกเพื่อดูหน้าปกขนาดเต็ม">
-                            <img src="Cover_Vol1.png" alt="หน้าปก ธุลีเหนือสวรรค์ เล่มที่ 1" class="vol-cover-img">
-                        </div>
-                        <div class="vol-cover-info">
-                            <span class="vol-cover-badge">เล่มที่ ๑ · ภาค : ตะกอนใต้เงาศิลาคราม</span>
-                            <div class="vol-cover-title">ธุลีเหนือสวรรค์ (《尘上天》)</div>
-                            <p class="vol-cover-desc">ผู้เขียน: หวงตี้ปิ้ง (KaPonGZaYo) · ตอนที่ 1–25</p>
-                        </div>
-                    </div>
-                `;
-            }
-
-            // Display Volume 2 at its opening chapter.
-            if (chap.id === 26) {
-                htmlStr += `
-                    <div class="vol-cover-card">
-                        <div class="vol-cover-img-wrapper" onclick="showCoverLightbox(2)" title="คลิกเพื่อดูหน้าปกขนาดเต็ม">
-                            <img src="Cover_Vol2.png" alt="หน้าปก ธุลีเหนือสวรรค์ เล่มที่ 2" class="vol-cover-img">
-                        </div>
-                        <div class="vol-cover-info">
-                            <span class="vol-cover-badge">เล่มที่ ๒ · ภาค : รอยเลือดริมแม่น้ำหมอก</span>
-                            <div class="vol-cover-title">ธุลีเหนือสวรรค์ (《尘上天》)</div>
-                            <p class="vol-cover-desc">ผู้เขียน: หวงตี้ปิ้ง (KaPonGZaYo) · ตอนที่ 26–50</p>
-                        </div>
-                    </div>
-                `;
-            }
-
-            // Display Volume 3 at its opening chapter.
-            if (chap.id === 51) {
-                htmlStr += `
-                    <div class="vol-cover-card">
-                        <div class="vol-cover-img-wrapper" onclick="showCoverLightbox(3)" title="คลิกเพื่อดูหน้าปกขนาดเต็ม">
-                            <img src="Cover_Vol3.png" alt="หน้าปก ธุลีเหนือสวรรค์ เล่มที่ 3" class="vol-cover-img">
-                        </div>
-                        <div class="vol-cover-info">
-                            <span class="vol-cover-badge">เล่มที่ ๓ · ภาค : แดนรกร้างและแนวกำแพงเหล็ก</span>
-                            <div class="vol-cover-title">ธุลีเหนือสวรรค์ (《尘上天》)</div>
-                            <p class="vol-cover-desc">ผู้เขียน: หวงตี้ปิ้ง (KaPonGZaYo) · ตอนที่ 51–75</p>
-                        </div>
-                    </div>
-                `;
-            }
-
-            // Display Volume 4 at its opening chapter.
-            if (chap.id === 76) {
-                htmlStr += `
-                    <div class="vol-cover-card">
-                        <div class="vol-cover-img-wrapper" onclick="showCoverLightbox(4)" title="คลิกเพื่อดูหน้าปกขนาดเต็ม">
-                            <img src="Cover_Vol4.png" alt="หน้าปก ธุลีเหนือสวรรค์ เล่มที่ 4" class="vol-cover-img">
-                        </div>
-                        <div class="vol-cover-info">
-                            <span class="vol-cover-badge">เล่มที่ ๔ · ภาค : เก้าแคว้นและเงาสะท้อนเมืองหลวง</span>
-                            <div class="vol-cover-title">ธุลีเหนือสวรรค์ (《尘上天》)</div>
-                            <p class="vol-cover-desc">ผู้เขียน: หวงตี้ปิ้ง (KaPonGZaYo) · ตอนที่ 76–100</p>
-                        </div>
-                    </div>
-                `;
-            }
-
-            htmlStr += `<h1 class="chapter-title">${chap.title}</h1>`;
-            chap.paragraphs.forEach(p => {
-                if (p.type === 'divider') htmlStr += `<div class="divider">❖ ❖ ❖</div>`;
-                else if (p.type === 'quote') htmlStr += `<div class="quote-box">${p.text}</div>`;
-                else htmlStr += `<p>${p.text}</p>`;
-            });
-
-            // Nav Footer
-            const prevDisabled = idx === 0 ? 'disabled' : '';
-            const nextDisabled = idx === allChapters.length - 1 ? 'disabled' : '';
-
-            htmlStr += `
-                <div class="nav-footer">
-                    <button class="nav-link" ${prevDisabled} onclick="loadChapter(${idx - 1}, false)">← ตอนก่อนหน้า</button>
-                    <button class="nav-link next" ${nextDisabled} onclick="loadChapter(${idx + 1}, false)">ตอนถัดไป →</button>
-                </div>
-            `;
-
-            document.getElementById('readerArea').innerHTML = htmlStr;
-            buildToc();
-
-            // Handle Scroll Restoration
-            if (shouldRestoreScroll) {
-                const savedY = parseFloat(localStorage.getItem(`novel_scroll_ch_${chap.id}`) || '0');
-                if (savedY > 0) {
-                    setTimeout(() => {
-                        window.scrollTo({ top: savedY, behavior: 'instant' });
-                    }, 50);
-                } else {
-                    window.scrollTo(0, 0);
-                }
-            } else {
-                window.scrollTo(0, 0);
-                localStorage.setItem(`novel_scroll_ch_${chap.id}`, '0');
-            }
-        }
-
-        // Save scroll position on the fly
-        let scrollTimeout;
-        window.addEventListener('scroll', () => {
-            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const scrollPos = window.scrollY;
-            const progress = docHeight > 0 ? (scrollPos / docHeight) * 100 : 0;
-            document.getElementById('progressBar').style.width = progress + '%';
-
-            clearTimeout(scrollTimeout);
-            scrollTimeout = setTimeout(() => {
-                if (allChapters[currentChapIndex]) {
-                    const chapId = allChapters[currentChapIndex].id;
-                    localStorage.setItem(`novel_scroll_ch_${chapId}`, scrollPos);
-                }
-            }, 150);
-        });
-
-        function openToc() {
-            const effectiveVolumes = getEffectiveVolumes();
-            const currentChap = allChapters[currentChapIndex];
-            if (currentChap) {
-                const activeVol = effectiveVolumes.find(v => currentChap.id >= v.start && currentChap.id <= v.end);
-                if (activeVol) {
-                    collapsedVolumes[activeVol.id] = false;
-                }
-            }
-            buildToc();
-            document.getElementById('tocModal').classList.add('open');
-            setTimeout(() => {
-                const activeItem = document.querySelector('.toc-item.active');
-                if (activeItem) {
-                    activeItem.scrollIntoView({ block: 'center', behavior: 'smooth' });
-                }
-            }, 100);
-        }
-
-        function closeToc(e) {
-            document.getElementById('tocModal').classList.remove('open');
-        }
-
-        function showCoverLightbox(volume = 1) {
-            const effectiveVolumes = getEffectiveVolumes();
-            const vol = effectiveVolumes.find(v => v.id === volume);
-            if (vol && vol.cover) {
-                const image = document.querySelector('#coverLightbox .lightbox-img');
-                image.src = vol.cover;
-                image.alt = 'หน้าปก เล่มที่ ' + volume + ' ขนาดเต็ม';
-                document.getElementById('coverLightbox').classList.add('open');
-            }
-        }
-
-        function closeCoverLightbox() {
-            document.getElementById('coverLightbox').classList.remove('open');
-        }
-
-        init();
     </script>
 </body>
 </html>
