@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=3.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=3.0, user-scalable=yes, viewport-fit=cover">
     <title>ธุลีเหนือสวรรค์ (Dust Above the Heavens) - E-Reader</title>
 
     <!-- PWA Settings for Mobile App Installation -->
@@ -83,40 +83,74 @@
             background-color: var(--header-bg);
             backdrop-filter: blur(8px);
             border-bottom: 1px solid var(--header-border);
-            padding: 10px 16px;
+            padding: max(10px, env(safe-area-inset-top)) 14px 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 8px;
             z-index: 1000;
         }
 
-        .brand {
-            font-size: 15px;
-            font-weight: 700;
-            color: var(--accent);
-            cursor: pointer;
-            letter-spacing: 0.5px;
+        .header-left {
             display: flex;
             align-items: center;
             gap: 6px;
+            flex-shrink: 0;
+        }
+
+        .brand {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--accent);
+            cursor: pointer;
+            letter-spacing: 0.3px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            white-space: nowrap;
         }
 
         .controls {
             display: flex;
-            gap: 6px;
+            gap: 5px;
             align-items: center;
+            flex-shrink: 0;
         }
 
         .btn {
             background-color: var(--card-bg);
             color: var(--text);
             border: 1px solid var(--card-border);
-            padding: 5px 11px;
+            padding: 6px 10px;
             border-radius: 20px;
             font-size: 13px;
             font-weight: 600;
             cursor: pointer;
             outline: none;
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            line-height: 1.2;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                font-size: 19px;
+            }
+            header {
+                padding: max(8px, env(safe-area-inset-top)) 10px 8px;
+            }
+            .btn {
+                padding: 6px 8px;
+                font-size: 13px;
+            }
+            .hide-sm {
+                display: none;
+            }
+            .container {
+                padding: 18px 16px 80px 16px;
+            }
         }
 
         .btn.active {
@@ -546,15 +580,17 @@
     <div class="reading-progress-bar" id="progressBar"></div>
 
     <header>
-        <div style="display:flex;align-items:center;gap:8px;">
-            <a href="index.html" class="btn" style="text-decoration:none;" title="กลับหน้าแนะนำนิยาย">🏠 หน้าหลัก</a>
-            <span class="brand" onclick="openToc()">📖 สารบัญ</span>
+        <div class="header-left">
+            <a href="index.html" class="btn" style="text-decoration:none;" title="กลับหน้าแนะนำนิยาย">🏠<span class="hide-sm"> หน้าหลัก</span></a>
+            <button class="btn brand" onclick="openToc()">📖 สารบัญ</button>
         </div>
         <div class="controls">
-            <button class="btn-install" id="btnInstall" onclick="installPWA()">📲 ติดตั้งแอป</button>
-            <button class="btn" id="btn-sepia" onclick="changeTheme('sepia')">📜 ซีเปีย</button>
-            <button class="btn" id="btn-dark" onclick="changeTheme('warm-dark')">🌙 มืดอุ่น</button>
-            <button class="btn" id="btn-light" onclick="changeTheme('light')">☀️ สว่าง</button>
+            <button class="btn-install" id="btnInstall" onclick="installPWA()" title="ติดตั้งแอป">📲</button>
+            <button class="btn" onclick="adjustFont(-1)" title="ลดขนาดตัวอักษร">ก-</button>
+            <button class="btn" onclick="adjustFont(1)" title="เพิ่มขนาดตัวอักษร">ก+</button>
+            <button class="btn" id="btn-sepia" onclick="changeTheme('sepia')" title="โทนซีเปีย">📜<span class="hide-sm"> ซีเปีย</span></button>
+            <button class="btn" id="btn-dark" onclick="changeTheme('warm-dark')" title="โทนมืดอุ่น">🌙<span class="hide-sm"> มืดอุ่น</span></button>
+            <button class="btn" id="btn-light" onclick="changeTheme('light')" title="โทนสว่าง">☀️<span class="hide-sm"> สว่าง</span></button>
         </div>
     </header>
 
@@ -790,13 +826,26 @@
             if (theme === 'light') document.getElementById('btn-light')?.classList.add('active');
         }
 
+        function adjustFont(delta) {
+            const current = parseInt(localStorage.getItem('novel_font_size') || (window.innerWidth <= 600 ? '19' : '21'), 10);
+            const next = Math.min(28, Math.max(16, current + delta));
+            document.body.style.fontSize = next + 'px';
+            localStorage.setItem('novel_font_size', String(next));
+        }
+
+        (function applySavedFont() {
+            const saved = localStorage.getItem('novel_font_size');
+            if (saved) document.body.style.fontSize = saved + 'px';
+        })();
+
         const VOLUMES = [
             {
                 id: 1,
                 tag: 'เล่มที่ ๑ · ภาค ๑',
                 title: 'ตะกอนใต้เงาศิลาคราม',
                 sub: 'ตอนที่ 1–25',
-                cover: 'Cover_Vol1.png',
+                cover: 'Cover_Vol1_web.webp',
+                fullCover: 'Cover_Vol1.png',
                 start: 1,
                 end: 25
             },
@@ -805,7 +854,8 @@
                 tag: 'เล่มที่ ๒ · ภาค ๒',
                 title: 'รอยเลือดริมแม่น้ำหมอก',
                 sub: 'ตอนที่ 26–50',
-                cover: 'Cover_Vol2.png',
+                cover: 'Cover_Vol2_web.webp',
+                fullCover: 'Cover_Vol2.png',
                 start: 26,
                 end: 50
             },
@@ -814,7 +864,8 @@
                 tag: 'เล่มที่ ๓ · ภาค ๓',
                 title: 'แดนรกร้างและแนวกำแพงเหล็ก',
                 sub: 'ตอนที่ 51–75',
-                cover: 'Cover_Vol3.png',
+                cover: 'Cover_Vol3_web.webp',
+                fullCover: 'Cover_Vol3.png',
                 start: 51,
                 end: 75
             },
@@ -823,7 +874,8 @@
                 tag: 'เล่มที่ ๔ · ภาค ๔',
                 title: 'เก้าแคว้นและเงาสะท้อนเมืองหลวง',
                 sub: 'ตอนที่ 76–100',
-                cover: 'Cover_Vol4.png',
+                cover: 'Cover_Vol4_web.webp',
+                fullCover: 'Cover_Vol4.png',
                 icon: '🦅',
                 start: 76,
                 end: 100
@@ -951,7 +1003,7 @@
                 htmlStr += `
                     <div class="vol-cover-card">
                         <div class="vol-cover-img-wrapper" onclick="showCoverLightbox()" title="คลิกเพื่อดูหน้าปกขนาดเต็ม">
-                            <img src="Cover_Vol1.png" alt="หน้าปก ธุลีเหนือสวรรค์ เล่มที่ 1" class="vol-cover-img">
+                            <img src="Cover_Vol1_web.webp" alt="หน้าปก ธุลีเหนือสวรรค์ เล่มที่ 1" class="vol-cover-img" decoding="async">
                         </div>
                         <div class="vol-cover-info">
                             <span class="vol-cover-badge">เล่มที่ ๑ · ภาค : ตะกอนใต้เงาศิลาคราม</span>
@@ -967,7 +1019,7 @@
                 htmlStr += `
                     <div class="vol-cover-card">
                         <div class="vol-cover-img-wrapper" onclick="showCoverLightbox(2)" title="คลิกเพื่อดูหน้าปกขนาดเต็ม">
-                            <img src="Cover_Vol2.png" alt="หน้าปก ธุลีเหนือสวรรค์ เล่มที่ 2" class="vol-cover-img">
+                            <img src="Cover_Vol2_web.webp" alt="หน้าปก ธุลีเหนือสวรรค์ เล่มที่ 2" class="vol-cover-img" decoding="async">
                         </div>
                         <div class="vol-cover-info">
                             <span class="vol-cover-badge">เล่มที่ ๒ · ภาค : รอยเลือดริมแม่น้ำหมอก</span>
@@ -983,7 +1035,7 @@
                 htmlStr += `
                     <div class="vol-cover-card">
                         <div class="vol-cover-img-wrapper" onclick="showCoverLightbox(3)" title="คลิกเพื่อดูหน้าปกขนาดเต็ม">
-                            <img src="Cover_Vol3.png" alt="หน้าปก ธุลีเหนือสวรรค์ เล่มที่ 3" class="vol-cover-img">
+                            <img src="Cover_Vol3_web.webp" alt="หน้าปก ธุลีเหนือสวรรค์ เล่มที่ 3" class="vol-cover-img" decoding="async">
                         </div>
                         <div class="vol-cover-info">
                             <span class="vol-cover-badge">เล่มที่ ๓ · ภาค : แดนรกร้างและแนวกำแพงเหล็ก</span>
@@ -999,7 +1051,7 @@
                 htmlStr += `
                     <div class="vol-cover-card">
                         <div class="vol-cover-img-wrapper" onclick="showCoverLightbox(4)" title="คลิกเพื่อดูหน้าปกขนาดเต็ม">
-                            <img src="Cover_Vol4.png" alt="หน้าปก ธุลีเหนือสวรรค์ เล่มที่ 4" class="vol-cover-img">
+                            <img src="Cover_Vol4_web.webp" alt="หน้าปก ธุลีเหนือสวรรค์ เล่มที่ 4" class="vol-cover-img" decoding="async">
                         </div>
                         <div class="vol-cover-info">
                             <span class="vol-cover-badge">เล่มที่ ๔ · ภาค : เก้าแคว้นและเงาสะท้อนเมืองหลวง</span>
@@ -1090,9 +1142,9 @@
         function showCoverLightbox(volume = 1) {
             const effectiveVolumes = getEffectiveVolumes();
             const vol = effectiveVolumes.find(v => v.id === volume);
-            if (vol && vol.cover) {
+            if (vol && (vol.fullCover || vol.cover)) {
                 const image = document.querySelector('#coverLightbox .lightbox-img');
-                image.src = vol.cover;
+                image.src = vol.fullCover || vol.cover;
                 image.alt = 'หน้าปก เล่มที่ ' + volume + ' ขนาดเต็ม';
                 document.getElementById('coverLightbox').classList.add('open');
             }

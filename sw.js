@@ -1,4 +1,4 @@
-const CACHE_NAME = 'dust-above-heavens-v19';
+const CACHE_NAME = 'dust-above-heavens-v20';
 
 // Cache ONLY core lightweight app shell assets on install (< 100 KB total)
 // High-res covers and audio are cached on-demand at runtime to prevent mobile install timeout/failure!
@@ -82,7 +82,23 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // 3. All other requests (HTML, CSS, JS): Stale-While-Revalidate
+  // 3. HTML & Navigation requests: Network-First with Cache Fallback (always gets latest UI when online)
+  if (event.request.mode === 'navigate' || url.pathname.endsWith('.html') || url.pathname.endsWith('/')) {
+    event.respondWith(
+      fetch(event.request)
+        .then((networkResponse) => {
+          if (networkResponse && networkResponse.status === 200) {
+            const clone = networkResponse.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+          }
+          return networkResponse;
+        })
+        .catch(() => caches.match(event.request, { ignoreSearch: true }))
+    );
+    return;
+  }
+
+  // 4. All other requests (CSS, JS): Stale-While-Revalidate
   event.respondWith(
     caches.match(event.request, { ignoreSearch: true }).then((cachedResponse) => {
       const fetchPromise = fetch(event.request)

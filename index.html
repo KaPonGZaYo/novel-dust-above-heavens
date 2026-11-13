@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>ธุลีเหนือสวรรค์ (《尘上天》) — นิยายกำลังภายใน-เทพเซียน</title>
     <meta name="description" content="ธุลีเหนือสวรรค์ (Dust Above the Heavens) นิยายกำลังภายในผสมเทพเซียน เรื่องราวของ กู้ฉางอัน เด็กหนุ่มไร้รากปราณที่ก้าวเดินบนเส้นทางสายกายเนื้อด้วยความสุขุมรอบคอบ">
 
@@ -51,20 +51,21 @@
         .topbar-inner {
             max-width: 1120px;
             margin: 0 auto;
-            padding: 12px 20px;
+            padding: max(10px, env(safe-area-inset-top)) 16px 10px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 16px;
+            gap: 10px;
         }
         .brand {
             font-family: 'Charm', cursive;
-            font-size: 24px;
+            font-size: clamp(20px, 4.8vw, 24px);
             font-weight: 700;
             color: var(--gold-bright);
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
+            white-space: nowrap;
         }
         .brand .cn {
             font-family: 'Noto Serif SC', serif;
@@ -381,7 +382,10 @@
         }
         @media (max-width: 560px) {
             .nav-links .hide-sm { display: none; }
-            .vol-grid { grid-template-columns: 1fr; }
+            .brand .cn { display: none; }
+            .nav-cta { padding: 6px 12px; font-size: 13px; white-space: nowrap; }
+            .vol-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+            .hero { padding: 28px 0 32px; }
         }
     </style>
 </head>
@@ -401,7 +405,7 @@
     <main class="wrap">
         <section class="hero" style="border-top:none;">
             <div class="cover-frame">
-                <img src="Cover_Vol1.png" alt="ปกนิยาย ธุลีเหนือสวรรค์ เล่มที่ 1">
+                <img src="Cover_Vol1_web.webp" alt="ปกนิยาย ธุลีเหนือสวรรค์ เล่มที่ 1" decoding="async" fetchpriority="high">
             </div>
             <div>
                 <div class="hero-eyebrow">Dust Above the Heavens · Eastern Cultivation Epic</div>
@@ -455,7 +459,7 @@
             </div>
             <div class="vol-grid">
                 <div class="vol-card">
-                    <img src="Cover_Vol1.png" alt="ปกเล่มที่ 1">
+                    <img src="Cover_Vol1_web.webp" alt="ปกเล่มที่ 1" loading="lazy" decoding="async">
                     <div class="vol-body">
                         <div class="vol-badge">เล่มที่ ๑</div>
                         <div class="vol-name">ตะกอนใต้เงาศิลาคราม</div>
@@ -464,7 +468,7 @@
                     </div>
                 </div>
                 <div class="vol-card">
-                    <img src="Cover_Vol2.png" alt="ปกเล่มที่ 2">
+                    <img src="Cover_Vol2_web.webp" alt="ปกเล่มที่ 2" loading="lazy" decoding="async">
                     <div class="vol-body">
                         <div class="vol-badge">เล่มที่ ๒</div>
                         <div class="vol-name">รอยเลือดริมแม่น้ำหมอก</div>
@@ -473,7 +477,7 @@
                     </div>
                 </div>
                 <div class="vol-card">
-                    <img src="Cover_Vol3.png" alt="ปกเล่มที่ 3">
+                    <img src="Cover_Vol3_web.webp" alt="ปกเล่มที่ 3" loading="lazy" decoding="async">
                     <div class="vol-body">
                         <div class="vol-badge">เล่มที่ ๓</div>
                         <div class="vol-name">แดนรกร้างและแนวกำแพงเหล็ก</div>
@@ -482,7 +486,7 @@
                     </div>
                 </div>
                 <div class="vol-card">
-                    <img src="Cover_Vol4.png" alt="ปกเล่มที่ 4">
+                    <img src="Cover_Vol4_web.webp" alt="ปกเล่มที่ 4" loading="lazy" decoding="async">
                     <div class="vol-body">
                         <div class="vol-badge">เล่มที่ ๔</div>
                         <div class="vol-name">เก้าแคว้นและเงาสะท้อนเมืองหลวง</div>
@@ -500,7 +504,7 @@
             </div>
             <div class="chart-card">
                 <div class="chart-img-wrap" onclick="openChartLightbox()" title="คลิกเพื่อขยายดูภาพขนาดเต็ม">
-                    <img src="power_system_table.png" alt="ตารางเปรียบเทียบขั้นระบบพลัง ธุลีเหนือสวรรค์">
+                    <img src="power_system_table_web.webp" alt="ตารางเปรียบเทียบขั้นระบบพลัง ธุลีเหนือสวรรค์" loading="lazy" decoding="async">
                 </div>
                 <div class="chart-toolbar">
                     <span>💡 คลิกที่รูปตารางเพื่อขยายดูขนาดเต็มได้</span>
@@ -548,6 +552,12 @@
         }
         function closeChartLightbox() {
             document.getElementById('chartLightbox').classList.remove('open');
+        }
+
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js').then(reg => reg.update()).catch(() => {});
+            });
         }
     </script>
 </body>
