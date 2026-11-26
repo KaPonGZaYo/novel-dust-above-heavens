@@ -1,0 +1,2515 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="googlebot" content="noindex, nofollow">
+    <title>ระบบหลังบ้านจัดการเนื้อหา - ธุลีเหนือสวรรค์ (Author Studio)</title>
+    <link rel="icon" type="image/png" href="icon-192.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Charm:wght@400;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #0f1117;
+            --bg-card: #181b24;
+            --bg-sidebar: #13151e;
+            --bg-input: #202433;
+            --border: #2c3245;
+            --border-hover: #404963;
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --accent: #d4a359;
+            --accent-hover: #e5b56b;
+            --accent-glow: rgba(212, 163, 89, 0.25);
+            --danger: #ef4444;
+            --success: #10b981;
+            --warn: #f59e0b;
+            --header-h: 54px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Sarabun', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* 1. LOGIN SCREEN */
+        .login-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 16px;
+            background: radial-gradient(circle at top, #1e2436 0%, #0c0e14 100%);
+        }
+
+        .login-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 32px 24px;
+            width: 100%;
+            max-width: 410px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 30px var(--accent-glow);
+            text-align: center;
+        }
+
+        .login-logo {
+            font-family: 'Charm', cursive;
+            font-size: 32px;
+            color: var(--accent);
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .login-subtitle {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 22px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 6px;
+        }
+
+        .password-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 11px 13px;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 15px;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .password-wrap .form-control { padding-right: 42px; }
+
+        .btn-toggle-pw {
+            position: absolute;
+            right: 8px;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 16px;
+            padding: 4px 6px;
+            border-radius: 6px;
+        }
+
+        .btn-toggle-pw:hover { color: var(--accent); }
+
+        .form-control:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #c49348 0%, #e0b067 100%);
+            border: none;
+            border-radius: 10px;
+            color: #10121a;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px var(--accent-glow);
+        }
+
+        .login-error {
+            display: none;
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            color: #fca5a5;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 13px;
+            margin-bottom: 16px;
+        }
+
+        .login-notice {
+            display: none;
+            background: rgba(245, 158, 11, 0.14);
+            border: 1px solid rgba(245, 158, 11, 0.4);
+            color: #fcd34d;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 13px;
+            margin-bottom: 16px;
+        }
+
+        .login-back-link {
+            display: inline-block;
+            margin-top: 14px;
+            font-size: 13px;
+            color: var(--text-muted);
+            text-decoration: none;
+        }
+
+        .login-back-link:hover { color: var(--accent); text-decoration: underline; }
+
+        .login-badge-info {
+            margin-top: 16px;
+            font-size: 12px;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border);
+            padding-top: 14px;
+        }
+
+        /* 2. ADMIN APP SCREEN */
+        .app-wrap {
+            display: none;
+            height: 100vh;
+            flex-direction: column;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .app-wrap.focus-mode aside.sidebar,
+        .app-wrap.focus-mode aside.preview-pane {
+            display: none !important;
+        }
+
+        .app-wrap.focus-mode textarea.chapter-textarea {
+            max-width: 820px;
+            margin: 0 auto;
+            font-size: 18px;
+            line-height: 2;
+        }
+
+        header.admin-header {
+            height: var(--header-h);
+            background: var(--bg-sidebar);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 12px;
+            flex-shrink: 0;
+            z-index: 100;
+            position: relative;
+            gap: 8px;
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 0;
+            flex: 1;
+        }
+
+        .header-title {
+            font-family: 'Charm', cursive;
+            font-size: 20px;
+            color: var(--accent);
+            font-weight: 700;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .server-status-pill {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--success);
+            flex-shrink: 0;
+        }
+
+        .status-dot.offline { background: var(--warn); }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+
+        .btn {
+            background: var(--bg-card);
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.15s ease;
+            text-decoration: none;
+            white-space: nowrap;
+            flex-shrink: 0;
+            font-family: inherit;
+        }
+
+        .btn:hover { border-color: var(--border-hover); background: var(--bg-input); }
+        .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+        .btn.active-toggle { border-color: var(--accent); color: var(--accent); background: rgba(212, 163, 89, 0.14); }
+
+        .btn-accent {
+            background: var(--accent);
+            color: #11141d;
+            border-color: var(--accent);
+            font-weight: 700;
+        }
+        .btn-accent:hover { background: var(--accent-hover); }
+
+        .btn-danger {
+            background: rgba(239, 68, 68, 0.15);
+            border-color: rgba(239, 68, 68, 0.3);
+            color: #fca5a5;
+        }
+        .btn-danger:hover { background: rgba(239, 68, 68, 0.25); }
+
+        .btn-more-menu { display: none; padding: 6px 10px; font-size: 16px; font-weight: 700; }
+
+        .mobile-only { display: none; }
+
+        /* Mobile Dropdown Menu */
+        .more-dropdown {
+            display: none;
+            position: absolute;
+            top: calc(var(--header-h) + 4px);
+            right: 12px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.6);
+            min-width: 235px;
+            z-index: 500;
+            padding: 6px 0;
+            animation: fadeIn 0.15s ease-out;
+        }
+        .more-dropdown.open { display: block; }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 16px;
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            width: 100%;
+            text-align: left;
+            font-family: inherit;
+        }
+        .dropdown-item:hover { background: var(--bg-input); }
+        .dropdown-divider { height: 1px; background: var(--border); margin: 6px 0; }
+
+        /* Main Workspace */
+        .workspace {
+            display: flex;
+            flex: 1;
+            min-height: 0;
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        /* Sidebar */
+        aside.sidebar {
+            width: 315px;
+            background: var(--bg-sidebar);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+            transition: transform 0.25s ease;
+            z-index: 60;
+        }
+
+        .sidebar-header {
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 6px;
+            background: var(--bg-card);
+        }
+
+        .sidebar-actions {
+            display: flex;
+            gap: 6px;
+            padding: 8px 10px;
+            border-bottom: 1px solid var(--border);
+            background: var(--bg-sidebar);
+        }
+
+        .sidebar-actions .btn {
+            flex: 1;
+            justify-content: center;
+            font-size: 12px;
+            padding: 6px 8px;
+        }
+
+        .sidebar-vol-tabs {
+            display: flex;
+            gap: 4px;
+            padding: 8px 10px;
+            background: var(--bg-sidebar);
+            border-bottom: 1px solid var(--border);
+            overflow-x: auto;
+            flex-shrink: 0;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .vol-tab-btn {
+            background: var(--bg-input);
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 4px 8px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            font-family: inherit;
+        }
+
+        .vol-tab-btn.active {
+            background: var(--accent);
+            color: #11141d;
+            border-color: var(--accent);
+            font-weight: 700;
+        }
+
+        .sidebar-search-box { padding: 8px 10px; border-bottom: 1px solid var(--border); }
+
+        .sidebar-search-input {
+            width: 100%;
+            padding: 7px 12px;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 13px;
+            outline: none;
+            font-family: inherit;
+        }
+        .sidebar-search-input:focus { border-color: var(--accent); }
+
+        .chapter-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .chapter-card {
+            padding: 9px 11px;
+            border-radius: 8px;
+            margin-bottom: 6px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all 0.15s;
+        }
+        .chapter-card:hover { background: var(--bg-card); border-color: var(--border); }
+        .chapter-card.active { background: rgba(212, 163, 89, 0.15); border-color: var(--accent); }
+
+        .chapter-card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3px;
+            gap: 6px;
+        }
+
+        .chapter-card-id {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--accent);
+            background: var(--bg-input);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .chapter-draft-dot {
+            font-size: 10px;
+            color: #fbbf24;
+            background: rgba(251, 191, 36, 0.15);
+            border: 1px solid rgba(251, 191, 36, 0.35);
+            padding: 1px 5px;
+            border-radius: 4px;
+            font-weight: 700;
+        }
+
+        .chapter-card-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-main);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .chapter-card-meta {
+            font-size: 11px;
+            color: var(--text-muted);
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3px;
+        }
+
+        /* Mobile Chapter Selector Bar */
+        .mobile-chapter-selector-bar {
+            display: none;
+            background: linear-gradient(90deg, #1f2537 0%, #151822 100%);
+            border-bottom: 1px solid var(--border);
+            padding: 8px 12px;
+            cursor: pointer;
+            user-select: none;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+        .selector-info { display: flex; align-items: center; gap: 8px; min-width: 0; flex: 1; }
+        .selector-badge { background: var(--accent); color: #11141d; font-size: 11px; font-weight: 700; padding: 2px 7px; border-radius: 6px; white-space: nowrap; }
+        .selector-title { font-size: 13px; font-weight: 600; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .selector-action { font-size: 11px; color: var(--accent); font-weight: 700; white-space: nowrap; }
+
+        /* Editor Pane */
+        main.editor-pane {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: var(--bg-main);
+            min-width: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .editor-topbar {
+            padding: 8px 14px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--bg-card);
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .editor-title-input {
+            flex: 1;
+            min-width: 0;
+            font-size: 15px;
+            font-weight: 600;
+            padding: 7px 10px;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: #fff;
+            outline: none;
+            font-family: inherit;
+        }
+        .editor-title-input:focus { border-color: var(--accent); }
+
+        .editor-stats {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 12px;
+            color: var(--text-muted);
+            flex-shrink: 0;
+            white-space: nowrap;
+        }
+
+        .stat-pill {
+            padding: 2px 7px;
+            border-radius: 6px;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+        }
+        .stat-pill.good { border-color: rgba(16, 185, 129, 0.45); color: #6ee7b7; }
+        .stat-pill.short { border-color: rgba(245, 158, 11, 0.45); color: #fcd34d; }
+
+        .dirty-badge { display: none; color: #fbbf24; font-size: 12px; font-weight: 700; }
+
+        .draft-banner {
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 7px 14px;
+            background: rgba(245, 158, 11, 0.13);
+            border-bottom: 1px solid rgba(245, 158, 11, 0.35);
+            color: #fde68a;
+            font-size: 12.5px;
+            flex-shrink: 0;
+        }
+
+        .editor-toolbar {
+            padding: 6px 12px;
+            background: var(--bg-sidebar);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            overflow-x: auto;
+            flex-shrink: 0;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .tool-sep {
+            width: 1px;
+            height: 18px;
+            background: var(--border);
+            flex-shrink: 0;
+            margin: 0 2px;
+        }
+
+        .tool-btn {
+            background: var(--bg-input);
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 4px 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            flex-shrink: 0;
+            font-family: inherit;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .tool-btn:hover { border-color: var(--accent); color: var(--accent); }
+        .tool-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+        .tool-btn.active { border-color: var(--accent); color: #11141d; background: var(--accent); }
+
+        .editor-body-wrap {
+            display: flex;
+            flex: 1;
+            min-height: 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .editor-textarea-wrap {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            height: 100%;
+        }
+
+        textarea.chapter-textarea {
+            flex: 1;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-main);
+            color: #e2e8f0;
+            padding: 16px 20px;
+            font-family: 'Sarabun', sans-serif;
+            font-size: 16px;
+            line-height: 1.88;
+            border: none;
+            outline: none;
+            resize: none;
+            white-space: pre-wrap;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Preview Panel */
+        aside.preview-pane {
+            width: 48%;
+            border-left: 1px solid var(--border);
+            background: #f8f5ec;
+            color: #2d2925;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+        aside.preview-pane.hidden { display: none; }
+
+        .preview-header {
+            padding: 8px 14px;
+            background: #ede6d6;
+            border-bottom: 1px solid #d8ceba;
+            color: #665b4f;
+            font-size: 12px;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .btn-preview-back {
+            display: none;
+            background: #9a7432;
+            color: #fff;
+            border: none;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .preview-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 24px;
+            font-family: 'Sarabun', sans-serif;
+            font-size: 18px;
+            line-height: 1.95;
+            -webkit-overflow-scrolling: touch;
+        }
+        .preview-content h1 { font-size: 22px; color: #181410; text-align: center; margin: 8px 0 20px; line-height: 1.4; }
+        .preview-content p { margin-bottom: 18px; text-indent: 1.8em; text-align: justify; }
+        .preview-content .divider { text-align: center; color: #9a7432; margin: 24px 0; letter-spacing: 6px; font-size: 16px; }
+        .preview-content .quote-box { background: #ece5d3; border-left: 4px solid #b89758; padding: 12px 16px; margin: 18px 0; border-radius: 0 6px 6px 0; font-style: italic; }
+        .preview-content strong { font-weight: 700; color: #1a1612; }
+        .preview-content em { font-style: italic; color: #554a3d; }
+
+        /* Quick Reference Slide-over Drawer */
+        .ref-drawer {
+            display: none;
+            position: fixed;
+            top: var(--header-h);
+            right: 0;
+            width: 540px;
+            max-width: 96vw;
+            height: calc(100vh - var(--header-h));
+            background: var(--bg-sidebar);
+            border-left: 1px solid var(--border);
+            box-shadow: -12px 0 40px rgba(0,0,0,0.65);
+            z-index: 450;
+            flex-direction: column;
+        }
+        .ref-drawer.open { display: flex; }
+
+        .ref-drawer-head {
+            padding: 10px 14px;
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .ref-tabs {
+            display: flex;
+            gap: 5px;
+            padding: 8px 12px;
+            border-bottom: 1px solid var(--border);
+            overflow-x: auto;
+            flex-shrink: 0;
+        }
+
+        .ref-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 14px 16px;
+            font-size: 13.5px;
+            line-height: 1.7;
+            white-space: pre-wrap;
+            font-family: 'Sarabun', sans-serif;
+            color: #d8dee9;
+        }
+
+        /* Modals */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.72);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+        .modal.open { display: flex; }
+
+        .modal-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            width: 100%;
+            max-width: 580px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+            animation: zoomIn 0.2s ease-out;
+        }
+        .modal-card.wide { max-width: 720px; }
+
+        .modal-card-header {
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 700;
+            font-size: 15px;
+        }
+        .modal-card-body { padding: 16px 18px; max-height: 66vh; overflow-y: auto; }
+        .modal-card-footer {
+            padding: 12px 18px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            background: var(--bg-sidebar);
+            flex-wrap: wrap;
+        }
+
+        /* Lint Cards */
+        .lint-summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+        .lint-box {
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 10px;
+            text-align: center;
+        }
+        .lint-box .val { font-size: 20px; font-weight: 700; color: var(--accent); }
+        .lint-box .lbl { font-size: 11px; color: var(--text-muted); }
+
+        .lint-item {
+            padding: 10px 12px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            font-size: 13px;
+            border: 1px solid var(--border);
+            background: var(--bg-sidebar);
+        }
+        .lint-item.pass { border-color: rgba(16, 185, 129, 0.4); color: #a7f3d0; }
+        .lint-item.warn { border-color: rgba(245, 158, 11, 0.45); color: #fde68a; }
+        .lint-item.err { border-color: rgba(239, 68, 68, 0.5); color: #fecaca; }
+
+        /* Backup List */
+        .backup-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 10px 12px;
+            border: 1px solid var(--border);
+            background: var(--bg-sidebar);
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+        .backup-preview {
+            margin-top: 12px;
+            background: #0b0c10;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px;
+            max-height: 220px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            font-size: 12.5px;
+            line-height: 1.65;
+            color: #cbd5e1;
+        }
+
+        .sidebar-backdrop {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(2px);
+            z-index: 55;
+        }
+        .sidebar-backdrop.active { display: block; }
+
+        /* Toast */
+        .toast-box {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-width: calc(100vw - 40px);
+        }
+        .toast {
+            background: #1e293b;
+            color: #fff;
+            border: 1px solid var(--border);
+            padding: 10px 16px;
+            border-radius: 8px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+            font-size: 13px;
+            animation: slideIn 0.25s ease-out;
+            word-break: break-word;
+        }
+        .toast.success { border-color: rgba(16, 185, 129, 0.6); background: #064e3b; }
+        .toast.error { border-color: rgba(239, 68, 68, 0.6); background: #7f1d1d; }
+        .toast.warn { border-color: rgba(245, 158, 11, 0.6); background: #78350f; }
+
+        @keyframes slideIn { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes zoomIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+
+        @media (max-width: 960px) {
+            .desktop-only { display: none !important; }
+            .mobile-only { display: inline !important; }
+            .btn-more-menu { display: inline-flex; }
+            .mobile-chapter-selector-bar { display: flex; }
+            .header-title { font-size: 17px; }
+            .server-status-pill .status-text-full { display: none; }
+            .server-status-pill .status-text-short { display: inline; }
+
+            aside.sidebar {
+                position: fixed;
+                top: 0; left: 0;
+                width: 300px; max-width: 85vw;
+                height: 100%;
+                z-index: 60;
+                transform: translateX(-100%);
+                box-shadow: 4px 0 30px rgba(0,0,0,0.7);
+            }
+            aside.sidebar.mobile-open { transform: translateX(0); }
+
+            aside.preview-pane {
+                display: none;
+                position: absolute;
+                inset: 0;
+                width: 100%; height: 100%;
+                z-index: 40;
+                border-left: none;
+            }
+            aside.preview-pane.mobile-active { display: flex; }
+            .btn-preview-back { display: inline-block; }
+
+            .editor-topbar { flex-direction: column; align-items: stretch; gap: 6px; padding: 8px 12px; }
+            .editor-stats { justify-content: space-between; width: 100%; flex-wrap: wrap; }
+        }
+
+        @media (min-width: 961px) {
+            .server-status-pill .status-text-short { display: none; }
+            .sidebar-header .btn-close-sidebar { display: none; }
+        }
+
+        @media (max-width: 480px) {
+            .btn { padding: 5px 8px; font-size: 12px; }
+            .header-title { max-width: 105px; }
+            textarea.chapter-textarea { padding: 12px 14px; font-size: 15px; }
+            .preview-content { padding: 16px; font-size: 17px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. LOGIN SCREEN -->
+    <div class="login-wrap" id="loginWrap">
+        <div class="login-card">
+            <div class="login-logo">ธุลีเหนือสวรรค์</div>
+            <div class="login-subtitle">ระบบจัดการเนื้อหาต้นฉบับหลังบ้าน (Author Studio v2)</div>
+
+            <div class="login-notice" id="loginNotice"></div>
+            <div class="login-error" id="loginError">ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง</div>
+
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="usernameInput">ชื่อผู้ใช้ (Admin Username)</label>
+                    <input type="text" id="usernameInput" class="form-control" autocomplete="username" placeholder="ระบุ username" required>
+                </div>
+                <div class="form-group">
+                    <label for="passwordInput">รหัสผ่าน (Password)</label>
+                    <div class="password-wrap">
+                        <input type="password" id="passwordInput" class="form-control" autocomplete="current-password" placeholder="ระบุ password" required>
+                        <button type="button" class="btn-toggle-pw" id="btnTogglePw" onclick="togglePasswordVisibility()" title="แสดง/ซ่อนรหัสผ่าน">👁️</button>
+                    </div>
+                </div>
+
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; font-size: 13px;">
+                    <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                        <input type="checkbox" id="rememberMe" checked> จดจำการเข้าสู่ระบบ
+                    </label>
+                </div>
+
+                <button type="submit" class="login-btn" id="loginSubmitBtn">เข้าสู่ระบบหลังบ้าน</button>
+            </form>
+
+            <a href="index.html" class="login-back-link">← กลับไปหน้าเว็บอ่านนิยาย</a>
+
+            <div class="login-badge-info">
+                🔒 ระบบสงวนสิทธิ์เฉพาะผู้แต่งเท่านั้น · ยืนยันตัวตนแบบเข้ารหัส
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. ADMIN DASHBOARD SCREEN -->
+    <div class="app-wrap" id="appWrap">
+        <header class="admin-header">
+            <div class="header-brand">
+                <button class="btn" onclick="toggleSidebar()" title="เปิด/ปิด รายการตอน" id="btnToggleSidebar">
+                    📚 <span class="desktop-only">รายการ</span>ตอน
+                </button>
+                <div class="header-title" title="ธุลีเหนือสวรรค์">ธุลีเหนือสวรรค์</div>
+                <div class="server-status-pill" id="serverStatusPill">
+                    <span class="status-dot" id="serverStatusDot"></span>
+                    <span class="status-text-full" id="serverStatusTextFull">กำลังตรวจสอบ...</span>
+                    <span class="status-text-short" id="serverStatusTextShort">ตรวจ...</span>
+                </div>
+            </div>
+
+            <div class="header-actions">
+                <button class="btn btn-accent" onclick="saveCurrentChapter()" id="btnSave" title="บันทึกไฟล์ (Ctrl+S)">
+                    💾 <span class="btn-save-text">บันทึก</span>
+                </button>
+                <button class="btn" onclick="togglePreview()" id="btnPreview" title="สลับเปิด/ปิด หน้าจอจำลองมุมมองผู้อ่าน">
+                    👁️ <span class="desktop-only">ตัวอย่าง</span><span class="mobile-only">พรีวิว</span>
+                </button>
+                <button class="btn desktop-only" onclick="openLintModal()" title="ตรวจมาตรฐานภาษาและ Canon">
+                    🧹 ตรวจภาษา
+                </button>
+                <button class="btn desktop-only" id="btnRefDrawer" onclick="toggleRefDrawer()" title="เปิดแผงอ้างอิง Canon & สถานะเรื่อง">
+                    📖 อ้างอิง Canon
+                </button>
+                <button class="btn desktop-only" onclick="openPublishModal()" title="เผยแพร่ขึ้น GitHub Pages & Google Drive">
+                    🚀 เผยแพร่
+                </button>
+                <a href="index.html" target="_blank" class="btn desktop-only" title="เปิดหน้าเว็บอ่านนิยายหลัก">
+                    🌐 หน้าเว็บ
+                </a>
+                <button class="btn btn-danger desktop-only" onclick="logout()" title="ออกจากระบบ">
+                    🚪 ออก
+                </button>
+                <button class="btn btn-more-menu" onclick="toggleMoreMenu(event)" title="เมนูเพิ่มเติม">⋮</button>
+            </div>
+
+            <!-- Mobile Dropdown Menu -->
+            <div class="more-dropdown" id="moreDropdown">
+                <button class="dropdown-item" onclick="openNewChapterModal(); closeMoreMenu();">➕ สร้างตอนใหม่</button>
+                <button class="dropdown-item" onclick="openLintModal(); closeMoreMenu();">🧹 ตรวจมาตรฐานภาษา/Canon</button>
+                <button class="dropdown-item" onclick="toggleRefDrawer(); closeMoreMenu();">📖 แผงอ้างอิง Canon</button>
+                <button class="dropdown-item" onclick="openBackupsModal(); closeMoreMenu();">🕒 ประวัติสำรองไฟล์</button>
+                <button class="dropdown-item" onclick="openSearchReplaceModal(); closeMoreMenu();">🔍 ค้นหาและแทนที่คำ</button>
+                <button class="dropdown-item" onclick="toggleFocusMode(); closeMoreMenu();">🧘 โหมดโฟกัส</button>
+                <div class="dropdown-divider"></div>
+                <button class="dropdown-item" onclick="openPublishModal(); closeMoreMenu();">🚀 เผยแพร่เว็บ (GitHub & GDrive)</button>
+                <button class="dropdown-item" onclick="openCurrentInReader(); closeMoreMenu();">📖 เปิดอ่านตอนนี้จริง</button>
+                <button class="dropdown-item" onclick="downloadCurrentMarkdown(); closeMoreMenu();">📥 ดาวน์โหลดไฟล์ .md</button>
+                <div class="dropdown-divider"></div>
+                <button class="dropdown-item" style="color: #fca5a5;" onclick="logout(); closeMoreMenu();">🚪 ออกจากระบบ</button>
+            </div>
+        </header>
+
+        <div class="workspace">
+            <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="closeSidebar()"></div>
+
+            <aside class="sidebar" id="sidebar">
+                <div class="sidebar-header">
+                    <span style="font-weight: 700; color: var(--accent); font-size: 14px;">📑 สารบัญตอน (<span id="sidebarTotalCount">0</span>)</span>
+                    <button class="btn btn-close-sidebar" onclick="closeSidebar()" style="padding: 3px 8px; font-size: 12px;">✕ ปิด</button>
+                </div>
+
+                <div class="sidebar-actions">
+                    <button class="btn btn-accent" onclick="openNewChapterModal()">➕ สร้างตอนใหม่</button>
+                    <button class="btn" onclick="jumpToLatestChapter()">⚡ ตอนล่าสุด</button>
+                </div>
+
+                <!-- Dynamic Volume Tabs -->
+                <div class="sidebar-vol-tabs" id="volTabsContainer"></div>
+
+                <div class="sidebar-search-box">
+                    <input type="text" id="chapterSearch" class="sidebar-search-input" placeholder="🔍 ค้นหาตอน (เลข หรือ ชื่อ)..." oninput="filterChapters()">
+                </div>
+                <div class="chapter-list" id="chapterList"></div>
+            </aside>
+
+            <main class="editor-pane">
+                <div class="mobile-chapter-selector-bar" onclick="openSidebar()" title="แตะเพื่อเลือกตอนอื่น">
+                    <div class="selector-info">
+                        <span class="selector-badge" id="currentChapBadge">ตอนที่ 1</span>
+                        <span class="selector-title" id="currentChapTitle">กำลังโหลด...</span>
+                    </div>
+                    <span class="selector-action">📑 เปลี่ยนตอน ▾</span>
+                </div>
+
+                <div class="editor-topbar">
+                    <input type="text" id="chapterTitleInput" class="editor-title-input" placeholder="ตอนที่ X: ชื่อตอน..." oninput="handleTitleInput()">
+                    <div class="editor-stats">
+                        <span class="dirty-badge" id="dirtyBadge">⚠️ ยังไม่บันทึก</span>
+                        <span class="stat-pill" id="statWordCount">คำไทย: 0</span>
+                        <span class="stat-pill" id="statSizeKb">0 KB</span>
+                        <span class="stat-pill desktop-only" id="statReadTime">~0 นาที</span>
+                    </div>
+                </div>
+
+                <div class="draft-banner" id="draftBanner">
+                    <span>📝 กำลังแสดงฉบับร่างที่ค้างอยู่ในเบราว์เซอร์ (ยังไม่เขียนทับไฟล์หลัก)</span>
+                    <button class="btn" style="padding:3px 9px;font-size:12px;" onclick="discardLocalDraft()">↩️ คืนค่าต้นฉบับ</button>
+                </div>
+
+                <div class="editor-toolbar">
+                    <button class="tool-btn" id="btnPrevChap" onclick="stepChapter(-1)" title="ตอนก่อนหน้า">← ก่อนหน้า</button>
+                    <button class="tool-btn" id="btnNextChap" onclick="stepChapter(1)" title="ตอนถัดไป">ถัดไป →</button>
+                    <span class="tool-sep"></span>
+                    <button class="tool-btn" onclick="insertSyntax('*', '*')" title="ตัวเอียง (ใช้เน้นเสียงหรือความคิด)"><em>I ตัวเอียง</em></button>
+                    <button class="tool-btn" onclick="insertLineSyntax('> ')" title="กล่องข้อความ">&gt; คำพูด</button>
+                    <button class="tool-btn" onclick="insertText('\n---\n')" title="เส้นแบ่งฉาก">❖ เส้นคั่น</button>
+                    <span class="tool-sep"></span>
+                    <button class="tool-btn" onclick="openSearchReplaceModal()" title="ค้นหาและแทนที่คำ">🔍 แทนที่คำ</button>
+                    <button class="tool-btn" onclick="openLintModal()" title="ตรวจคำต้องห้ามและตัวหนา">🧹 ตรวจภาษา</button>
+                    <button class="tool-btn" onclick="openBackupsModal()" title="ดูประวัติสำรองและกู้คืน">🕒 สำรองไฟล์</button>
+                    <button class="tool-btn" onclick="openCurrentInReader()" title="เปิดอ่านตอนนี้ในหน้าอ่านจริง">📖 อ่านจริง</button>
+                    <button class="tool-btn" id="btnFocusMode" onclick="toggleFocusMode()" title="โหมดพิมพ์ไร้สิ่งรบกวน">🧘 โฟกัส</button>
+                    <button class="tool-btn" onclick="downloadCurrentMarkdown()" title="ดาวน์โหลดไฟล์ .md ลงเครื่อง">📥 .md</button>
+                </div>
+
+                <div class="editor-body-wrap">
+                    <div class="editor-textarea-wrap">
+                        <textarea id="chapterContent" class="chapter-textarea" placeholder="⏳ กำลังโหลดเนื้อหานิยาย..." oninput="handleContentInput()"></textarea>
+                    </div>
+
+                    <aside class="preview-pane" id="previewPane">
+                        <div class="preview-header">
+                            <span id="previewChapterTag">👀 ตัวอย่างผู้อ่าน</span>
+                            <button class="btn-preview-back" onclick="togglePreview()">✍️ กลับไปแก้ไข</button>
+                        </div>
+                        <div class="preview-content" id="previewContent"></div>
+                    </aside>
+                </div>
+            </main>
+        </div>
+
+        <!-- Quick Reference Drawer -->
+        <aside class="ref-drawer" id="refDrawer">
+            <div class="ref-drawer-head">
+                <span style="font-weight:700;color:var(--accent);font-size:14px;" id="refDrawerTitle">📖 แผงอ้างอิง Canon ด่วน</span>
+                <button class="btn" style="padding:3px 9px;font-size:12px;" onclick="toggleRefDrawer(false)">✕ ปิด</button>
+            </div>
+            <div class="ref-tabs">
+                <button class="vol-tab-btn active" onclick="loadRefDoc('continuity', this)">สถานะล่าสุด</button>
+                <button class="vol-tab-btn" onclick="loadRefDoc('canon', this)">มติ Canon</button>
+                <button class="vol-tab-btn" onclick="loadRefDoc('arc5', this)">โครงภาค 5</button>
+                <button class="vol-tab-btn" onclick="loadRefDoc('cultivation', this)">ระบบพลัง</button>
+                <button class="vol-tab-btn" onclick="loadRefDoc('inventory', this)">คลังพระเอก</button>
+            </div>
+            <div class="ref-body" id="refDrawerBody">กำลังโหลดเอกสารอ้างอิง...</div>
+        </aside>
+    </div>
+
+    <!-- MODAL: CREATE NEW CHAPTER -->
+    <div class="modal" id="newChapterModal">
+        <div class="modal-card">
+            <div class="modal-card-header">
+                <span>➕ สร้างตอนใหม่</span>
+                <button class="btn" onclick="closeModal('newChapterModal')">✕</button>
+            </div>
+            <div class="modal-card-body">
+                <div class="form-group">
+                    <label for="newChapIdInput">หมายเลขตอน</label>
+                    <input type="number" id="newChapIdInput" class="form-control" min="1" max="9999">
+                </div>
+                <div class="form-group">
+                    <label for="newChapTitleInput">ชื่อตอน (ไม่ต้องพิมพ์คำว่า "ตอนที่ X:" นำหน้าก็ได้)</label>
+                    <input type="text" id="newChapTitleInput" class="form-control" placeholder="เช่น ศึกปิดบัญชีหน้ากากเหล็ก">
+                </div>
+            </div>
+            <div class="modal-card-footer">
+                <button class="btn" onclick="closeModal('newChapterModal')">ยกเลิก</button>
+                <button class="btn btn-accent" id="btnCreateChapter" onclick="createNewChapter()">สร้างและเปิดเขียนทันที</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: PROSE & CANON LINT -->
+    <div class="modal" id="lintModal">
+        <div class="modal-card wide">
+            <div class="modal-card-header">
+                <span>🧹 ตรวจมาตรฐานภาษา &amp; Canon ของตอนนี้</span>
+                <button class="btn" onclick="closeModal('lintModal')">✕</button>
+            </div>
+            <div class="modal-card-body" id="lintModalBody"></div>
+            <div class="modal-card-footer">
+                <button class="btn" id="btnStripBolds" onclick="stripInlineBolds()">✨ ล้างตัวหนา (**) ในเนื้อเรื่องทั้งหมด</button>
+                <button class="btn btn-accent" onclick="closeModal('lintModal')">ปิด</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: BACKUP HISTORY -->
+    <div class="modal" id="backupsModal">
+        <div class="modal-card wide">
+            <div class="modal-card-header">
+                <span>🕒 ประวัติสำรองไฟล์ — <span id="backupsChapLabel">ตอนที่ ?</span></span>
+                <button class="btn" onclick="closeModal('backupsModal')">✕</button>
+            </div>
+            <div class="modal-card-body">
+                <div id="backupsListArea">กำลังโหลดรายการสำรอง...</div>
+                <div id="backupPreviewWrap" style="display:none;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;">
+                        <strong style="font-size:13px;color:var(--accent);" id="backupPreviewName"></strong>
+                        <button class="btn btn-accent" style="padding:4px 10px;font-size:12px;" onclick="restorePreviewedBackup()">↩️ นำเนื้อหานี้มาแทนที่ใน Editor</button>
+                    </div>
+                    <div class="backup-preview" id="backupPreviewContent"></div>
+                </div>
+            </div>
+            <div class="modal-card-footer">
+                <button class="btn" onclick="closeModal('backupsModal')">ปิด</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: SEARCH & REPLACE -->
+    <div class="modal" id="searchReplaceModal">
+        <div class="modal-card">
+            <div class="modal-card-header">
+                <span>🔍 ค้นหาและแทนที่คำในตอนนี้</span>
+                <button class="btn" onclick="closeModal('searchReplaceModal')">✕</button>
+            </div>
+            <div class="modal-card-body">
+                <div class="form-group">
+                    <label>คำที่ต้องการค้นหา</label>
+                    <input type="text" id="findInput" class="form-control" placeholder="ข้อความเดิม...">
+                </div>
+                <div class="form-group">
+                    <label>แทนที่ด้วย</label>
+                    <input type="text" id="replaceInput" class="form-control" placeholder="ข้อความใหม่...">
+                </div>
+            </div>
+            <div class="modal-card-footer">
+                <button class="btn" onclick="closeModal('searchReplaceModal')">ยกเลิก</button>
+                <button class="btn btn-accent" onclick="performReplaceAll()">แทนที่ทั้งหมด</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: PUBLISH PIPELINE -->
+    <div class="modal" id="publishModal">
+        <div class="modal-card">
+            <div class="modal-card-header">
+                <span>🚀 เผยแพร่เว็บ (GitHub Pages &amp; Google Drive)</span>
+                <button class="btn" onclick="closeModal('publishModal')">✕</button>
+            </div>
+            <div class="modal-card-body">
+                <div id="publishDirtyWarn" style="display:none;background:rgba(245,158,11,0.16);border:1px solid rgba(245,158,11,0.45);color:#fde68a;padding:10px;border-radius:8px;font-size:13px;margin-bottom:12px;">
+                    ⚠️ คุณมีการแก้ไขในตอนนี้ที่ยังไม่ได้กด <strong>บันทึก (Ctrl+S)</strong> — แนะนำให้กดบันทึกก่อนเผยแพร่!
+                </div>
+                <p style="font-size: 13px; margin-bottom: 12px; color: var(--text-muted); line-height: 1.6;">
+                    ระบบจะรันกระบวนการอัตโนมัติ:<br>
+                    1. ขยับเวอร์ชันแคช (sw.js) และ Rebuild ข้อมูลเว็บ<br>
+                    2. Git Commit &amp; Push ขึ้น GitHub Pages ทันที<br>
+                    3. ซิงค์ต้นฉบับและ Google Docs ไปยัง Google Drive
+                </p>
+                <div class="form-group">
+                    <label>ข้อความระบุการอัปเดต (Commit Message)</label>
+                    <input type="text" id="commitMsgInput" class="form-control" value="Update manuscript via Web Admin">
+                </div>
+                <div id="publishOutputArea" style="display: none; margin-top: 12px; background: #0b0c10; border: 1px solid var(--border); border-radius: 8px; padding: 12px; font-family: 'Fira Code', monospace; font-size: 11px; max-height: 180px; overflow-y: auto; white-space: pre-wrap; color: #a5f3fc;"></div>
+            </div>
+            <div class="modal-card-footer">
+                <button class="btn" onclick="closeModal('publishModal')">ปิด</button>
+                <button class="btn btn-accent" id="btnExecutePublish" onclick="executePublish()">เริ่มเผยแพร่ทันที</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast-box" id="toastBox"></div>
+
+    <script>
+        // Static-mode SHA-256 credential hash (zero plaintext password in public HTML)
+        const STATIC_AUTH_HASH = "3261688dda463c8c6b049018a758b18a741c1fc5efff3346065bbe7a1400544e";
+
+        let authToken = localStorage.getItem('novel_admin_token') || sessionStorage.getItem('novel_admin_token') || null;
+        let isLocalServer = false;
+        let allChapters = [];
+        let rawChaptersCache = null;
+        let currentChapter = null;
+        let isDirty = false;
+        let activeVolumeFilter = 0;
+        let previewedBackupText = '';
+        let previewedBackupFilename = '';
+        const thaiSegmenter = (typeof Intl !== 'undefined' && Intl.Segmenter)
+            ? new Intl.Segmenter('th', { granularity: 'word' })
+            : null;
+
+        // Pure-JS SHA-256 fallback (for non-HTTPS origins where crypto.subtle may be unavailable)
+        async function sha256Hex(str) {
+            if (window.crypto && window.crypto.subtle) {
+                const buf = await window.crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+                return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+            }
+            const rightRotate = (v, a) => (v >>> a) | (v << (32 - a));
+            const maxWord = Math.pow(2, 32);
+            let result = '', words = [], asciiBitLength = str.length * 8;
+            let hash = [], k = [], primeCounter = 0, isComposite = {};
+            for (let candidate = 2; primeCounter < 64; candidate++) {
+                if (!isComposite[candidate]) {
+                    for (let i = 0; i < 313; i += candidate) isComposite[i] = candidate;
+                    hash[primeCounter] = (Math.pow(candidate, .5) * maxWord) | 0;
+                    k[primeCounter++] = (Math.pow(candidate, 1 / 3) * maxWord) | 0;
+                }
+            }
+            const utf8 = unescape(encodeURIComponent(str));
+            asciiBitLength = utf8.length * 8;
+            let s = utf8 + '\x80';
+            while (s.length % 64 - 56) s += '\x00';
+            for (let i = 0; i < s.length; i++) {
+                words[i >> 2] |= s.charCodeAt(i) << ((3 - i) % 4) * 8;
+            }
+            words[words.length] = ((asciiBitLength / maxWord) | 0);
+            words[words.length] = (asciiBitLength);
+            for (let j = 0; j < words.length;) {
+                const w = words.slice(j, j += 16);
+                const oldHash = hash.slice(0);
+                hash = hash.slice(0, 8);
+                for (let i = 0; i < 64; i++) {
+                    const w15 = w[i - 15], w2 = w[i - 2];
+                    const a = hash[0], e = hash[4];
+                    const temp1 = hash[7] + (rightRotate(e, 6) ^ rightRotate(e, 11) ^ rightRotate(e, 25)) + ((e & hash[5]) ^ ((~e) & hash[6])) + k[i]
+                        + (w[i] = (i < 16) ? w[i] : (w[i - 16] + (rightRotate(w15, 7) ^ rightRotate(w15, 18) ^ (w15 >>> 3)) + w[i - 7] + (rightRotate(w2, 17) ^ rightRotate(w2, 19) ^ (w2 >>> 10))) | 0);
+                    const temp2 = (rightRotate(a, 2) ^ rightRotate(a, 13) ^ rightRotate(a, 22)) + ((a & hash[1]) ^ (a & hash[2]) ^ (hash[1] & hash[2]));
+                    hash = [(temp1 + temp2) | 0].concat(hash);
+                    hash[4] = (hash[4] + temp1) | 0;
+                }
+                for (let i = 0; i < 8; i++) hash[i] = (hash[i] + oldHash[i]) | 0;
+            }
+            for (let i = 0; i < 8; i++) {
+                for (let j = 3; j + 1; j--) {
+                    const b = (hash[i] >> (j * 8)) & 255;
+                    result += ((b < 16) ? '0' : '') + b.toString(16);
+                }
+            }
+            return result;
+        }
+
+        // INITIALIZATION
+        window.addEventListener('DOMContentLoaded', async () => {
+            await checkServerStatus();
+
+            if (authToken && isLocalServer) {
+                const valid = await verifyLocalToken(authToken);
+                if (!valid) {
+                    clearAuthToken();
+                    showLogin('เซสชันหมดอายุ (Local Server เพิ่งรีสตาร์ต) กรุณาเข้าสู่ระบบใหม่อีกครั้งเพื่อบันทึกไฟล์ได้สมบูรณ์');
+                    return;
+                }
+            }
+
+            if (authToken) {
+                showApp();
+                await loadChapterList();
+            } else {
+                showLogin();
+            }
+
+            window.addEventListener('keydown', (e) => {
+                if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
+                    e.preventDefault();
+                    saveCurrentChapter();
+                } else if (e.key === 'Escape') {
+                    document.querySelectorAll('.modal.open').forEach(m => m.classList.remove('open'));
+                    toggleRefDrawer(false);
+                }
+            });
+
+            window.addEventListener('beforeunload', (e) => {
+                if (isDirty) {
+                    e.preventDefault();
+                    e.returnValue = '';
+                }
+            });
+
+            document.addEventListener('click', (e) => {
+                const dd = document.getElementById('moreDropdown');
+                const btn = document.querySelector('.btn-more-menu');
+                if (dd && dd.classList.contains('open') && !dd.contains(e.target) && !btn.contains(e.target)) {
+                    dd.classList.remove('open');
+                }
+            });
+        });
+
+        async function checkServerStatus() {
+            try {
+                const res = await fetch('/api/status', { method: 'GET' });
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.ok) {
+                        isLocalServer = true;
+                        setServerStatusUI(true, 'Local Server (เชื่อมต่อสมบูรณ์)', 'Local');
+                        return;
+                    }
+                }
+            } catch (e) {}
+            isLocalServer = false;
+            setServerStatusUI(false, 'โหมดเว็บตรง (GitHub Pages)', 'Web');
+        }
+
+        async function verifyLocalToken(token) {
+            try {
+                const res = await fetch('/api/check-auth', {
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+                if (res.ok) {
+                    const data = await res.json();
+                    return !!data.ok;
+                }
+            } catch (e) {}
+            return false;
+        }
+
+        function setServerStatusUI(isLive, labelFull, labelShort) {
+            const dot = document.getElementById('serverStatusDot');
+            const textFull = document.getElementById('serverStatusTextFull');
+            const textShort = document.getElementById('serverStatusTextShort');
+            if (dot) dot.className = isLive ? 'status-dot' : 'status-dot offline';
+            if (textFull) textFull.innerText = labelFull;
+            if (textShort) textShort.innerText = labelShort;
+        }
+
+        function togglePasswordVisibility() {
+            const inp = document.getElementById('passwordInput');
+            const btn = document.getElementById('btnTogglePw');
+            if (inp.type === 'password') {
+                inp.type = 'text';
+                btn.innerText = '🙈';
+            } else {
+                inp.type = 'password';
+                btn.innerText = '👁️';
+            }
+        }
+
+        function clearAuthToken() {
+            localStorage.removeItem('novel_admin_token');
+            localStorage.removeItem('novel_admin_crypto_key');
+            sessionStorage.removeItem('novel_admin_token');
+            authToken = null;
+        }
+
+        async function deriveAndStoreCryptoKey(username, password) {
+            if (!(window.crypto && window.crypto.subtle)) return;
+            try {
+                const enc = new TextEncoder();
+                const baseKey = await window.crypto.subtle.importKey(
+                    'raw',
+                    enc.encode(`${username}:${password}`),
+                    'PBKDF2',
+                    false,
+                    ['deriveBits']
+                );
+                const bits = await window.crypto.subtle.deriveBits(
+                    { name: 'PBKDF2', salt: enc.encode('dust-above-heavens-v1'), iterations: 100000, hash: 'SHA-256' },
+                    baseKey,
+                    256
+                );
+                const bytes = new Uint8Array(bits);
+                let bin = '';
+                for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+                localStorage.setItem('novel_admin_crypto_key', btoa(bin));
+            } catch (err) {
+                console.warn('Could not derive crypto key:', err);
+            }
+        }
+
+        async function decryptChaptersIfNeeded(data) {
+            if (!Array.isArray(data)) return data;
+            const b64 = localStorage.getItem('novel_admin_crypto_key');
+            if (!b64 || !(window.crypto && window.crypto.subtle)) return data;
+            try {
+                const bin = atob(b64);
+                const raw = new Uint8Array(bin.length);
+                for (let i = 0; i < bin.length; i++) raw[i] = bin.charCodeAt(i);
+                const key = await window.crypto.subtle.importKey('raw', raw, { name: 'AES-GCM' }, false, ['decrypt']);
+                const out = [];
+                for (const ch of data) {
+                    if (ch && ch.locked && ch.encrypted) {
+                        try {
+                            const ivBin = atob(ch.encrypted.iv);
+                            const iv = new Uint8Array(ivBin.length);
+                            for (let i = 0; i < ivBin.length; i++) iv[i] = ivBin.charCodeAt(i);
+                            const dataBin = atob(ch.encrypted.data);
+                            const ct = new Uint8Array(dataBin.length);
+                            for (let i = 0; i < dataBin.length; i++) ct[i] = dataBin.charCodeAt(i);
+                            const plainBuf = await window.crypto.subtle.decrypt({ name: 'AES-GCM', iv }, key, ct);
+                            const parsed = JSON.parse(new TextDecoder().decode(plainBuf));
+                            out.push({ id: ch.id, title: parsed.title || ch.title, paragraphs: parsed.paragraphs || [] });
+                        } catch (e) {
+                            out.push(ch);
+                        }
+                    } else {
+                        out.push(ch);
+                    }
+                }
+                return out;
+            } catch (e) {
+                return data;
+            }
+        }
+
+        // AUTHENTICATION
+        async function handleLogin(e) {
+            e.preventDefault();
+            const username = document.getElementById('usernameInput').value.trim();
+            const password = document.getElementById('passwordInput').value.trim();
+            const remember = document.getElementById('rememberMe').checked;
+            const errBox = document.getElementById('loginError');
+            const noticeBox = document.getElementById('loginNotice');
+
+            errBox.style.display = 'none';
+            noticeBox.style.display = 'none';
+
+            if (isLocalServer) {
+                try {
+                    const res = await fetch('/api/login', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ username, password })
+                    });
+                    const data = await res.json();
+                    if (res.ok && data.ok) {
+                        authToken = data.token;
+                        (remember ? localStorage : sessionStorage).setItem('novel_admin_token', authToken);
+                        await deriveAndStoreCryptoKey(username, password);
+                        showToast('เข้าสู่ระบบสำเร็จ ยินดีต้อนรับท่านผู้แต่ง!', 'success');
+                        showApp();
+                        await loadChapterList();
+                        return;
+                    }
+                    errBox.style.display = 'block';
+                    errBox.innerText = data.error || 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง';
+                    return;
+                } catch (err) {
+                    console.warn('API login failed:', err);
+                }
+            }
+
+            // Static GitHub Pages fallback (SHA-256 verification only)
+            const digest = await sha256Hex(`${username}:${password}`);
+            if (digest === STATIC_AUTH_HASH) {
+                authToken = 'static-token-' + Date.now();
+                (remember ? localStorage : sessionStorage).setItem('novel_admin_token', authToken);
+                await deriveAndStoreCryptoKey(username, password);
+                showToast('เข้าสู่ระบบโหมดเว็บตรงสำเร็จ!', 'success');
+                showApp();
+                await loadChapterList();
+            } else {
+                errBox.style.display = 'block';
+                errBox.innerText = 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง (เฉพาะผู้ดูแลระบบเท่านั้น)';
+            }
+        }
+
+        function logout() {
+            if (isDirty && !confirm('คุณมีเนื้อหาที่ยังไม่ได้บันทึก ต้องการออกจากระบบหรือไม่?')) return;
+            if (isLocalServer && authToken) {
+                fetch('/api/logout', {
+                    method: 'POST',
+                    headers: { 'Authorization': 'Bearer ' + authToken }
+                }).catch(() => {});
+            }
+            clearAuthToken();
+            showLogin();
+            showToast('ออกจากระบบเรียบร้อย', 'info');
+        }
+
+        function showLogin(noticeMsg = '') {
+            document.getElementById('loginWrap').style.display = 'flex';
+            document.getElementById('appWrap').style.display = 'none';
+            const noticeBox = document.getElementById('loginNotice');
+            if (noticeMsg) {
+                noticeBox.innerText = noticeMsg;
+                noticeBox.style.display = 'block';
+            } else {
+                noticeBox.style.display = 'none';
+            }
+        }
+
+        function showApp() {
+            document.getElementById('loginWrap').style.display = 'none';
+            document.getElementById('appWrap').style.display = 'flex';
+        }
+
+        // CHAPTER DATA & DYNAMIC VOLUME TABS
+        function htmlToMarkdown(htmlStr) {
+            if (!htmlStr) return '';
+            return htmlStr
+                .replace(/<strong>(.*?)<\/strong>/gi, '**$1**')
+                .replace(/<b>(.*?)<\/b>/gi, '**$1**')
+                .replace(/<em>(.*?)<\/em>/gi, '*$1*')
+                .replace(/<i>(.*?)<\/i>/gi, '*$1*')
+                .replace(/&amp;/g, '&')
+                .replace(/&lt;/g, '<')
+                .replace(/&gt;/g, '>')
+                .replace(/&quot;/g, '"')
+                .replace(/&#039;/g, "'");
+        }
+
+        async function fetchChaptersJSONWithFallback() {
+            if (rawChaptersCache && Array.isArray(rawChaptersCache) && rawChaptersCache.length > 0) {
+                return rawChaptersCache;
+            }
+            try {
+                const controller = new AbortController();
+                const tid = setTimeout(() => controller.abort(), 12000);
+                const res = await fetch('chapters.json?v=' + Date.now(), { cache: 'no-cache', signal: controller.signal });
+                clearTimeout(tid);
+                if (res.ok) {
+                    const data = await res.json();
+                    if (Array.isArray(data) && data.length > 0) { rawChaptersCache = await decryptChaptersIfNeeded(data); return rawChaptersCache; }
+                }
+            } catch (e) {}
+            try {
+                const res = await fetch('chapters.json');
+                if (res.ok) {
+                    const data = await res.json();
+                    if (Array.isArray(data) && data.length > 0) { rawChaptersCache = await decryptChaptersIfNeeded(data); return rawChaptersCache; }
+                }
+            } catch (e) {}
+            if ('caches' in window) {
+                try {
+                    const cached = await caches.match('chapters.json', { ignoreSearch: true }) || await caches.match('./chapters.json', { ignoreSearch: true });
+                    if (cached) {
+                        const data = await cached.json();
+                        if (Array.isArray(data) && data.length > 0) { rawChaptersCache = await decryptChaptersIfNeeded(data); return rawChaptersCache; }
+                    }
+                } catch (e) {}
+            }
+            return [];
+        }
+
+        function buildDynamicVolumeTabs() {
+            const container = document.getElementById('volTabsContainer');
+            if (!container) return;
+            const maxId = allChapters.reduce((m, c) => Math.max(m, c.id), 0);
+            const maxVol = Math.max(1, Math.ceil(maxId / 25));
+
+            let html = `<button class="vol-tab-btn ${activeVolumeFilter === 0 ? 'active' : ''}" onclick="setVolumeFilter(0, this)">ทั้งหมด</button>`;
+            for (let v = 1; v <= maxVol; v++) {
+                const s = (v - 1) * 25 + 1;
+                const e = v * 25;
+                html += `<button class="vol-tab-btn ${activeVolumeFilter === v ? 'active' : ''}" onclick="setVolumeFilter(${v}, this)">เล่ม ${v} (${s}–${e})</button>`;
+            }
+            container.innerHTML = html;
+        }
+
+        async function loadChapterList(preserveChapId = null) {
+            const listEl = document.getElementById('chapterList');
+            listEl.innerHTML = '<div style="padding: 24px 16px; text-align: center; color: var(--accent); font-size: 13px;">⏳ กำลังโหลดรายชื่อตอนทั้งหมด...</div>';
+
+            if (isLocalServer) {
+                try {
+                    const res = await fetch('/api/chapters', {
+                        headers: { 'Authorization': 'Bearer ' + authToken }
+                    });
+                    if (res.status === 401) {
+                        clearAuthToken();
+                        showLogin('เซสชันหมดอายุ กรุณาเข้าสู่ระบบใหม่อีกครั้ง');
+                        return;
+                    }
+                    if (res.ok) {
+                        const data = await res.json();
+                        if (data.ok && Array.isArray(data.chapters)) {
+                            allChapters = data.chapters;
+                            finishChapterListInit(preserveChapId);
+                            return;
+                        }
+                    }
+                } catch (e) {
+                    console.warn('Error fetching /api/chapters:', e);
+                }
+            }
+
+            try {
+                const jsonChaps = await fetchChaptersJSONWithFallback();
+                if (Array.isArray(jsonChaps) && jsonChaps.length > 0) {
+                    allChapters = jsonChaps.map(c => {
+                        const fullText = Array.isArray(c.paragraphs) ? c.paragraphs.map(p => p.text || '').join('\n') : '';
+                        return {
+                            id: c.id,
+                            filename: `Chapter_${String(c.id).padStart(3, '0')}.md`,
+                            title: c.title,
+                            chars: fullText.length,
+                            bytes: new Blob([fullText]).size,
+                            modified: '-'
+                        };
+                    });
+                    finishChapterListInit(preserveChapId);
+                } else {
+                    listEl.innerHTML = '<div style="padding: 24px; text-align: center; color: #fca5a5; font-size: 13px;">❌ ไม่สามารถโหลดข้อมูลตอนได้ กรุณารีเฟรชหน้าเว็บอีกครั้ง</div>';
+                }
+            } catch (err) {
+                listEl.innerHTML = `<div style="padding: 24px; text-align: center; color: #fca5a5; font-size: 13px;">❌ เกิดข้อผิดพลาด: ${escapeHtml(err.message)}</div>`;
+                showToast('ไม่สามารถโหลดรายการตอนได้: ' + err.message, 'error');
+            }
+        }
+
+        async function finishChapterListInit(preserveChapId) {
+            document.getElementById('sidebarTotalCount').innerText = allChapters.length;
+            buildDynamicVolumeTabs();
+            renderChapterList(document.getElementById('chapterSearch').value);
+
+            if (allChapters.length > 0 && !currentChapter) {
+                const lastEdited = parseInt(localStorage.getItem('novel_admin_last_ch') || '0', 10);
+                const targetId = preserveChapId
+                    || (allChapters.some(c => c.id === lastEdited) ? lastEdited : allChapters[allChapters.length - 1].id);
+                await selectChapter(targetId);
+            } else if (preserveChapId) {
+                await selectChapter(preserveChapId);
+            }
+        }
+
+        function setVolumeFilter(volId, btnEl) {
+            activeVolumeFilter = volId;
+            document.querySelectorAll('#volTabsContainer .vol-tab-btn').forEach(b => b.classList.remove('active'));
+            if (btnEl) btnEl.classList.add('active');
+            filterChapters();
+        }
+
+        function hasLocalOverride(chapId) {
+            return localStorage.getItem('novel_draft_ch_' + chapId) !== null
+                || localStorage.getItem('novel_saved_ch_' + chapId) !== null;
+        }
+
+        function renderChapterList(filterText = '') {
+            const listEl = document.getElementById('chapterList');
+            const search = filterText.toLowerCase().trim();
+
+            const filtered = allChapters.filter(c => {
+                if (activeVolumeFilter > 0) {
+                    const s = (activeVolumeFilter - 1) * 25 + 1;
+                    const e = activeVolumeFilter * 25;
+                    if (c.id < s || c.id > e) return false;
+                }
+                if (!search) return true;
+                return (c.title || '').toLowerCase().includes(search) || String(c.id).includes(search);
+            });
+
+            if (filtered.length === 0) {
+                listEl.innerHTML = '<div style="padding: 20px; text-align: center; color: var(--text-muted); font-size: 13px;">ไม่พบตอนที่ค้นหา</div>';
+                return;
+            }
+
+            listEl.innerHTML = filtered.map(c => {
+                const activeCls = (currentChapter && currentChapter.id === c.id) ? 'active' : '';
+                const kb = c.bytes ? (c.bytes / 1024).toFixed(1) + ' KB' : '';
+                const draftTag = hasLocalOverride(c.id) ? '<span class="chapter-draft-dot">ร่าง</span>' : '';
+                return `
+                    <div class="chapter-card ${activeCls}" onclick="confirmAndSelectChapter(${c.id})">
+                        <div class="chapter-card-top">
+                            <div style="display:flex;align-items:center;gap:5px;">
+                                <span class="chapter-card-id">ตอนที่ ${c.id}</span>
+                                ${draftTag}
+                            </div>
+                            <span style="font-size: 11px; color: var(--text-muted);">${kb}</span>
+                        </div>
+                        <div class="chapter-card-title">${escapeHtml(c.title)}</div>
+                        <div class="chapter-card-meta">
+                            <span>${c.filename}</span>
+                            <span>${c.modified || ''}</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function filterChapters() {
+            renderChapterList(document.getElementById('chapterSearch').value);
+        }
+
+        function confirmAndSelectChapter(chapId) {
+            if (isDirty && !confirm('คุณมีการแก้ไขที่ยังไม่ได้บันทึก ต้องการสลับตอนโดยไม่บันทึกหรือไม่?')) return;
+            selectChapter(chapId);
+            closeSidebar();
+        }
+
+        function jumpToLatestChapter() {
+            if (!allChapters.length) return;
+            const latestId = allChapters[allChapters.length - 1].id;
+            confirmAndSelectChapter(latestId);
+        }
+
+        function stepChapter(delta) {
+            if (!currentChapter || !allChapters.length) return;
+            const idx = allChapters.findIndex(c => c.id === currentChapter.id);
+            const nextIdx = idx + delta;
+            if (nextIdx >= 0 && nextIdx < allChapters.length) {
+                confirmAndSelectChapter(allChapters[nextIdx].id);
+            }
+        }
+
+        async function selectChapter(chapId, ignoreLocalOverride = false) {
+            const draftVal = ignoreLocalOverride ? null : localStorage.getItem('novel_draft_ch_' + chapId);
+            const savedVal = ignoreLocalOverride ? null : localStorage.getItem('novel_saved_ch_' + chapId);
+            const localOverride = draftVal !== null ? draftVal : savedVal;
+
+            let canonicalContent = null;
+            let canonicalTitle = null;
+            let fname = `Chapter_${String(chapId).padStart(3, '0')}.md`;
+
+            if (isLocalServer) {
+                try {
+                    const res = await fetch(`/api/chapter/${chapId}`, {
+                        headers: { 'Authorization': 'Bearer ' + authToken }
+                    });
+                    if (res.status === 401) {
+                        clearAuthToken();
+                        showLogin('เซสชันหมดอายุ กรุณาเข้าสู่ระบบใหม่อีกครั้ง');
+                        return;
+                    }
+                    if (res.ok) {
+                        const data = await res.json();
+                        if (data.ok) {
+                            fname = data.filename;
+                            canonicalTitle = data.title;
+                            canonicalContent = data.content;
+                        }
+                    }
+                } catch (e) {
+                    console.warn('API chapter load error:', e);
+                }
+            }
+
+            if (canonicalContent === null) {
+                const found = allChapters.find(c => c.id === chapId);
+                if (found) {
+                    fname = found.filename;
+                    canonicalTitle = found.title;
+                    if (rawChaptersCache) {
+                        const cd = rawChaptersCache.find(c => c.id === chapId);
+                        if (cd && Array.isArray(cd.paragraphs)) {
+                            canonicalContent = `# ${cd.title}\n\n` + cd.paragraphs.map(p => {
+                                if (p.type === 'divider') return '---';
+                                if (p.type === 'quote') return `> ${htmlToMarkdown(p.text)}`;
+                                return htmlToMarkdown(p.text);
+                            }).join('\n\n');
+                        }
+                    }
+                }
+            }
+
+            const finalContent = localOverride !== null ? localOverride : (canonicalContent || `# ตอนที่ ${chapId}\n\n`);
+            const extractedTitle = extractTitleFromContent(finalContent, chapId) || canonicalTitle || `ตอนที่ ${chapId}`;
+
+            currentChapter = {
+                id: chapId,
+                filename: fname,
+                title: extractedTitle,
+                content: finalContent,
+                canonicalContent: canonicalContent || finalContent,
+                usingOverride: localOverride !== null
+            };
+
+            localStorage.setItem('novel_admin_last_ch', String(chapId));
+            populateEditor();
+            renderChapterList(document.getElementById('chapterSearch').value);
+        }
+
+        function extractTitleFromContent(content, chapId) {
+            const lines = (content || '').split('\n');
+            for (const line of lines) {
+                const t = line.trim();
+                if (t.startsWith('# ')) return t.slice(2).trim();
+            }
+            return `ตอนที่ ${chapId}`;
+        }
+
+        function populateEditor() {
+            if (!currentChapter) return;
+            const titleInput = document.getElementById('chapterTitleInput');
+            const textarea = document.getElementById('chapterContent');
+            const badge = document.getElementById('currentChapBadge');
+            const mobileTitle = document.getElementById('currentChapTitle');
+            const draftBanner = document.getElementById('draftBanner');
+
+            const cleanTitle = (currentChapter.title || '').replace(/^#\s*/, '');
+            titleInput.value = cleanTitle;
+            textarea.value = currentChapter.content || '';
+
+            if (badge) badge.innerText = `ตอนที่ ${currentChapter.id}`;
+            if (mobileTitle) mobileTitle.innerText = cleanTitle;
+            if (draftBanner) draftBanner.style.display = currentChapter.usingOverride ? 'flex' : 'none';
+
+            // Update prev/next buttons
+            const idx = allChapters.findIndex(c => c.id === currentChapter.id);
+            document.getElementById('btnPrevChap').disabled = idx <= 0;
+            document.getElementById('btnNextChap').disabled = idx < 0 || idx >= allChapters.length - 1;
+
+            setDirty(currentChapter.usingOverride && localStorage.getItem('novel_draft_ch_' + currentChapter.id) !== null);
+            updateStats();
+            updateLivePreview();
+        }
+
+        function discardLocalDraft() {
+            if (!currentChapter) return;
+            if (!confirm('ต้องการทิ้งฉบับร่างในเบราว์เซอร์แล้วโหลดเนื้อหาต้นฉบับกลับมาหรือไม่?')) return;
+            localStorage.removeItem('novel_draft_ch_' + currentChapter.id);
+            localStorage.removeItem('novel_saved_ch_' + currentChapter.id);
+            selectChapter(currentChapter.id, true);
+            showToast('↩️ คืนค่าเนื้อหาจากต้นฉบับแล้ว', 'info');
+        }
+
+        // FIXED: Sync #chapterTitleInput directly into line 1 (# Title) of #chapterContent!
+        function handleTitleInput() {
+            const rawVal = document.getElementById('chapterTitleInput').value.trim();
+            const cleanTitle = rawVal.replace(/^#\s*/, '');
+            const textarea = document.getElementById('chapterContent');
+            const lines = textarea.value.split('\n');
+
+            const headingIdx = lines.findIndex(l => l.trim().startsWith('# '));
+            if (headingIdx >= 0) {
+                lines[headingIdx] = '# ' + cleanTitle;
+            } else {
+                lines.unshift('# ' + cleanTitle, '');
+            }
+            textarea.value = lines.join('\n');
+
+            if (currentChapter) currentChapter.title = cleanTitle;
+            const mobileTitle = document.getElementById('currentChapTitle');
+            if (mobileTitle) mobileTitle.innerText = cleanTitle;
+
+            markDirty();
+            updateStats();
+            updateLivePreview();
+        }
+
+        function handleContentInput() {
+            const content = document.getElementById('chapterContent').value;
+            if (currentChapter) {
+                const parsedTitle = extractTitleFromContent(content, currentChapter.id);
+                currentChapter.title = parsedTitle;
+                document.getElementById('chapterTitleInput').value = parsedTitle;
+                const mobileTitle = document.getElementById('currentChapTitle');
+                if (mobileTitle) mobileTitle.innerText = parsedTitle;
+            }
+            markDirty();
+            updateStats();
+            updateLivePreview();
+        }
+
+        function markDirty() {
+            setDirty(true);
+            if (currentChapter) {
+                localStorage.setItem('novel_draft_ch_' + currentChapter.id, document.getElementById('chapterContent').value);
+                currentChapter.usingOverride = true;
+                document.getElementById('draftBanner').style.display = 'flex';
+            }
+        }
+
+        function setDirty(dirty) {
+            isDirty = dirty;
+            document.getElementById('dirtyBadge').style.display = dirty ? 'inline' : 'none';
+        }
+
+        function countThaiWords(text) {
+            if (!text || !text.trim()) return 0;
+            if (thaiSegmenter) {
+                let count = 0;
+                for (const seg of thaiSegmenter.segment(text)) {
+                    if (seg.isWordLike) count++;
+                }
+                return count;
+            }
+            return text.trim().split(/\s+/).length;
+        }
+
+        function updateStats() {
+            const text = document.getElementById('chapterContent').value;
+            const words = countThaiWords(text);
+            const kb = new Blob([text]).size / 1024;
+            const readMins = Math.max(1, Math.round(words / 240));
+
+            document.getElementById('statWordCount').innerText = `คำไทย: ${words.toLocaleString()}`;
+            const sizeEl = document.getElementById('statSizeKb');
+            sizeEl.innerText = `${kb.toFixed(1)} KB`;
+            sizeEl.className = 'stat-pill ' + (kb >= 20 ? 'good' : (kb > 0 ? 'short' : ''));
+            document.getElementById('statReadTime').innerText = `~${readMins} นาที`;
+        }
+
+        // SAVE CHAPTER
+        async function saveCurrentChapter() {
+            if (!currentChapter) {
+                showToast('ยังไม่ได้เลือกตอน', 'error');
+                return;
+            }
+
+            const content = document.getElementById('chapterContent').value;
+            const btnSave = document.getElementById('btnSave');
+            btnSave.disabled = true;
+            btnSave.querySelector('.btn-save-text').innerText = 'กำลังเซฟ...';
+
+            if (isLocalServer) {
+                try {
+                    const res = await fetch(`/api/chapter/${currentChapter.id}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + authToken
+                        },
+                        body: JSON.stringify({ content })
+                    });
+                    if (res.status === 401) {
+                        // Keep draft safe! Do NOT pretend it saved to disk!
+                        localStorage.setItem('novel_draft_ch_' + currentChapter.id, content);
+                        btnSave.disabled = false;
+                        btnSave.querySelector('.btn-save-text').innerText = 'บันทึก';
+                        clearAuthToken();
+                        showLogin('เซสชันหมดอายุขณะบันทึก! ฉบับร่างถูกเก็บไว้ในเบราว์เซอร์อย่างปลอดภัยแล้ว กรุณาเข้าสู่ระบบใหม่แล้วกดบันทึกอีกครั้ง');
+                        return;
+                    }
+                    const data = await res.json();
+                    if (res.ok && data.ok) {
+                        setDirty(false);
+                        localStorage.removeItem('novel_draft_ch_' + currentChapter.id);
+                        localStorage.removeItem('novel_saved_ch_' + currentChapter.id);
+                        currentChapter.usingOverride = false;
+                        currentChapter.canonicalContent = content;
+                        document.getElementById('draftBanner').style.display = 'none';
+                        showToast(`✅ ${data.message}${data.sw_version ? ` · แคช ${data.sw_version}` : ''}`, 'success');
+                        await loadChapterList(currentChapter.id);
+                        btnSave.disabled = false;
+                        btnSave.querySelector('.btn-save-text').innerText = 'บันทึก';
+                        return;
+                    }
+                    showToast('เกิดข้อผิดพลาด: ' + (data.error || 'บันทึกไม่สำเร็จ'), 'error');
+                    btnSave.disabled = false;
+                    btnSave.querySelector('.btn-save-text').innerText = 'บันทึก';
+                    return;
+                } catch (err) {
+                    showToast('เชื่อมต่อ Local Server ไม่ได้: ' + err.message, 'error');
+                    btnSave.disabled = false;
+                    btnSave.querySelector('.btn-save-text').innerText = 'บันทึก';
+                    return;
+                }
+            }
+
+            // Static mode fallback (clearly communicates browser-only save)
+            localStorage.setItem('novel_saved_ch_' + currentChapter.id, content);
+            localStorage.removeItem('novel_draft_ch_' + currentChapter.id);
+            currentChapter.usingOverride = true;
+            document.getElementById('draftBanner').style.display = 'flex';
+            setDirty(false);
+            renderChapterList(document.getElementById('chapterSearch').value);
+            showToast('✅ บันทึกไว้ในเบราว์เซอร์เรียบร้อย (โหมดเว็บตรง — กด "📥 .md" เพื่อโหลดไฟล์)', 'success');
+            btnSave.disabled = false;
+            btnSave.querySelector('.btn-save-text').innerText = 'บันทึก';
+        }
+
+        // CREATE NEW CHAPTER
+        function openNewChapterModal() {
+            const maxId = allChapters.reduce((m, c) => Math.max(m, c.id), 0);
+            document.getElementById('newChapIdInput').value = maxId + 1;
+            document.getElementById('newChapTitleInput').value = '';
+            document.getElementById('newChapterModal').classList.add('open');
+            setTimeout(() => document.getElementById('newChapTitleInput').focus(), 80);
+        }
+
+        async function createNewChapter() {
+            const chapId = parseInt(document.getElementById('newChapIdInput').value, 10);
+            const titleRaw = document.getElementById('newChapTitleInput').value.trim();
+            if (!chapId || chapId < 1) {
+                showToast('กรุณาระบุหมายเลขตอนให้ถูกต้อง', 'error');
+                return;
+            }
+            if (allChapters.some(c => c.id === chapId)) {
+                showToast(`ตอนที่ ${chapId} มีอยู่แล้ว`, 'error');
+                return;
+            }
+
+            const btn = document.getElementById('btnCreateChapter');
+            btn.disabled = true;
+
+            if (isLocalServer) {
+                try {
+                    const res = await fetch('/api/chapter/create', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + authToken
+                        },
+                        body: JSON.stringify({ id: chapId, title: titleRaw })
+                    });
+                    const data = await res.json();
+                    if (res.ok && data.ok) {
+                        closeModal('newChapterModal');
+                        showToast(`✨ ${data.message}`, 'success');
+                        activeVolumeFilter = 0;
+                        await loadChapterList(chapId);
+                    } else {
+                        showToast(data.error || 'สร้างตอนไม่สำเร็จ', 'error');
+                    }
+                } catch (err) {
+                    showToast('เกิดข้อผิดพลาด: ' + err.message, 'error');
+                } finally {
+                    btn.disabled = false;
+                }
+                return;
+            }
+
+            // Static browser draft creation
+            const heading = titleRaw.startsWith(`ตอนที่ ${chapId}`)
+                ? titleRaw
+                : (titleRaw ? `ตอนที่ ${chapId}: ${titleRaw}` : `ตอนที่ ${chapId}: ชื่อตอนใหม่`);
+            const initContent = `# ${heading}\n\n`;
+            localStorage.setItem('novel_draft_ch_' + chapId, initContent);
+            allChapters.push({
+                id: chapId,
+                filename: `Chapter_${String(chapId).padStart(3, '0')}.md`,
+                title: heading,
+                chars: initContent.length,
+                bytes: new Blob([initContent]).size,
+                modified: 'ร่างใหม่'
+            });
+            allChapters.sort((a, b) => a.id - b.id);
+            buildDynamicVolumeTabs();
+            closeModal('newChapterModal');
+            await selectChapter(chapId);
+            showToast(`✨ สร้างฉบับร่างตอนที่ ${chapId} ในเบราว์เซอร์แล้ว`, 'success');
+            btn.disabled = false;
+        }
+
+        // PROSE & CANON LINTER
+        function openLintModal() {
+            const text = document.getElementById('chapterContent').value || '';
+            const lines = text.split('\n');
+            const kb = new Blob([text]).size / 1024;
+            const words = countThaiWords(text);
+
+            // Checks
+            const boldMatches = text.match(/\*\*[^*\n]+\*\*/g) || [];
+            const tierViolations = text.match(/ขั้นที่\s*[0-9หนึ่งสองสามสี่ห้าหกเจ็ดแปดเก้า]|ขั้น\s*[0-9]|ระดับ\s*[0-9]/g) || [];
+            const bannedSciFi = text.match(/30,000|สามหมื่นปี|ชัตดาวน์|สแกน|โปรตีน|โมเลกุล|ออกซิเจน|ไบโอชิป|ระบบประสาท|Site-07|ไมครอน/gi) || [];
+            const englishParens = text.match(/\([A-Za-z][^)]*\)/g) || [];
+            const cjkChars = text.match(/[\u4e00-\u9fff]+/g) || [];
+            const coldCrutch = text.match(/เยือกเย็น|เย็นชา|เย็นเยียบ/g) || [];
+            const tenPace = text.match(/สิบก้าว|10\s*ก้าว/g) || [];
+
+            const body = document.getElementById('lintModalBody');
+            let html = `
+                <div class="lint-summary">
+                    <div class="lint-box"><div class="val">${words.toLocaleString()}</div><div class="lbl">คำภาษาไทยจริง</div></div>
+                    <div class="lint-box"><div class="val">${kb.toFixed(1)} KB</div><div class="lbl">ขนาดไฟล์ (เป้าม้วน 2: 22–32 KB)</div></div>
+                    <div class="lint-box"><div class="val">${lines.filter(l => l.trim()).length}</div><div class="lbl">ย่อหน้า</div></div>
+                </div>
+            `;
+
+            const addCheck = (cls, icon, title, detail) => {
+                html += `<div class="lint-item ${cls}"><strong>${icon} ${title}</strong><div style="margin-top:3px;opacity:0.9;">${detail}</div></div>`;
+            };
+
+            if (boldMatches.length === 0) addCheck('pass', '✅', 'สแปมตัวหนา (**bold**)', 'ไม่พบการใช้ตัวหนารกตาในเนื้อเรื่อง');
+            else addCheck('warn', '⚠️', `พบตัวหนา (**bold**) ${boldMatches.length} จุด`, `ตัวอย่าง: ${escapeHtml(boldMatches.slice(0, 5).join(', '))} (กดปุ่มด้านล่างเพื่อล้างทั้งหมดได้ทันที)`);
+
+            if (tierViolations.length === 0) addCheck('pass', '✅', 'กฎเรียกชื่อขอบเขตพลัง (Realm-First)', 'ผ่าน 100% ไม่พบป้ายตัวเลขเกมในเนื้อเรื่อง');
+            else addCheck('err', '❌', `พบการเรียกขั้นแบบตัวเลข ${tierViolations.length} จุด`, `พบคำว่า: ${escapeHtml([...new Set(tierViolations)].join(', '))}`);
+
+            if (bannedSciFi.length === 0) addCheck('pass', '✅', 'คำไซไฟหลุดยุค & เลข 30,000 ปี', 'สะอาด 100% ไม่พบคำหลุดยุคหรือเมต้าข้อมูล');
+            else addCheck('err', '❌', `พบคำหลุดยุค/เมต้า ${bannedSciFi.length} จุด`, `พบคำว่า: ${escapeHtml([...new Set(bannedSciFi)].join(', '))}`);
+
+            if (englishParens.length === 0 && cjkChars.length === 0) addCheck('pass', '✅', 'วงเล็บอังกฤษ/อักษรจีนในเนื้อเรื่อง', 'ไม่พบวงเล็บอังกฤษหรืออักษรจีนปะปน');
+            else addCheck('warn', '⚠️', `พบวงเล็บอังกฤษ (${englishParens.length}) / อักษรจีน (${cjkChars.length})`, escapeHtml([...englishParens, ...cjkChars].slice(0, 8).join(', ')));
+
+            if (coldCrutch.length <= 2) addCheck('pass', '✅', `คำซ้ำ "เยือกเย็น/เย็นชา/เย็นเยียบ" (${coldCrutch.length} ครั้ง)`, 'อยู่ในเกณฑ์ดี ไม่ซ้ำซาก');
+            else addCheck('warn', '⚠️', `คำซ้ำ "เยือกเย็น/เย็นชา/เย็นเยียบ" (${coldCrutch.length} ครั้ง)`, 'แนะนำให้กระจายคำบรรยายอื่นบ้างเพื่อไม่ให้ติดสำนวนซ้ำ');
+
+            if (tenPace.length > 0) addCheck('warn', 'ℹ️', `พบคำว่า "สิบก้าว" (${tenPace.length} ครั้ง)`, 'เตือนตาม CD-21: ใช้ได้เฉพาะบริบทคนล่างเขา (ขั้น 1–5) ห้ามใช้เป็นกฎเหล็กในระดับสูง');
+
+            body.innerHTML = html;
+            document.getElementById('btnStripBolds').style.display = boldMatches.length > 0 ? 'inline-flex' : 'none';
+            document.getElementById('lintModal').classList.add('open');
+        }
+
+        function stripInlineBolds() {
+            const textarea = document.getElementById('chapterContent');
+            const updated = textarea.value.replace(/\*\*([^*\n]+?)\*\*/g, '$1');
+            if (updated !== textarea.value) {
+                textarea.value = updated;
+                handleContentInput();
+                showToast('✨ ล้างตัวหนา (**) ในเนื้อเรื่องเรียบร้อยแล้ว', 'success');
+                openLintModal();
+            }
+        }
+
+        // BACKUP HISTORY & RESTORE
+        async function openBackupsModal() {
+            if (!currentChapter) return;
+            document.getElementById('backupsChapLabel').innerText = `ตอนที่ ${currentChapter.id}`;
+            const listArea = document.getElementById('backupsListArea');
+            document.getElementById('backupPreviewWrap').style.display = 'none';
+            document.getElementById('backupsModal').classList.add('open');
+
+            if (!isLocalServer) {
+                listArea.innerHTML = '<div style="padding:16px;color:var(--text-muted);font-size:13px;">ฟังก์ชันดูและกู้คืนไฟล์สำรองใช้งานได้เมื่อเปิดผ่าน Local Server (เริ่มระบบหลังบ้าน_Admin.bat)</div>';
+                return;
+            }
+
+            listArea.innerHTML = '<div style="padding:16px;color:var(--accent);font-size:13px;">⏳ กำลังโหลดรายการไฟล์สำรอง...</div>';
+            try {
+                const res = await fetch(`/api/chapter/${currentChapter.id}/backups`, {
+                    headers: { 'Authorization': 'Bearer ' + authToken }
+                });
+                const data = await res.json();
+                if (!res.ok || !data.ok) {
+                    listArea.innerHTML = `<div style="color:#fca5a5;">${escapeHtml(data.error || 'โหลดไม่สำเร็จ')}</div>`;
+                    return;
+                }
+                if (!data.backups.length) {
+                    listArea.innerHTML = '<div style="padding:16px;color:var(--text-muted);font-size:13px;">ยังไม่มีไฟล์สำรองสำหรับตอนนี้ (ระบบจะสร้างสำรองอัตโนมัติทุกครั้งที่กดบันทึก)</div>';
+                    return;
+                }
+                listArea.innerHTML = data.backups.map(b => `
+                    <div class="backup-row">
+                        <div>
+                            <div style="font-size:13px;font-weight:600;">${escapeHtml(b.filename)}</div>
+                            <div style="font-size:11px;color:var(--text-muted);">${b.modified} · ${(b.size / 1024).toFixed(1)} KB</div>
+                        </div>
+                        <button class="btn" style="padding:4px 10px;font-size:12px;" onclick="previewBackup('${escapeHtml(b.filename)}')">👁️ ดูเนื้อหา</button>
+                    </div>
+                `).join('');
+            } catch (err) {
+                listArea.innerHTML = `<div style="color:#fca5a5;">เกิดข้อผิดพลาด: ${escapeHtml(err.message)}</div>`;
+            }
+        }
+
+        async function previewBackup(fname) {
+            try {
+                const res = await fetch(`/api/backup/${encodeURIComponent(fname)}`, {
+                    headers: { 'Authorization': 'Bearer ' + authToken }
+                });
+                const data = await res.json();
+                if (res.ok && data.ok) {
+                    previewedBackupFilename = fname;
+                    previewedBackupText = data.content;
+                    document.getElementById('backupPreviewName').innerText = 'ตัวอย่าง: ' + fname;
+                    document.getElementById('backupPreviewContent').innerText = data.content;
+                    document.getElementById('backupPreviewWrap').style.display = 'block';
+                } else {
+                    showToast(data.error || 'เปิดไฟล์สำรองไม่ได้', 'error');
+                }
+            } catch (err) {
+                showToast('เกิดข้อผิดพลาด: ' + err.message, 'error');
+            }
+        }
+
+        function restorePreviewedBackup() {
+            if (!previewedBackupText) return;
+            if (!confirm(`ต้องการนำเนื้อหาจาก ${previewedBackupFilename} มาใส่ในช่องแก้ไขแทนที่เนื้อหาปัจจุบันหรือไม่? (คุณยังต้องกด "บันทึก" เพื่อยืนยันลงไฟล์จริง)`)) return;
+            document.getElementById('chapterContent').value = previewedBackupText;
+            handleContentInput();
+            closeModal('backupsModal');
+            showToast('↩️ โหลดเนื้อหาสำรองเข้า Editor แล้ว (อย่าลืมกดบันทึก)', 'success');
+        }
+
+        // QUICK REFERENCE DRAWER
+        let refDrawerLoadedOnce = false;
+        function toggleRefDrawer(forceState) {
+            const drawer = document.getElementById('refDrawer');
+            const btn = document.getElementById('btnRefDrawer');
+            const next = typeof forceState === 'boolean' ? forceState : !drawer.classList.contains('open');
+            drawer.classList.toggle('open', next);
+            if (btn) btn.classList.toggle('active-toggle', next);
+            if (next && !refDrawerLoadedOnce) {
+                refDrawerLoadedOnce = true;
+                loadRefDoc('continuity');
+            }
+        }
+
+        async function loadRefDoc(key, btnEl) {
+            if (btnEl) {
+                document.querySelectorAll('#refDrawer .ref-tabs .vol-tab-btn').forEach(b => b.classList.remove('active'));
+                btnEl.classList.add('active');
+            }
+            const body = document.getElementById('refDrawerBody');
+            if (!isLocalServer) {
+                body.innerText = 'แผงอ้างอิงเอกสาร Canon ด่วนใช้งานได้เมื่อเปิดผ่าน Local Server (เริ่มระบบหลังบ้าน_Admin.bat)';
+                return;
+            }
+            body.innerText = '⏳ กำลังโหลดเอกสาร...';
+            try {
+                const res = await fetch(`/api/reference/${key}`, {
+                    headers: { 'Authorization': 'Bearer ' + authToken }
+                });
+                const data = await res.json();
+                if (res.ok && data.ok) {
+                    document.getElementById('refDrawerTitle').innerText = '📖 ' + data.title;
+                    body.innerText = data.content;
+                } else {
+                    body.innerText = '❌ ' + (data.error || 'โหลดไม่สำเร็จ');
+                }
+            } catch (err) {
+                body.innerText = '❌ เกิดข้อผิดพลาด: ' + err.message;
+            }
+        }
+
+        // LIVE PREVIEW
+        function updateLivePreview() {
+            const raw = document.getElementById('chapterContent').value;
+            const lines = raw.split('\n');
+            let previewHtml = '';
+            let titleRendered = false;
+
+            for (let line of lines) {
+                let trimmed = line.trim();
+                if (!trimmed) continue;
+                if (trimmed.startsWith('# ')) {
+                    if (!titleRendered) {
+                        previewHtml += `<h1>${escapeHtml(trimmed.slice(2))}</h1>`;
+                        titleRendered = true;
+                    }
+                } else if (trimmed === '---' || trimmed === '***' || trimmed.startsWith('❖ ❖ ❖')) {
+                    previewHtml += `<div class="divider">❖ ❖ ❖</div>`;
+                } else if (trimmed.startsWith('> ')) {
+                    previewHtml += `<div class="quote-box">${formatMarkdown(trimmed.slice(2))}</div>`;
+                } else {
+                    previewHtml += `<p>${formatMarkdown(trimmed)}</p>`;
+                }
+            }
+            document.getElementById('previewContent').innerHTML = previewHtml;
+            if (currentChapter) {
+                document.getElementById('previewChapterTag').innerText = `ตอนที่ ${currentChapter.id} · มุมมองผู้อ่าน`;
+            }
+        }
+
+        function formatMarkdown(text) {
+            if (!text) return '';
+            let clean = text
+                .replace(/<strong>(.*?)<\/strong>/gi, '**$1**')
+                .replace(/<b>(.*?)<\/b>/gi, '**$1**')
+                .replace(/<em>(.*?)<\/em>/gi, '*$1*')
+                .replace(/<i>(.*?)<\/i>/gi, '*$1*');
+            let out = escapeHtml(clean);
+            out = out.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+            out = out.replace(/(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)/g, '<em>$1</em>');
+            return out;
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+        }
+
+        // LAYOUT & UI TOGGLES
+        function togglePreview() {
+            const pane = document.getElementById('previewPane');
+            if (window.innerWidth <= 960) pane.classList.toggle('mobile-active');
+            else pane.classList.toggle('hidden');
+        }
+
+        function toggleFocusMode() {
+            const app = document.getElementById('appWrap');
+            const btn = document.getElementById('btnFocusMode');
+            const isFocus = app.classList.toggle('focus-mode');
+            if (btn) btn.classList.toggle('active', isFocus);
+            showToast(isFocus ? '🧘 เปิดโหมดโฟกัส (กดอีกครั้งเพื่อกลับหน้าปกติ)' : 'ออกจากโหมดโฟกัส', 'info');
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const backdrop = document.getElementById('sidebarBackdrop');
+            sidebar.classList.toggle('mobile-open');
+            if (backdrop) backdrop.classList.toggle('active', sidebar.classList.contains('mobile-open'));
+        }
+        function openSidebar() {
+            document.getElementById('sidebar')?.classList.add('mobile-open');
+            document.getElementById('sidebarBackdrop')?.classList.add('active');
+        }
+        function closeSidebar() {
+            document.getElementById('sidebar')?.classList.remove('mobile-open');
+            document.getElementById('sidebarBackdrop')?.classList.remove('active');
+        }
+        function toggleMoreMenu(e) {
+            if (e) e.stopPropagation();
+            document.getElementById('moreDropdown')?.classList.toggle('open');
+        }
+        function closeMoreMenu() {
+            document.getElementById('moreDropdown')?.classList.remove('open');
+        }
+        function closeModal(id) {
+            document.getElementById(id)?.classList.remove('open');
+        }
+
+        function openCurrentInReader() {
+            const id = currentChapter ? currentChapter.id : 1;
+            window.open(`reader.html?ch=${id}`, '_blank');
+        }
+
+        // EDITOR TOOLS
+        function insertSyntax(prefix, suffix) {
+            const textarea = document.getElementById('chapterContent');
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            const sel = textarea.value.substring(start, end);
+            textarea.setRangeText(prefix + (sel || 'ข้อความ') + suffix, start, end, 'select');
+            handleContentInput();
+        }
+        function insertLineSyntax(prefix) {
+            const textarea = document.getElementById('chapterContent');
+            const start = textarea.selectionStart;
+            const lineStart = textarea.value.lastIndexOf('\n', start - 1) + 1;
+            textarea.setRangeText(prefix, lineStart, lineStart, 'end');
+            handleContentInput();
+        }
+        function insertText(text) {
+            const textarea = document.getElementById('chapterContent');
+            const start = textarea.selectionStart;
+            textarea.setRangeText(text, start, start, 'end');
+            handleContentInput();
+        }
+
+        function downloadCurrentMarkdown() {
+            if (!currentChapter) return;
+            const content = document.getElementById('chapterContent').value;
+            const fname = currentChapter.filename || `Chapter_${String(currentChapter.id).padStart(3, '0')}.md`;
+            const blob = new Blob([content], { type: 'text/markdown;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fname;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('📥 ดาวน์โหลด ' + fname + ' เรียบร้อย', 'info');
+        }
+
+        // SEARCH & REPLACE
+        function openSearchReplaceModal() {
+            document.getElementById('searchReplaceModal').classList.add('open');
+            setTimeout(() => document.getElementById('findInput').focus(), 60);
+        }
+
+        function performReplaceAll() {
+            const findText = document.getElementById('findInput').value;
+            const repText = document.getElementById('replaceInput').value;
+            if (!findText) return;
+            const textarea = document.getElementById('chapterContent');
+            const count = textarea.value.split(findText).length - 1;
+            if (count === 0) {
+                showToast(`ไม่พบคำว่า "${findText}"`, 'info');
+                return;
+            }
+            textarea.value = textarea.value.split(findText).join(repText);
+            handleContentInput();
+            closeModal('searchReplaceModal');
+            showToast(`แทนที่คำสำเร็จทั้งหมด ${count} จุด`, 'success');
+        }
+
+        // PUBLISH PIPELINE
+        function openPublishModal() {
+            if (!isLocalServer) {
+                alert('ฟังก์ชันการเผยแพร่อัตโนมัติไปยัง GitHub Pages & Google Drive ใช้งานได้เมื่อเปิดผ่าน Local Server (ดับเบิ้ลคลิกไฟล์ "เริ่มระบบหลังบ้าน_Admin.bat" ในโฟลเดอร์โครงการ)');
+                return;
+            }
+            document.getElementById('publishDirtyWarn').style.display = isDirty ? 'block' : 'none';
+            document.getElementById('publishOutputArea').style.display = 'none';
+            if (currentChapter) {
+                document.getElementById('commitMsgInput').value = `Update Chapter ${currentChapter.id} via Author Studio`;
+            }
+            document.getElementById('publishModal').classList.add('open');
+        }
+
+        async function executePublish() {
+            if (isDirty && !confirm('คุณยังไม่ได้กดบันทึกการแก้ไขล่าสุด ต้องการเผยแพร่ไฟล์เดิมบนดิสก์ต่อไปหรือไม่?')) return;
+            const btn = document.getElementById('btnExecutePublish');
+            const outArea = document.getElementById('publishOutputArea');
+            const msg = document.getElementById('commitMsgInput').value.trim() || 'Publish updates via Admin';
+
+            btn.disabled = true;
+            btn.innerText = '⏳ กำลังรัน Pipeline...';
+            outArea.style.display = 'block';
+            outArea.innerText = 'เริ่มต้นการเผยแพร่...\n[1/3] กำลังขยับแคชและสร้างข้อมูลเว็บ...\n';
+
+            try {
+                const res = await fetch('/api/publish', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + authToken
+                    },
+                    body: JSON.stringify({ message: msg })
+                });
+                const data = await res.json();
+                outArea.innerText = (data.stdout || '') + '\n' + (data.stderr || '');
+                if (res.ok && data.ok) {
+                    showToast('🎉 เผยแพร่ขึ้น GitHub Pages และ Google Drive สำเร็จ!', 'success');
+                    btn.innerText = '✅ สำเร็จ';
+                } else {
+                    showToast('เกิดข้อผิดพลาดในการเผยแพร่: ' + (data.error || ''), 'error');
+                    btn.innerText = '❌ ผิดพลาด';
+                }
+            } catch (err) {
+                outArea.innerText += '\nข้อผิดพลาด: ' + err.message;
+                showToast('เกิดข้อผิดพลาด: ' + err.message, 'error');
+                btn.innerText = '❌ ผิดพลาด';
+            } finally {
+                setTimeout(() => {
+                    btn.disabled = false;
+                    btn.innerText = 'เริ่มเผยแพร่ทันที';
+                }, 3000);
+            }
+        }
+
+        // TOAST
+        function showToast(message, type = 'info') {
+            const box = document.getElementById('toastBox');
+            const toast = document.createElement('div');
+            toast.className = 'toast ' + type;
+            toast.innerText = message;
+            box.appendChild(toast);
+            setTimeout(() => {
+                toast.style.transition = 'opacity 0.4s';
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 400);
+            }, 3500);
+        }
+    </script>
+</body>
+</html>

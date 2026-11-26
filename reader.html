@@ -1,0 +1,1724 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=3.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="googlebot" content="noindex, nofollow">
+    <title>ธุลีเหนือสวรรค์ (Dust Above the Heavens) - E-Reader</title>
+
+    <!-- PWA Settings for Mobile App Installation -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#9a7432">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="ธุลีเหนือสวรรค์">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <link rel="icon" type="image/png" href="icon-192.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Charm:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f8f5ec;
+            --text: #2d2925;
+            --text-muted: #786f64;
+            --title: #181410;
+            --card-bg: #ede6d6;
+            --card-border: #d8ceba;
+            --accent: #9a7432;
+            --accent-glow: rgba(154, 116, 50, 0.25);
+            --quote-bg: #ece5d3;
+            --quote-border: #b89758;
+            --header-bg: rgba(248, 245, 236, 0.95);
+            --header-border: #e2d7c3;
+        }
+
+        [data-theme="warm-dark"] {
+            --bg: #191816;
+            --text: #c8c2b7;
+            --text-muted: #8f877b;
+            --title: #ede6d8;
+            --card-bg: #262421;
+            --card-border: #3b3731;
+            --accent: #cfa85e;
+            --accent-glow: rgba(207, 168, 94, 0.25);
+            --quote-bg: #22201d;
+            --quote-border: #917540;
+            --header-bg: rgba(25, 24, 22, 0.95);
+            --header-border: #332f29;
+        }
+
+        [data-theme="light"] {
+            --bg: #ffffff;
+            --text: #222222;
+            --text-muted: #666666;
+            --title: #0a0a0a;
+            --card-bg: #f2f2f2;
+            --card-border: #e0e0e0;
+            --accent: #555555;
+            --accent-glow: rgba(85, 85, 85, 0.2);
+            --quote-bg: #f6f6f6;
+            --quote-border: #999999;
+            --header-bg: rgba(255, 255, 255, 0.95);
+            --header-border: #eaeaea;
+        }
+
+        * {
+            box-sizing: border-box;
+            transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+        }
+
+        body {
+            font-family: 'Sarabun', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            line-height: 1.95;
+            font-size: 21px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            background-color: var(--header-bg);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--header-border);
+            padding: max(10px, env(safe-area-inset-top)) 14px 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            z-index: 1000;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+
+        .brand {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--accent);
+            cursor: pointer;
+            letter-spacing: 0.3px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            white-space: nowrap;
+        }
+
+        .controls {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .btn {
+            background-color: var(--card-bg);
+            color: var(--text);
+            border: 1px solid var(--card-border);
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            outline: none;
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            line-height: 1.2;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                font-size: 19px;
+            }
+            header {
+                padding: max(8px, env(safe-area-inset-top)) 10px 8px;
+            }
+            .btn {
+                padding: 6px 8px;
+                font-size: 13px;
+            }
+            .hide-sm {
+                display: none;
+            }
+            .container {
+                padding: 18px 16px 80px 16px;
+            }
+        }
+
+        .btn.active {
+            border-color: var(--accent);
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .btn-install {
+            background-color: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+            border-radius: 20px;
+            font-size: 12px;
+            padding: 5px 10px;
+            display: none;
+            cursor: pointer;
+        }
+
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 24px 20px 80px 20px;
+        }
+
+        /* Cover Hero Section (At Chapter 1 header) */
+        .vol-cover-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 20px;
+            margin: 0 0 32px 0;
+            text-align: center;
+            box-shadow: 0 8px 24px var(--accent-glow);
+        }
+
+        .vol-cover-img-wrapper {
+            display: inline-block;
+            position: relative;
+            cursor: pointer;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 28px rgba(0,0,0,0.35);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .vol-cover-img-wrapper:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 14px 34px rgba(0,0,0,0.45);
+        }
+
+        .vol-cover-img {
+            display: block;
+            max-width: 260px;
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+        }
+
+        .vol-cover-info {
+            margin-top: 14px;
+        }
+
+        .vol-cover-badge {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--accent);
+            background: var(--bg);
+            border: 1px solid var(--card-border);
+            padding: 3px 12px;
+            border-radius: 20px;
+            margin-bottom: 6px;
+        }
+
+        .vol-cover-title {
+            font-family: 'Charm', cursive, 'Sarabun', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--title);
+            margin: 4px 0 6px 0;
+            line-height: 1.3;
+        }
+
+        .vol-cover-desc {
+            font-size: 14px;
+            color: var(--text);
+            opacity: 0.85;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        h1.chapter-title {
+            font-size: 27px;
+            color: var(--title);
+            text-align: center;
+            margin: 16px 0 28px 0;
+            line-height: 1.4;
+            font-weight: 700;
+        }
+
+        p {
+            margin-bottom: 22px;
+            text-indent: 1.8em;
+            text-align: justify;
+        }
+
+        .divider {
+            text-align: center;
+            color: var(--accent);
+            margin: 36px 0;
+            letter-spacing: 8px;
+            font-size: 18px;
+            opacity: 0.8;
+        }
+
+        .quote-box {
+            background-color: var(--quote-bg);
+            border-left: 4px solid var(--quote-border);
+            padding: 14px 18px;
+            margin: 24px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .nav-footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 50px;
+            padding-top: 24px;
+            border-top: 1px solid var(--header-border);
+            gap: 12px;
+        }
+
+        .nav-link {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text);
+            padding: 10px 18px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            flex: 1;
+            text-align: center;
+        }
+
+        .nav-link.next {
+            background-color: var(--accent);
+            color: #ffffff;
+            border-color: var(--accent);
+        }
+
+        .nav-link:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        /* Modal TOC */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: flex-end;
+        }
+
+        @media (min-width: 600px) {
+            .modal {
+                align-items: center;
+            }
+        }
+
+        .modal.open {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg);
+            width: 100%;
+            max-width: 520px;
+            max-height: 85vh;
+            border-radius: 16px 16px 0 0;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.25);
+        }
+
+        @media (min-width: 600px) {
+            .modal-content {
+                border-radius: 16px;
+                max-height: 80vh;
+            }
+        }
+
+        .modal-header {
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--header-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 700;
+            font-size: 16px;
+            color: var(--title);
+            background: var(--header-bg);
+        }
+
+        /* TOC Volume Sections & Collapsible Accordion */
+        .toc-body {
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            padding: 12px;
+            flex: 1;
+            min-height: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .toc-volume-card {
+            flex-shrink: 0;
+            border-radius: 12px;
+            border: 1px solid var(--card-border);
+            background: var(--card-bg);
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .toc-volume-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+        }
+
+        .toc-hero-banner {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 14px;
+            background: var(--card-bg);
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+            transition: background 0.2s ease;
+        }
+
+        .toc-hero-banner:hover {
+            background: var(--quote-bg);
+        }
+
+        .toc-hero-cover-wrap {
+            position: relative;
+            width: 54px;
+            height: 78px;
+            flex-shrink: 0;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+            cursor: zoom-in;
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .toc-hero-cover {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .toc-hero-cover-wrap .zoom-badge {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.65);
+            color: #fff;
+            font-size: 9px;
+            text-align: center;
+            padding: 1px 0;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .toc-hero-details {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .toc-hero-tag {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .toc-hero-title {
+            font-family: 'Charm', cursive, 'Sarabun', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--title);
+            margin: 2px 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .toc-hero-sub {
+            font-size: 12px;
+            color: var(--text);
+            opacity: 0.85;
+            margin: 0;
+        }
+
+        .toc-vol-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--bg);
+            border: 1px solid var(--card-border);
+            color: var(--accent);
+            font-size: 12px;
+            flex-shrink: 0;
+            transition: transform 0.25s ease, background 0.2s ease;
+        }
+
+        .toc-volume-card.collapsed .toc-vol-toggle {
+            transform: rotate(-90deg);
+        }
+
+        .toc-volume-card.collapsed .toc-list {
+            display: none;
+        }
+
+        .toc-list {
+            list-style: none;
+            padding: 8px 12px 10px 12px;
+            margin: 0;
+            border-top: 1px dashed var(--card-border);
+            background: var(--bg);
+        }
+
+        .toc-item {
+            padding: 11px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-bottom: 3px;
+            font-size: 15px;
+            font-weight: 500;
+            border-bottom: 1px solid var(--card-border);
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .toc-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .toc-item:hover, .toc-item.active {
+            background: var(--card-bg);
+            color: var(--accent);
+            font-weight: 700;
+            padding-left: 18px;
+        }
+
+        .reading-progress-bar {
+            position: fixed;
+            top: 0; left: 0;
+            height: 3px;
+            background: var(--accent);
+            width: 0%;
+            z-index: 9999;
+            transition: width 0.1s linear;
+        }
+
+        .copy-tools-bar {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: -8px 0 26px 0;
+        }
+
+        .copy-tool-btn {
+            background: var(--card-bg);
+            color: var(--text);
+            border: 1px solid var(--card-border);
+            padding: 7px 14px;
+            border-radius: 8px;
+            font-size: 13.5px;
+            font-family: 'Sarabun', sans-serif;
+            cursor: pointer;
+            transition: all 0.18s ease;
+        }
+
+        .copy-tool-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .copy-tool-btn.copied {
+            border-color: #2e8b57;
+            color: #2e8b57;
+            font-weight: 600;
+        }
+
+        /* Fullscreen Image Preview Lightbox */
+        .lightbox-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.88);
+            backdrop-filter: blur(8px);
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+            cursor: zoom-out;
+        }
+
+        .lightbox-modal.open {
+            display: flex;
+        }
+
+        .lightbox-img {
+            max-width: 90vw;
+            max-height: 90vh;
+            border-radius: 12px;
+            box-shadow: 0 16px 48px rgba(0,0,0,0.7);
+            object-fit: contain;
+            animation: zoomIn 0.25s ease-out;
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .toc-search-wrap {
+            padding: 10px 14px 8px;
+            border-bottom: 1px solid var(--header-border);
+            background: var(--bg);
+        }
+
+        .toc-search-input {
+            width: 100%;
+            padding: 8px 12px;
+            border-radius: 10px;
+            border: 1px solid var(--card-border);
+            background: var(--card-bg);
+            color: var(--text);
+            font-family: inherit;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .toc-search-input:focus {
+            border-color: var(--accent);
+        }
+
+        /* Copy protection for non-admin visitors */
+        body.no-copy {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+        }
+        body:not(.is-admin) .copy-tools-bar {
+            display: none !important;
+        }
+        .locked-chapter-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 36px 24px;
+            text-align: center;
+            margin: 36px auto;
+            max-width: 540px;
+        }
+        .locked-chapter-icon {
+            font-size: 46px;
+            margin-bottom: 12px;
+        }
+        .locked-chapter-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--title);
+            margin-bottom: 10px;
+        }
+        .locked-chapter-desc {
+            font-size: 16px;
+            color: var(--text-muted);
+            line-height: 1.7;
+            margin-bottom: 22px;
+        }
+        .admin-login-btn-primary {
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            padding: 11px 22px;
+            border-radius: 24px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+        }
+        .admin-auth-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.72);
+            z-index: 3000;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+        .admin-auth-modal.open {
+            display: flex;
+        }
+        .admin-auth-card {
+            background: var(--bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 24px;
+            width: 100%;
+            max-width: 390px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.45);
+        }
+        .admin-auth-card h3 {
+            margin: 0 0 6px;
+            color: var(--title);
+            font-size: 20px;
+        }
+        .admin-auth-card p {
+            margin: 0 0 16px;
+            color: var(--text-muted);
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        .admin-auth-input {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: 1px solid var(--card-border);
+            background: var(--card-bg);
+            color: var(--text);
+            font-family: inherit;
+            font-size: 15px;
+            margin-bottom: 12px;
+            outline: none;
+        }
+        .admin-auth-input:focus {
+            border-color: var(--accent);
+        }
+        .admin-auth-err {
+            color: #dc2626;
+            font-size: 13px;
+            margin-bottom: 10px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="reading-progress-bar" id="progressBar"></div>
+
+    <header>
+        <div class="header-left">
+            <a href="index.html" class="btn" style="text-decoration:none;" title="กลับหน้าแนะนำนิยาย">🏠<span class="hide-sm"> หน้าหลัก</span></a>
+            <button class="btn brand" onclick="openToc()">📖 สารบัญ</button>
+            <button class="btn" id="btnReaderAuth" onclick="handleReaderAuthBtn()" title="เข้าสู่ระบบผู้แต่ง (Admin)">🔐<span class="hide-sm"> ผู้แต่ง</span></button>
+        </div>
+        <div class="controls">
+            <button class="btn-install" id="btnInstall" onclick="installPWA()" title="ติดตั้งแอป">📲</button>
+            <button class="btn" onclick="adjustFont(-1)" title="ลดขนาดตัวอักษร">ก-</button>
+            <button class="btn" onclick="adjustFont(1)" title="เพิ่มขนาดตัวอักษร">ก+</button>
+            <button class="btn" id="btn-sepia" onclick="changeTheme('sepia')" title="โทนซีเปีย">📜<span class="hide-sm"> ซีเปีย</span></button>
+            <button class="btn" id="btn-dark" onclick="changeTheme('warm-dark')" title="โทนมืดอุ่น">🌙<span class="hide-sm"> มืดอุ่น</span></button>
+            <button class="btn" id="btn-light" onclick="changeTheme('light')" title="โทนสว่าง">☀️<span class="hide-sm"> สว่าง</span></button>
+        </div>
+    </header>
+
+    <div class="container" id="readerArea">
+        <!-- Chapter loaded dynamically -->
+    </div>
+
+    <!-- TOC Modal -->
+    <div class="modal" id="tocModal" onclick="closeToc(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <span>📑 เลือกตอนอ่าน (ธุลีเหนือสวรรค์)</span>
+                <div style="display: flex; gap: 8px;">
+                    <a href="admin.html" class="btn" title="ระบบหลังบ้านสำหรับผู้แต่ง (Admin)" style="text-decoration: none;">⚙️ Admin</a>
+                    <button class="btn" id="btnRefresh" onclick="forceRefresh()" title="ดึงตอนใหม่ล่าสุด">🔄 รีเฟรช</button>
+                    <button class="btn" onclick="closeToc()">✕ ปิด</button>
+                </div>
+            </div>
+
+            <div class="toc-search-wrap">
+                <input type="search" id="tocSearchInput" class="toc-search-input" placeholder="🔍 ค้นหาเลขตอน หรือชื่อตอน (เช่น 101, หานโจว)..." oninput="buildToc(this.value)">
+            </div>
+
+            <div class="toc-body" id="tocContainer">
+                <!-- Volume cards and chapters rendered dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Lightbox for Cover Preview -->
+    <div class="lightbox-modal" id="coverLightbox" onclick="closeCoverLightbox()">
+        <img src="Cover_Vol1.png" alt="หน้าปก เล่มที่ 1 ขนาดเต็ม" class="lightbox-img">
+    </div>
+
+    <!-- Admin Auth Modal -->
+    <div class="admin-auth-modal" id="adminAuthModal" onclick="closeAdminAuthModal()">
+        <div class="admin-auth-card" onclick="event.stopPropagation()">
+            <h3>🔐 เข้าสู่ระบบผู้แต่ง (Admin)</h3>
+            <p>สำหรับผู้แต่งเท่านั้น — เพื่อปลดล็อกตอนที่ 26 เป็นต้นไป คัดลอกเนื้อหา และเข้าถึงข้อมูลลับ (ระบบจะจดจำการล็อกอินค้างไว้บนเครื่องนี้)</p>
+            <div class="admin-auth-err" id="readerAuthErr">ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง</div>
+            <form onsubmit="submitAdminAuth(event)">
+                <input type="text" id="readerAuthUser" class="admin-auth-input" placeholder="ชื่อผู้ใช้ (Username)" autocomplete="username" required>
+                <input type="password" id="readerAuthPass" class="admin-auth-input" placeholder="รหัสผ่าน (Password)" autocomplete="current-password" required>
+                <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:6px;">
+                    <button type="button" class="btn" onclick="closeAdminAuthModal()">ยกเลิก</button>
+                    <button type="submit" class="admin-login-btn-primary" id="readerAuthSubmit">เข้าสู่ระบบ</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const STATIC_AUTH_HASH = "3261688dda463c8c6b049018a758b18a741c1fc5efff3346065bbe7a1400544e";
+        const CRYPTO_SALT = "dust-above-heavens-v1";
+        const CRYPTO_ITERATIONS = 100000;
+        let cachedCryptoKey = null;
+
+        function isAdminLoggedIn() {
+            return Boolean(localStorage.getItem('novel_admin_crypto_key'));
+        }
+
+        function applyAdminAndCopyProtection() {
+            const isAdmin = isAdminLoggedIn();
+            if (isAdmin) {
+                document.body.classList.add('is-admin');
+                document.body.classList.remove('no-copy');
+            } else {
+                document.body.classList.remove('is-admin');
+                document.body.classList.add('no-copy');
+            }
+            const btn = document.getElementById('btnReaderAuth');
+            if (btn) {
+                btn.innerHTML = isAdmin
+                    ? '🔓<span class="hide-sm"> ผู้แต่ง (Admin)</span>'
+                    : '🔐<span class="hide-sm"> ผู้แต่ง</span>';
+                btn.title = isAdmin ? 'ล็อกอินผู้แต่งแล้ว (คลิกเพื่อออกจากระบบ)' : 'เข้าสู่ระบบผู้แต่ง (Admin)';
+            }
+        }
+
+        async function sha256Hex(str) {
+            const buf = await window.crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+            return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        async function deriveAdminKeyBase64(username, password) {
+            const enc = new TextEncoder();
+            const baseKey = await window.crypto.subtle.importKey(
+                'raw',
+                enc.encode(`${username}:${password}`),
+                'PBKDF2',
+                false,
+                ['deriveBits']
+            );
+            const bits = await window.crypto.subtle.deriveBits(
+                {
+                    name: 'PBKDF2',
+                    salt: enc.encode(CRYPTO_SALT),
+                    iterations: CRYPTO_ITERATIONS,
+                    hash: 'SHA-256'
+                },
+                baseKey,
+                256
+            );
+            const bytes = new Uint8Array(bits);
+            let bin = '';
+            for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+            return btoa(bin);
+        }
+
+        async function getAesCryptoKey() {
+            if (cachedCryptoKey) return cachedCryptoKey;
+            const b64 = localStorage.getItem('novel_admin_crypto_key');
+            if (!b64) return null;
+            const bin = atob(b64);
+            const raw = new Uint8Array(bin.length);
+            for (let i = 0; i < bin.length; i++) raw[i] = bin.charCodeAt(i);
+            cachedCryptoKey = await window.crypto.subtle.importKey(
+                'raw',
+                raw,
+                { name: 'AES-GCM' },
+                false,
+                ['decrypt']
+            );
+            return cachedCryptoKey;
+        }
+
+        async function decryptChapterIfNeeded(chap) {
+            if (!chap) return null;
+            if (!chap.locked || !chap.encrypted) return chap;
+            if (!isAdminLoggedIn()) return null;
+            try {
+                const key = await getAesCryptoKey();
+                if (!key) return null;
+                const ivBin = atob(chap.encrypted.iv);
+                const iv = new Uint8Array(ivBin.length);
+                for (let i = 0; i < ivBin.length; i++) iv[i] = ivBin.charCodeAt(i);
+
+                const dataBin = atob(chap.encrypted.data);
+                const data = new Uint8Array(dataBin.length);
+                for (let i = 0; i < dataBin.length; i++) data[i] = dataBin.charCodeAt(i);
+
+                const plainBuf = await window.crypto.subtle.decrypt(
+                    { name: 'AES-GCM', iv },
+                    key,
+                    data
+                );
+                const plainText = new TextDecoder().decode(plainBuf);
+                const parsed = JSON.parse(plainText);
+                return {
+                    ...chap,
+                    title: parsed.title || chap.title,
+                    paragraphs: parsed.paragraphs || [],
+                    decrypted: true
+                };
+            } catch (err) {
+                console.warn('[Reader] Chapter decrypt failed:', err);
+                return null;
+            }
+        }
+
+        function handleReaderAuthBtn() {
+            if (isAdminLoggedIn()) {
+                if (confirm('คุณเข้าสู่ระบบผู้แต่ง (Admin) ค้างไว้อยู่แล้ว ต้องการออกจากระบบหรือไม่?')) {
+                    localStorage.removeItem('novel_admin_crypto_key');
+                    localStorage.removeItem('novel_admin_token');
+                    sessionStorage.removeItem('novel_admin_token');
+                    cachedCryptoKey = null;
+                    applyAdminAndCopyProtection();
+                    buildToc();
+                    loadChapter(currentChapIndex, false);
+                }
+            } else {
+                openAdminAuthModal();
+            }
+        }
+
+        function openAdminAuthModal() {
+            const errEl = document.getElementById('readerAuthErr');
+            if (errEl) errEl.style.display = 'none';
+            document.getElementById('adminAuthModal')?.classList.add('open');
+            setTimeout(() => document.getElementById('readerAuthUser')?.focus(), 50);
+        }
+
+        function closeAdminAuthModal() {
+            document.getElementById('adminAuthModal')?.classList.remove('open');
+        }
+
+        async function submitAdminAuth(e) {
+            e.preventDefault();
+            const username = document.getElementById('readerAuthUser').value.trim();
+            const password = document.getElementById('readerAuthPass').value.trim();
+            const errEl = document.getElementById('readerAuthErr');
+            const submitBtn = document.getElementById('readerAuthSubmit');
+            if (errEl) errEl.style.display = 'none';
+            if (submitBtn) submitBtn.disabled = true;
+            try {
+                const digest = await sha256Hex(`${username}:${password}`);
+                if (digest !== STATIC_AUTH_HASH) {
+                    if (errEl) {
+                        errEl.innerText = 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง (เฉพาะผู้แต่งเท่านั้น)';
+                        errEl.style.display = 'block';
+                    }
+                    return;
+                }
+                const keyB64 = await deriveAdminKeyBase64(username, password);
+                localStorage.setItem('novel_admin_crypto_key', keyB64);
+                localStorage.setItem('novel_admin_token', 'static-token-' + Date.now());
+                cachedCryptoKey = null;
+                closeAdminAuthModal();
+                applyAdminAndCopyProtection();
+                buildToc();
+                await loadChapter(currentChapIndex, false);
+            } finally {
+                if (submitBtn) submitBtn.disabled = false;
+            }
+        }
+
+        // Copy & selection protection for non-admin visitors
+        ['contextmenu', 'copy', 'cut', 'selectstart', 'dragstart'].forEach(evtName => {
+            document.addEventListener(evtName, (e) => {
+                if (isAdminLoggedIn()) return;
+                if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) return;
+                e.preventDefault();
+            });
+        });
+        document.addEventListener('keydown', (e) => {
+            if (isAdminLoggedIn()) return;
+            if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) return;
+            const key = (e.key || '').toLowerCase();
+            if ((e.ctrlKey || e.metaKey) && ['c', 'x', 'a', 'u', 's'].includes(key)) {
+                e.preventDefault();
+            } else if (e.key === 'F12') {
+                e.preventDefault();
+            }
+        });
+        applyAdminAndCopyProtection();
+        let allChapters = [];
+        let currentChapIndex = 0;
+        let deferredPrompt;
+
+        // Register Service Worker for PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => {
+                        console.log('SW Registered');
+                        reg.update();
+                    })
+                    .catch(err => console.log('SW Error:', err));
+            });
+        }
+
+        // PWA Install prompt
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            const btn = document.getElementById('btnInstall');
+            if (btn) btn.style.display = 'inline-block';
+        });
+
+        function installPWA() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        document.getElementById('btnInstall').style.display = 'none';
+                    }
+                    deferredPrompt = null;
+                });
+            }
+        }
+
+        // Background update check (Stale-While-Revalidate pattern)
+        async function backgroundSyncChapters() {
+            try {
+                const res = await fetch('chapters.json?v=' + Date.now(), { cache: 'no-cache' });
+                if (res.ok) {
+                    const freshData = await res.json();
+                    if (Array.isArray(freshData) && freshData.length > 0) {
+                        const hasNew = freshData.length !== allChapters.length;
+                        allChapters = freshData;
+                        buildToc();
+                        if (hasNew) {
+                            console.log('[App] New chapters detected! Count:', freshData.length);
+                            const btn = document.getElementById('btnRefresh');
+                            if (btn) {
+                                btn.innerText = '✨ มีตอนใหม่ (' + freshData.length + ')';
+                                setTimeout(() => { btn.innerText = '🔄 รีเฟรช'; }, 4000);
+                            }
+                        }
+                    }
+                }
+            } catch (err) {
+                console.log('[App] Background sync skipped (offline or network slow)');
+            }
+        }
+
+        async function fetchChaptersWithTimeout(timeoutMs = 15000) {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
+            try {
+                // 1. Try network fetch with 15s timeout
+                const res = await fetch('chapters.json?v=' + Date.now(), { 
+                    cache: 'no-cache',
+                    signal: controller.signal
+                });
+                clearTimeout(timeoutId);
+                if (res.ok) {
+                    return await res.json();
+                }
+            } catch (netErr) {
+                clearTimeout(timeoutId);
+                console.warn('Network fetch failed or timed out:', netErr);
+            }
+
+            // 2. Fallback: Normal fetch without cache busting
+            try {
+                const fallbackRes = await fetch('chapters.json');
+                if (fallbackRes.ok) {
+                    return await fallbackRes.json();
+                }
+            } catch (fbErr) {
+                console.warn('Fallback fetch failed:', fbErr);
+            }
+
+            // 3. Fallback: Direct CacheStorage read (Offline PWA)
+            if ('caches' in window) {
+                try {
+                    const cached = await caches.match('chapters.json', { ignoreSearch: true })
+                                || await caches.match('./chapters.json', { ignoreSearch: true });
+                    if (cached) {
+                        return await cached.json();
+                    }
+                } catch (cacheErr) {
+                    console.warn('Direct CacheStorage read failed:', cacheErr);
+                }
+            }
+
+            throw new Error('ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์หรือดึงข้อมูลจากแคชได้');
+        }
+
+        async function forceRefresh() {
+            try {
+                const btn = document.getElementById('btnRefresh');
+                if (btn) btn.innerText = '⌛ กำลังโหลด...';
+                allChapters = await fetchChaptersWithTimeout(15000);
+                buildToc();
+                loadChapter(currentChapIndex, false);
+                if (btn) btn.innerText = '✓ ล่าสุดแล้ว';
+                setTimeout(() => { if (btn) btn.innerText = '🔄 รีเฟรช'; }, 2000);
+            } catch (err) {
+                alert('ไม่สามารถอัพเดทได้ในขณะนี้: ' + err.message);
+                const btn = document.getElementById('btnRefresh');
+                if (btn) btn.innerText = '🔄 รีเฟรช';
+            }
+        }
+
+        async function init() {
+            // STEP 1: Instant Cache-First Launch (Opens in ~50ms on mobile!)
+            let hasLoadedFromCache = false;
+            if ('caches' in window) {
+                try {
+                    const cached = await caches.match('chapters.json', { ignoreSearch: true })
+                                || await caches.match('./chapters.json', { ignoreSearch: true });
+                    if (cached) {
+                        const cachedChapters = await cached.json();
+                        if (Array.isArray(cachedChapters) && cachedChapters.length > 0) {
+                            const urlChap = parseInt(new URLSearchParams(window.location.search).get('ch') || '0', 10);
+                            const hasRequestedChap = urlChap <= 0 || cachedChapters.some(c => c.id === urlChap);
+                            if (hasRequestedChap) {
+                                console.log('[App] Loaded instantly from cache! Chapters:', cachedChapters.length);
+                                allChapters = cachedChapters;
+
+                                const savedTheme = localStorage.getItem('novel_theme') || 'sepia';
+                                changeTheme(savedTheme);
+
+                                const savedChap = urlChap > 0 ? urlChap : parseInt(localStorage.getItem('novel_last_chapter') || '1', 10);
+                                const targetIdx = allChapters.findIndex(c => c.id === savedChap);
+                                loadChapter(targetIdx >= 0 ? targetIdx : 0, urlChap > 0 ? false : true);
+
+                                hasLoadedFromCache = true;
+                                // Silently check for new chapters in background
+                                backgroundSyncChapters();
+                                return;
+                            }
+                            console.log('[App] Requested chapter', urlChap, 'not in cache; fetching fresh chapters...');
+                        }
+                    }
+                } catch (cacheErr) {
+                    console.warn('[App] Cache-first lookup skipped:', cacheErr);
+                }
+            }
+
+            // STEP 2: First-time open (No cache yet) -> Show friendly spinner & fetch
+            if (!hasLoadedFromCache) {
+                const reader = document.getElementById('readerArea');
+                if (reader) {
+                    reader.innerHTML = `
+                        <div style="text-align:center;padding:60px 20px;color:var(--text-muted);">
+                            <div style="font-size:42px;margin-bottom:12px;animation:spin 2s linear infinite;">⏳</div>
+                            <h3 style="margin-bottom:8px;color:var(--text);">กำลังเปิดสมุดบันทึกธุลีเหนือสวรรค์...</h3>
+                            <p style="font-size:14px;">กำลังดาวน์โหลดเนื้อหาสำหรับอ่านออฟไลน์ กรุณารอสักครู่</p>
+                        </div>
+                    `;
+                }
+
+                try {
+                    allChapters = await fetchChaptersWithTimeout(20000);
+
+                    const savedTheme = localStorage.getItem('novel_theme') || 'sepia';
+                    changeTheme(savedTheme);
+
+                    const urlChap = parseInt(new URLSearchParams(window.location.search).get('ch') || '0', 10);
+                    const savedChap = urlChap > 0 ? urlChap : parseInt(localStorage.getItem('novel_last_chapter') || '1', 10);
+                    const targetIdx = allChapters.findIndex(c => c.id === savedChap);
+                    loadChapter(targetIdx >= 0 ? targetIdx : 0, urlChap > 0 ? false : true);
+                } catch (err) {
+                    console.error('[App] Init failed:', err);
+                    if (reader) {
+                        reader.innerHTML = `
+                            <div style="text-align:center;padding:50px 20px;">
+                                <div style="font-size:48px;margin-bottom:16px;">⚠️</div>
+                                <h3 style="margin-bottom:12px;color:var(--text);">ไม่สามารถโหลดเนื้อหานิยายได้</h3>
+                                <p style="font-size:14px;color:var(--text-muted);margin-bottom:24px;">การเชื่อมต่ออินเทอร์เน็ตอาจช้าหรือไม่เสถียร</p>
+                                <button onclick="init()" style="padding:10px 24px;border-radius:24px;background:var(--accent);color:#fff;border:none;font-size:16px;cursor:pointer;font-weight:600;">🔄 กดเพื่อลองใหม่อีกครั้ง</button>
+                            </div>
+                        `;
+                    }
+                }
+            }
+        }
+
+        function changeTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('novel_theme', theme);
+            document.querySelectorAll('.controls .btn').forEach(b => b.classList.remove('active'));
+            if (theme === 'sepia') document.getElementById('btn-sepia')?.classList.add('active');
+            if (theme === 'warm-dark') document.getElementById('btn-dark')?.classList.add('active');
+            if (theme === 'light') document.getElementById('btn-light')?.classList.add('active');
+        }
+
+        function adjustFont(delta) {
+            const current = parseInt(localStorage.getItem('novel_font_size') || (window.innerWidth <= 600 ? '19' : '21'), 10);
+            const next = Math.min(28, Math.max(16, current + delta));
+            document.body.style.fontSize = next + 'px';
+            localStorage.setItem('novel_font_size', String(next));
+        }
+
+        (function applySavedFont() {
+            const saved = localStorage.getItem('novel_font_size');
+            if (saved) document.body.style.fontSize = saved + 'px';
+        })();
+
+        const VOLUMES = [
+            {
+                id: 1,
+                tag: 'เล่มที่ ๑ · ภาค ๑',
+                title: 'ตะกอนใต้เงาศิลาคราม',
+                sub: 'ตอนที่ 1–25',
+                cover: 'Cover_Vol1_web.webp',
+                fullCover: 'Cover_Vol1.png',
+                start: 1,
+                end: 25
+            },
+            {
+                id: 2,
+                tag: 'เล่มที่ ๒ · ภาค ๒',
+                title: 'รอยเลือดริมแม่น้ำหมอก',
+                sub: 'ตอนที่ 26–50',
+                cover: 'Cover_Vol2_web.webp',
+                fullCover: 'Cover_Vol2.png',
+                start: 26,
+                end: 50
+            },
+            {
+                id: 3,
+                tag: 'เล่มที่ ๓ · ภาค ๓',
+                title: 'แดนรกร้างและแนวกำแพงเหล็ก',
+                sub: 'ตอนที่ 51–75',
+                cover: 'Cover_Vol3_web.webp',
+                fullCover: 'Cover_Vol3.png',
+                start: 51,
+                end: 75
+            },
+            {
+                id: 4,
+                tag: 'เล่มที่ ๔ · ภาค ๔',
+                title: 'เก้าแคว้นและเงาสะท้อนเมืองหลวง',
+                sub: 'ตอนที่ 76–100',
+                cover: 'Cover_Vol4_web.webp',
+                fullCover: 'Cover_Vol4.png',
+                icon: '🦅',
+                start: 76,
+                end: 100
+            },
+            {
+                id: 5,
+                tag: 'เล่มที่ ๕ · ภาค ๕',
+                title: 'เพลิงหิมะหานโจว',
+                sub: 'ตอนที่ 101–125',
+                cover: 'Cover_Vol5_web.webp',
+                fullCover: 'Cover_Vol5.png',
+                icon: '🔥',
+                start: 101,
+                end: 125
+            }
+        ];
+
+        function getEffectiveVolumes() {
+            let vols = [...VOLUMES];
+            const maxEnd = Math.max(...VOLUMES.map(v => v.end), 0);
+            const extraChapters = allChapters.filter(c => c.id > maxEnd);
+            if (extraChapters.length > 0) {
+                let currentStart = maxEnd + 1;
+                const highestId = Math.max(...extraChapters.map(c => c.id));
+                while (currentStart <= highestId) {
+                    const currentEnd = currentStart + 24;
+                    const vNum = Math.floor((currentStart - 1) / 25) + 1;
+                    vols.push({
+                        id: vNum,
+                        tag: `เล่มที่ ${vNum} · ภาค ${vNum}`,
+                        title: 'ภาคใหม่ (กำลังเผยแพร่)',
+                        sub: `ตอนที่ ${currentStart}–${currentEnd}`,
+                        cover: '',
+                        icon: '📜',
+                        start: currentStart,
+                        end: currentEnd
+                    });
+                    currentStart = currentEnd + 1;
+                }
+            }
+            return vols;
+        }
+
+        let collapsedVolumes = {};
+
+        function toggleVolume(volId) {
+            collapsedVolumes[volId] = !collapsedVolumes[volId];
+            const card = document.getElementById(`vol-card-${volId}`);
+            if (card) {
+                if (collapsedVolumes[volId]) {
+                    card.classList.add('collapsed');
+                } else {
+                    card.classList.remove('collapsed');
+                }
+            }
+        }
+
+        function buildToc(filterQuery) {
+            const container = document.getElementById('tocContainer');
+            if (!container) return;
+
+            const searchInput = document.getElementById('tocSearchInput');
+            const query = (typeof filterQuery === 'string' ? filterQuery : (searchInput ? searchInput.value : '')).trim().toLowerCase();
+
+            const effectiveVolumes = getEffectiveVolumes();
+            const currentChap = allChapters[currentChapIndex];
+            const currentChapId = currentChap ? currentChap.id : 1;
+            const activeVolId = effectiveVolumes.find(v => currentChapId >= v.start && currentChapId <= v.end)?.id || 1;
+
+            const htmlBlocks = effectiveVolumes.map(vol => {
+                let volChapters = allChapters.filter(c => c.id >= vol.start && c.id <= vol.end);
+                if (query) {
+                    volChapters = volChapters.filter(c => String(c.id).includes(query) || (c.title || '').toLowerCase().includes(query));
+                }
+                if (volChapters.length === 0) return '';
+
+                if (collapsedVolumes[vol.id] === undefined) {
+                    collapsedVolumes[vol.id] = (vol.id !== activeVolId);
+                }
+                const isCollapsed = query ? false : collapsedVolumes[vol.id];
+
+                let coverHtml = '';
+                if (vol.cover) {
+                    coverHtml = `
+                        <div class="toc-hero-cover-wrap" onclick="event.stopPropagation(); showCoverLightbox(${vol.id});" title="คลิกเพื่อดูหน้าปกขนาดเต็ม">
+                            <img src="${vol.cover}" alt="หน้าปก ${vol.title}" class="toc-hero-cover">
+                            <span class="zoom-badge">🔍 ขยาย</span>
+                        </div>
+                    `;
+                } else {
+                    coverHtml = `
+                        <div class="toc-hero-cover-wrap" style="font-size:28px;">
+                            ${vol.icon || '📜'}
+                        </div>
+                    `;
+                }
+
+                const chaptersListHtml = volChapters.map(chap => {
+                    const idx = allChapters.findIndex(c => c.id === chap.id);
+                    const isActive = idx === currentChapIndex ? 'active' : '';
+                    const isLockedForVisitor = Boolean(chap.locked && !isAdminLoggedIn());
+                    const lockBadge = isLockedForVisitor ? '<span style="font-size:12px;opacity:0.75;">🔒</span>' : '';
+                    return `
+                        <li class="toc-item ${isActive}" onclick="selectChapter(${idx})">
+                            <span>${chap.title}</span>
+                            ${isActive ? '<span style="font-size:12px;color:var(--accent);">📖 กำลังอ่าน</span>' : lockBadge}
+                        </li>
+                    `;
+                }).join('');
+
+                return `
+                    <div class="toc-volume-card ${isCollapsed ? 'collapsed' : ''}" id="vol-card-${vol.id}">
+                        <div class="toc-hero-banner" onclick="toggleVolume(${vol.id})" title="คลิกเพื่อย่อ/ขยายเล่ม">
+                            ${coverHtml}
+                            <div class="toc-hero-details">
+                                <div class="toc-hero-tag">${vol.tag}</div>
+                                <div class="toc-hero-title">${vol.title}</div>
+                                <p class="toc-hero-sub">${vol.sub} · (${volChapters.length} ตอน)</p>
+                            </div>
+                            <div class="toc-vol-toggle" title="ย่อ/ขยายเล่ม">▼</div>
+                        </div>
+                        <ul class="toc-list">
+                            ${chaptersListHtml}
+                        </ul>
+                    </div>
+                `;
+            }).filter(Boolean).join('');
+
+            container.innerHTML = htmlBlocks || '<div style="text-align:center;padding:28px 12px;color:var(--text-muted);font-size:14px;">ไม่พบตอนที่ตรงกับคำค้นหา</div>';
+        }
+
+        function selectChapter(idx) {
+            closeToc();
+            loadChapter(idx, false);
+        }
+
+        let currentResolvedChapter = null;
+
+        async function loadChapter(idx, shouldRestoreScroll) {
+            currentChapIndex = idx;
+            const rawChap = allChapters[idx];
+            if (!rawChap) return;
+            const chap = await decryptChapterIfNeeded(rawChap);
+            currentResolvedChapter = chap;
+
+            localStorage.setItem('novel_last_chapter', rawChap.id);
+            document.title = `${chap ? chap.title : rawChap.title} · ธุลีเหนือสวรรค์`;
+            try {
+                const nextUrl = new URL(window.location.href);
+                nextUrl.searchParams.set('ch', String(rawChap.id));
+                window.history.replaceState({}, '', nextUrl.toString());
+            } catch (e) {}
+
+            const prevDisabled = idx === 0 ? 'disabled' : '';
+            const nextDisabled = idx === allChapters.length - 1 ? 'disabled' : '';
+
+            if (!chap) {
+                const ch25Idx = allChapters.findIndex(c => c.id === 25);
+                const ch25Btn = ch25Idx >= 0
+                    ? `<button class="btn" onclick="loadChapter(${ch25Idx}, false)">📖 กลับไปตอนที่ 25</button>`
+                    : '';
+                document.getElementById('readerArea').innerHTML = `
+                    <div class="locked-chapter-card">
+                        <div class="locked-chapter-icon">🔒</div>
+                        <div class="locked-chapter-title">ตอนที่ ${rawChap.id} — สงวนสิทธิ์เฉพาะผู้แต่ง</div>
+                        <p class="locked-chapter-desc">
+                            เว็บไซต์ต้นฉบับเปิดให้อ่านฟรีถึง <strong>ตอนที่ 25</strong> เท่านั้น<br>
+                            สำหรับตอนที่ 26 เป็นต้นไป เนื้อหาถูกเข้ารหัสไว้เพื่อสงวนสิทธิ์สำหรับผู้แต่ง (Admin)
+                        </p>
+                        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+                            <button class="admin-login-btn-primary" onclick="openAdminAuthModal()">🔐 เข้าสู่ระบบผู้แต่ง (Admin)</button>
+                            ${ch25Btn}
+                        </div>
+                    </div>
+                    <div class="nav-footer">
+                        <button class="nav-link" ${prevDisabled} onclick="loadChapter(${idx - 1}, false)">← ตอนก่อนหน้า</button>
+                        <button class="nav-link next" ${nextDisabled} onclick="loadChapter(${idx + 1}, false)">ตอนถัดไป →</button>
+                    </div>
+                `;
+                buildToc();
+                window.scrollTo(0, 0);
+                return;
+            }
+
+            let htmlStr = '';
+
+            // If Chapter 1, display the elegant Hero Volume 1 Cover Card
+            if (idx === 0) {
+                htmlStr += `
+                    <div class="vol-cover-card">
+                        <div class="vol-cover-img-wrapper" onclick="showCoverLightbox()" title="คลิกเพื่อดูหน้าปกขนาดเต็ม">
+                            <img src="Cover_Vol1_web.webp" alt="หน้าปก ธุลีเหนือสวรรค์ เล่มที่ 1" class="vol-cover-img" decoding="async">
+                        </div>
+                        <div class="vol-cover-info">
+                            <span class="vol-cover-badge">เล่มที่ ๑ · ภาค : ตะกอนใต้เงาศิลาคราม</span>
+                            <div class="vol-cover-title">ธุลีเหนือสวรรค์ (《尘上天》)</div>
+                            <p class="vol-cover-desc">ผู้เขียน: หวงตี้ปิ้ง (KaPonGZaYo) · ตอนที่ 1–25</p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Display Volume 2 at its opening chapter.
+            if (chap.id === 26) {
+                htmlStr += `
+                    <div class="vol-cover-card">
+                        <div class="vol-cover-img-wrapper" onclick="showCoverLightbox(2)" title="คลิกเพื่อดูหน้าปกขนาดเต็ม">
+                            <img src="Cover_Vol2_web.webp" alt="หน้าปก ธุลีเหนือสวรรค์ เล่มที่ 2" class="vol-cover-img" decoding="async">
+                        </div>
+                        <div class="vol-cover-info">
+                            <span class="vol-cover-badge">เล่มที่ ๒ · ภาค : รอยเลือดริมแม่น้ำหมอก</span>
+                            <div class="vol-cover-title">ธุลีเหนือสวรรค์ (《尘上天》)</div>
+                            <p class="vol-cover-desc">ผู้เขียน: หวงตี้ปิ้ง (KaPonGZaYo) · ตอนที่ 26–50</p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Display Volume 3 at its opening chapter.
+            if (chap.id === 51) {
+                htmlStr += `
+                    <div class="vol-cover-card">
+                        <div class="vol-cover-img-wrapper" onclick="showCoverLightbox(3)" title="คลิกเพื่อดูหน้าปกขนาดเต็ม">
+                            <img src="Cover_Vol3_web.webp" alt="หน้าปก ธุลีเหนือสวรรค์ เล่มที่ 3" class="vol-cover-img" decoding="async">
+                        </div>
+                        <div class="vol-cover-info">
+                            <span class="vol-cover-badge">เล่มที่ ๓ · ภาค : แดนรกร้างและแนวกำแพงเหล็ก</span>
+                            <div class="vol-cover-title">ธุลีเหนือสวรรค์ (《尘上天》)</div>
+                            <p class="vol-cover-desc">ผู้เขียน: หวงตี้ปิ้ง (KaPonGZaYo) · ตอนที่ 51–75</p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Display Volume 4 at its opening chapter.
+            if (chap.id === 76) {
+                htmlStr += `
+                    <div class="vol-cover-card">
+                        <div class="vol-cover-img-wrapper" onclick="showCoverLightbox(4)" title="คลิกเพื่อดูหน้าปกขนาดเต็ม">
+                            <img src="Cover_Vol4_web.webp" alt="หน้าปก ธุลีเหนือสวรรค์ เล่มที่ 4" class="vol-cover-img" decoding="async">
+                        </div>
+                        <div class="vol-cover-info">
+                            <span class="vol-cover-badge">เล่มที่ ๔ · ภาค : เก้าแคว้นและเงาสะท้อนเมืองหลวง</span>
+                            <div class="vol-cover-title">ธุลีเหนือสวรรค์ (《尘上天》)</div>
+                            <p class="vol-cover-desc">ผู้เขียน: หวงตี้ปิ้ง (KaPonGZaYo) · ตอนที่ 76–100</p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Display Volume 5 banner card at its opening chapter.
+            if (chap.id === 101) {
+                htmlStr += `
+                    <div class="vol-cover-card">
+                        <div class="vol-cover-img-wrapper" onclick="showCoverLightbox(5)" title="คลิกเพื่อดูหน้าปกขนาดเต็ม">
+                            <img src="Cover_Vol5_web.webp" alt="หน้าปก ธุลีเหนือสวรรค์ เล่มที่ 5" class="vol-cover-img" decoding="async">
+                        </div>
+                        <div class="vol-cover-info">
+                            <span class="vol-cover-badge">ม้วนที่ ๒ · เล่มที่ ๕ · ภาค : เพลิงหิมะหานโจว</span>
+                            <div class="vol-cover-title">ธุลีเหนือสวรรค์ (《尘上天》)</div>
+                            <p class="vol-cover-desc">ผู้เขียน: หวงตี้ปิ้ง (KaPonGZaYo) · ตอนที่ 101–125 (กำลังเผยแพร่)</p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            htmlStr += `<h1 class="chapter-title">${chap.title}</h1>`;
+            htmlStr += `
+                <div class="copy-tools-bar">
+                    <button class="copy-tool-btn" id="copyTitleBtn" onclick="copyChapterTitle()">📋 คัดลอกชื่อตอน</button>
+                    <button class="copy-tool-btn" id="copyBodyBtn" onclick="copyChapterBody()">📄 คัดลอกเนื้อหาตอน (พร้อมตัวเอียง)</button>
+                </div>
+            `;
+            chap.paragraphs.forEach(p => {
+                if (p.type === 'divider') htmlStr += `<div class="divider">❖ ❖ ❖</div>`;
+                else if (p.type === 'quote') htmlStr += `<div class="quote-box">${p.text}</div>`;
+                else htmlStr += `<p>${p.text}</p>`;
+            });
+
+            // Nav Footer
+            htmlStr += `
+                <div class="nav-footer">
+                    <button class="nav-link" ${prevDisabled} onclick="loadChapter(${idx - 1}, false)">← ตอนก่อนหน้า</button>
+                    <button class="nav-link next" ${nextDisabled} onclick="loadChapter(${idx + 1}, false)">ตอนถัดไป →</button>
+                </div>
+            `;
+
+            document.getElementById('readerArea').innerHTML = htmlStr;
+            buildToc();
+
+            // Handle Scroll Restoration
+            if (shouldRestoreScroll) {
+                const savedY = parseFloat(localStorage.getItem(`novel_scroll_ch_${chap.id}`) || '0');
+                if (savedY > 0) {
+                    setTimeout(() => {
+                        window.scrollTo({ top: savedY, behavior: 'instant' });
+                    }, 50);
+                } else {
+                    window.scrollTo(0, 0);
+                }
+            } else {
+                window.scrollTo(0, 0);
+                localStorage.setItem(`novel_scroll_ch_${chap.id}`, '0');
+            }
+        }
+
+        // Save scroll position on the fly
+        let scrollTimeout;
+        window.addEventListener('scroll', () => {
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPos = window.scrollY;
+            const progress = docHeight > 0 ? (scrollPos / docHeight) * 100 : 0;
+            document.getElementById('progressBar').style.width = progress + '%';
+
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                if (allChapters[currentChapIndex]) {
+                    const chapId = allChapters[currentChapIndex].id;
+                    localStorage.setItem(`novel_scroll_ch_${chapId}`, scrollPos);
+                }
+            }, 150);
+        });
+
+        function openToc() {
+            const effectiveVolumes = getEffectiveVolumes();
+            const currentChap = allChapters[currentChapIndex];
+            const activeVol = currentChap
+                ? effectiveVolumes.find(v => currentChap.id >= v.start && currentChap.id <= v.end)
+                : null;
+            const activeVolId = activeVol ? activeVol.id : 1;
+
+            // Reset accordion state so ONLY the active volume starts expanded
+            collapsedVolumes = {};
+            effectiveVolumes.forEach(v => {
+                collapsedVolumes[v.id] = (v.id !== activeVolId);
+            });
+
+            const searchInput = document.getElementById('tocSearchInput');
+            if (searchInput) searchInput.value = '';
+
+            buildToc('');
+            document.getElementById('tocModal').classList.add('open');
+            setTimeout(() => {
+                const activeItem = document.querySelector('.toc-item.active');
+                if (activeItem) {
+                    activeItem.scrollIntoView({ block: 'center', behavior: 'smooth' });
+                }
+            }, 100);
+        }
+
+        function closeToc(e) {
+            document.getElementById('tocModal').classList.remove('open');
+        }
+
+        function showCoverLightbox(volume = 1) {
+            const effectiveVolumes = getEffectiveVolumes();
+            const vol = effectiveVolumes.find(v => v.id === volume);
+            if (vol && (vol.fullCover || vol.cover)) {
+                const image = document.querySelector('#coverLightbox .lightbox-img');
+                image.src = vol.fullCover || vol.cover;
+                image.alt = 'หน้าปก เล่มที่ ' + volume + ' ขนาดเต็ม';
+                document.getElementById('coverLightbox').classList.add('open');
+            }
+        }
+
+        function closeCoverLightbox() {
+            document.getElementById('coverLightbox').classList.remove('open');
+        }
+
+        function flashCopyBtn(btnId, successLabel, defaultLabel) {
+            const btn = document.getElementById(btnId);
+            if (!btn) return;
+            btn.innerText = successLabel;
+            btn.classList.add('copied');
+            setTimeout(() => {
+                btn.innerText = defaultLabel;
+                btn.classList.remove('copied');
+            }, 2200);
+        }
+
+        async function copyChapterTitle() {
+            if (!isAdminLoggedIn()) return;
+            const chap = currentResolvedChapter || allChapters[currentChapIndex];
+            if (!chap) return;
+            const tmp = document.createElement('div');
+            tmp.innerHTML = chap.title;
+            const plainTitle = (tmp.textContent || tmp.innerText || '').trim();
+            try {
+                await navigator.clipboard.writeText(plainTitle);
+                flashCopyBtn('copyTitleBtn', '✅ คัดลอกชื่อตอนแล้ว!', '📋 คัดลอกชื่อตอน');
+            } catch (err) {
+                const ta = document.createElement('textarea');
+                ta.value = plainTitle;
+                document.body.appendChild(ta);
+                ta.select();
+                document.execCommand('copy');
+                document.body.removeChild(ta);
+                flashCopyBtn('copyTitleBtn', '✅ คัดลอกชื่อตอนแล้ว!', '📋 คัดลอกชื่อตอน');
+            }
+        }
+
+        async function copyChapterBody() {
+            if (!isAdminLoggedIn()) return;
+            const chap = currentResolvedChapter || allChapters[currentChapIndex];
+            if (!chap) return;
+            const htmlParts = [];
+            const textParts = [];
+            const tmp = document.createElement('div');
+
+            chap.paragraphs.forEach(p => {
+                if (p.type === 'divider') {
+                    htmlParts.push('<p style="text-align:center;">❖ ❖ ❖</p>');
+                    textParts.push('❖ ❖ ❖');
+                } else if (p.type === 'quote') {
+                    htmlParts.push(`<blockquote>${p.text}</blockquote>`);
+                    tmp.innerHTML = p.text;
+                    textParts.push((tmp.textContent || tmp.innerText || '').trim());
+                } else {
+                    htmlParts.push(`<p>${p.text}</p>`);
+                    tmp.innerHTML = p.text;
+                    textParts.push((tmp.textContent || tmp.innerText || '').trim());
+                }
+            });
+
+            const richHtml = htmlParts.join('');
+            const plainText = textParts.join('\n\n');
+
+            try {
+                if (window.ClipboardItem && navigator.clipboard && navigator.clipboard.write) {
+                    const item = new ClipboardItem({
+                        'text/html': new Blob([richHtml], { type: 'text/html' }),
+                        'text/plain': new Blob([plainText], { type: 'text/plain' })
+                    });
+                    await navigator.clipboard.write([item]);
+                } else {
+                    await navigator.clipboard.writeText(plainText);
+                }
+                flashCopyBtn('copyBodyBtn', '✅ คัดลอกเนื้อหาแล้ว!', '📄 คัดลอกเนื้อหาตอน (พร้อมตัวเอียง)');
+            } catch (err) {
+                const holder = document.createElement('div');
+                holder.contentEditable = true;
+                holder.style.position = 'fixed';
+                holder.style.left = '-9999px';
+                holder.innerHTML = richHtml;
+                document.body.appendChild(holder);
+                const range = document.createRange();
+                range.selectNodeContents(holder);
+                const sel = window.getSelection();
+                sel.removeAllRanges();
+                sel.addRange(range);
+                document.execCommand('copy');
+                sel.removeAllRanges();
+                document.body.removeChild(holder);
+                flashCopyBtn('copyBodyBtn', '✅ คัดลอกเนื้อหาแล้ว!', '📄 คัดลอกเนื้อหาตอน (พร้อมตัวเอียง)');
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) return;
+            if (e.key === 'Escape') {
+                closeToc();
+                closeCoverLightbox();
+            } else if (e.key === 'ArrowLeft' && currentChapIndex > 0) {
+                loadChapter(currentChapIndex - 1, false);
+            } else if (e.key === 'ArrowRight' && currentChapIndex < allChapters.length - 1) {
+                loadChapter(currentChapIndex + 1, false);
+            }
+        });
+
+        init();
+    </script>
+</body>
+</html>

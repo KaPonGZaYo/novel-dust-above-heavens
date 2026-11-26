@@ -1,0 +1,1604 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="googlebot" content="noindex, nofollow">
+    <title>ธุลีเหนือสวรรค์ (《尘上天》) — นิยายกำลังภายใน-เทพเซียน</title>
+    <meta name="description" content="ธุลีเหนือสวรรค์ (Dust Above the Heavens) นิยายกำลังภายในผสมเทพเซียน เรื่องราวของ กู้ฉางอัน เด็กหนุ่มไร้รากปราณที่ก้าวเดินบนเส้นทางสายกายเนื้อด้วยความสุขุมรอบคอบ">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="ธุลีเหนือสวรรค์ (《尘上天》) — นิยายกำลังภายใน-เทพเซียน">
+    <meta property="og:description" content="ในโลกที่รากปราณคือชะตาฟ้าลิขิต เด็กตัดฟืนไร้รากปราณเลือกเดินเส้นทางสายกายเนื้อที่โหดหินที่สุด เพื่อไต่เต้าจากปุถุชนขึ้นท้าทายเหล่าเซียนบนเขา">
+    <meta property="og:image" content="https://kapongzayo.github.io/novel-dust-above-heavens/Cover_Vol1_web.webp">
+    <meta property="og:url" content="https://kapongzayo.github.io/novel-dust-above-heavens/">
+
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#141210">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <link rel="icon" type="image/png" href="icon-192.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Charm:wght@400;700&family=Noto+Serif+SC:wght@500;700&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #110f0d;
+            --bg-soft: #1a1714;
+            --card: #1f1b17;
+            --border: rgba(207, 168, 94, 0.25);
+            --border-strong: rgba(207, 168, 94, 0.55);
+            --text: #ddd5c7;
+            --muted: #a69c8c;
+            --title: #f5ead6;
+            --gold: #cfa85e;
+            --gold-bright: #ecd095;
+            --crimson: #a8442a;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Sarabun', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: radial-gradient(circle at 50% 0%, #231c14 0%, var(--bg) 42%);
+            color: var(--text);
+            line-height: 1.75;
+            -webkit-font-smoothing: antialiased;
+        }
+        a { color: inherit; text-decoration: none; }
+
+        /* Top Nav */
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(17, 15, 13, 0.88);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+        }
+        .topbar-inner {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: max(10px, env(safe-area-inset-top)) 16px 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+        .brand {
+            font-family: 'Charm', cursive;
+            font-size: clamp(20px, 4.8vw, 24px);
+            font-weight: 700;
+            color: var(--gold-bright);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+        .brand .cn {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 17px;
+            color: var(--gold);
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            font-size: 15px;
+            color: var(--muted);
+        }
+        .nav-links a:hover { color: var(--gold-bright); }
+        .nav-cta {
+            background: linear-gradient(135deg, #b88c3e, #8f6826);
+            color: #fff8eb !important;
+            padding: 7px 16px;
+            border-radius: 99px;
+            font-weight: 600;
+            font-size: 14px;
+            border: 1px solid rgba(255, 224, 158, 0.35);
+            box-shadow: 0 4px 14px rgba(184, 140, 62, 0.25);
+        }
+        .nav-cta:hover { filter: brightness(1.08); }
+
+        .wrap {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Hero */
+        .hero {
+            padding: 48px 0 44px;
+            display: grid;
+            grid-template-columns: 310px 1fr;
+            gap: 42px;
+            align-items: center;
+        }
+        .cover-frame {
+            position: relative;
+            border-radius: 14px;
+            padding: 8px;
+            background: linear-gradient(145deg, rgba(207, 168, 94, 0.45), rgba(207, 168, 94, 0.08));
+            box-shadow: 0 24px 55px rgba(0, 0, 0, 0.65), 0 0 36px rgba(207, 168, 94, 0.14);
+        }
+        .cover-frame img {
+            width: 100%;
+            display: block;
+            border-radius: 10px;
+        }
+        .hero-eyebrow {
+            font-size: 13px;
+            letter-spacing: 2.2px;
+            color: var(--gold);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+        .hero-title {
+            font-family: 'Charm', cursive;
+            font-size: clamp(38px, 5vw, 54px);
+            line-height: 1.2;
+            color: var(--title);
+            margin-bottom: 6px;
+        }
+        .hero-subtitle {
+            font-size: 17px;
+            color: var(--gold-bright);
+            margin-bottom: 14px;
+        }
+        .hero-subtitle .cn {
+            font-family: 'Noto Serif SC', serif;
+        }
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 18px;
+        }
+        .tag {
+            font-size: 13px;
+            padding: 3px 12px;
+            border-radius: 99px;
+            background: rgba(207, 168, 94, 0.12);
+            border: 1px solid var(--border);
+            color: var(--gold-bright);
+        }
+        .hero-hook {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--gold-bright);
+            border-left: 3px solid var(--gold);
+            padding: 6px 0 6px 14px;
+            margin-bottom: 16px;
+            line-height: 1.65;
+        }
+        .synopsis {
+            font-size: 17px;
+            color: var(--text);
+            margin-bottom: 24px;
+            line-height: 1.85;
+        }
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #c79a49, #946b25);
+            color: #fff9ee;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 16px;
+            border: 1px solid rgba(255, 224, 158, 0.4);
+            box-shadow: 0 8px 24px rgba(184, 140, 62, 0.28);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        .btn-primary:hover { transform: translateY(-1px); filter: brightness(1.07); }
+        .btn-secondary {
+            background: var(--card);
+            color: var(--title);
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 15px;
+            border: 1px solid var(--border-strong);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        .btn-secondary:hover { border-color: var(--gold-bright); color: var(--gold-bright); }
+
+        /* Section */
+        section {
+            padding: 40px 0;
+            border-top: 1px solid rgba(207, 168, 94, 0.14);
+        }
+        .sec-head {
+            margin-bottom: 22px;
+        }
+        .sec-title {
+            font-family: 'Charm', cursive;
+            font-size: 32px;
+            color: var(--gold-bright);
+            margin-bottom: 4px;
+        }
+        .sec-desc {
+            color: var(--muted);
+            font-size: 15px;
+        }
+
+        /* Pillars */
+        .pillars {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+        .pillar-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+        }
+        .pillar-card h3 {
+            color: var(--gold-bright);
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+        .pillar-card p {
+            color: var(--text);
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        /* Volumes */
+        .vol-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(195px, 1fr));
+            gap: 18px;
+        }
+        .vol-card {
+            position: relative;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+        .vol-card.vol-featured {
+            border-color: var(--border-strong);
+            box-shadow: 0 8px 28px rgba(207, 168, 94, 0.16);
+        }
+        .vol-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--border-strong);
+        }
+        .vol-card img {
+            width: 100%;
+            aspect-ratio: 3 / 4;
+            object-fit: cover;
+            display: block;
+        }
+        .vol-placeholder {
+            width: 100%;
+            aspect-ratio: 3 / 4;
+            background:
+                radial-gradient(circle at 25% 20%, rgba(212, 92, 52, 0.34), transparent 55%),
+                radial-gradient(circle at 80% 78%, rgba(112, 186, 212, 0.28), transparent 58%),
+                linear-gradient(160deg, #1d1514 0%, #14171d 55%, #0e1014 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 18px;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+        }
+        .vol-placeholder::before {
+            content: '';
+            position: absolute;
+            inset: 10px;
+            border: 1px solid rgba(207, 168, 94, 0.32);
+            border-radius: 6px;
+            pointer-events: none;
+        }
+        .vol-placeholder-icon {
+            font-size: 36px;
+            margin-bottom: 10px;
+            filter: drop-shadow(0 4px 12px rgba(224, 120, 64, 0.45));
+        }
+        .vol-placeholder-num {
+            font-size: 12px;
+            letter-spacing: 2px;
+            color: var(--gold);
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+        .vol-placeholder-title {
+            font-family: 'Charm', cursive;
+            font-size: 26px;
+            line-height: 1.25;
+            color: var(--title);
+            text-shadow: 0 2px 12px rgba(207, 168, 94, 0.3);
+        }
+        .vol-placeholder-sub {
+            margin-top: 8px;
+            font-size: 12px;
+            color: var(--muted);
+        }
+        .vol-new-pill {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 2;
+            background: linear-gradient(135deg, #d95b38, #cfa85e);
+            color: #141210;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 3px 9px;
+            border-radius: 99px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
+        }
+        .vol-body {
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+        .vol-badge {
+            font-size: 12px;
+            color: var(--gold);
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+        .vol-name {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--title);
+            margin-bottom: 4px;
+        }
+        .vol-range {
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 12px;
+        }
+        .vol-btn {
+            margin-top: auto;
+            text-align: center;
+            padding: 8px 12px;
+            border-radius: 8px;
+            background: rgba(207, 168, 94, 0.14);
+            border: 1px solid var(--border-strong);
+            color: var(--gold-bright);
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .vol-btn:hover { background: rgba(207, 168, 94, 0.26); }
+
+        /* Characters Gallery */
+        .char-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        .char-filter-btn {
+            background: var(--card);
+            color: var(--muted);
+            border: 1px solid var(--border);
+            padding: 6px 14px;
+            border-radius: 99px;
+            font-size: 13.5px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.18s ease;
+        }
+        .char-filter-btn:hover {
+            border-color: var(--border-strong);
+            color: var(--title);
+        }
+        .char-filter-btn.active {
+            background: linear-gradient(135deg, #d9b263, #b48636);
+            color: #141210;
+            border-color: transparent;
+            font-weight: 700;
+        }
+        .char-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+        .char-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+        }
+        .char-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--border-strong);
+            box-shadow: 0 14px 32px rgba(0, 0, 0, 0.5), 0 0 18px rgba(207, 168, 94, 0.14);
+        }
+        .char-img-wrap {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            overflow: hidden;
+            background: #100e0c;
+        }
+        .char-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            display: block;
+            transition: transform 0.35s ease;
+        }
+        .char-card:hover .char-img-wrap img {
+            transform: scale(1.05);
+        }
+        .char-img-wrap::after {
+            content: '';
+            position: absolute;
+            inset: auto 0 0 0;
+            height: 45%;
+            background: linear-gradient(to top, rgba(20, 18, 16, 0.92), transparent);
+            pointer-events: none;
+        }
+        .char-role-pill {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 2;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 9px;
+            border-radius: 99px;
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(255,255,255,0.16);
+        }
+        .role-main { background: rgba(180, 134, 54, 0.85); color: #141210; }
+        .role-heroine { background: rgba(74, 132, 168, 0.85); color: #f4f8fb; }
+        .role-pillar { background: rgba(138, 86, 172, 0.85); color: #f8f2ff; }
+        .role-antagonist { background: rgba(168, 48, 48, 0.88); color: #ffecec; }
+        .char-img-caption {
+            position: absolute;
+            left: 12px;
+            right: 12px;
+            bottom: 10px;
+            z-index: 2;
+        }
+        .char-name {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--title);
+            line-height: 1.2;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+        }
+        .char-cn {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 12px;
+            color: var(--gold-bright);
+            margin-left: 5px;
+            font-weight: 500;
+        }
+        .char-epithet {
+            font-size: 12px;
+            color: #d6cbb8;
+            margin-top: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .char-body {
+            padding: 12px 14px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            flex: 1;
+        }
+        .char-realm {
+            font-size: 12px;
+            color: var(--gold);
+            font-weight: 600;
+        }
+        .char-desc {
+            font-size: 13px;
+            color: var(--muted);
+            line-height: 1.6;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .char-more-hint {
+            margin-top: auto;
+            padding-top: 6px;
+            font-size: 12px;
+            color: var(--gold-bright);
+            font-weight: 600;
+            opacity: 0.88;
+        }
+
+        /* Character Dossier Modal */
+        .char-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(8, 7, 6, 0.9);
+            backdrop-filter: blur(8px);
+            padding: 20px;
+            align-items: center;
+            justify-content: center;
+            overflow-y: auto;
+        }
+        .char-modal.open { display: flex; }
+        .char-modal-card {
+            position: relative;
+            width: 100%;
+            max-width: 860px;
+            background: linear-gradient(160deg, #211d18 0%, #15120f 100%);
+            border: 1px solid var(--border-strong);
+            border-radius: 16px;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 360px 1fr;
+            box-shadow: 0 28px 70px rgba(0, 0, 0, 0.82);
+        }
+        .char-modal-img-col {
+            position: relative;
+            background: #0d0b0a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .char-modal-img-col img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            display: block;
+        }
+        .char-modal-info {
+            padding: 24px 26px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .char-modal-head {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+        }
+        .char-modal-title {
+            font-family: 'Charm', cursive;
+            font-size: 32px;
+            line-height: 1.15;
+            color: var(--title);
+        }
+        .char-modal-cn {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 16px;
+            color: var(--gold);
+            margin-left: 6px;
+        }
+        .char-modal-epithet {
+            color: var(--gold-bright);
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 2px;
+        }
+        .char-modal-quote {
+            border-left: 3px solid var(--gold);
+            padding: 8px 14px;
+            background: rgba(207, 168, 94, 0.08);
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+            font-size: 14.5px;
+            color: var(--title);
+        }
+        .char-meta-list {
+            display: grid;
+            gap: 6px;
+            font-size: 14px;
+            background: rgba(255,255,255,0.025);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px 14px;
+        }
+        .char-meta-row strong { color: var(--gold-bright); }
+        .char-modal-bio {
+            font-size: 15px;
+            line-height: 1.75;
+            color: var(--text);
+        }
+        .char-modal-actions {
+            margin-top: auto;
+            padding-top: 8px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+        .char-nav-group { display: flex; gap: 8px; }
+
+        /* Power System Image Showcase */
+        .chart-card {
+            background: var(--card);
+            border: 1px solid var(--border-strong);
+            border-radius: 14px;
+            padding: 16px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+        .chart-img-wrap {
+            position: relative;
+            cursor: zoom-in;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .chart-img-wrap img {
+            width: 100%;
+            display: block;
+            border-radius: 10px;
+        }
+        .chart-toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-top: 14px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border);
+            font-size: 14px;
+            color: var(--muted);
+        }
+
+        /* Lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(0, 0, 0, 0.92);
+            padding: 20px;
+            overflow: auto;
+            align-items: flex-start;
+            justify-content: center;
+        }
+        .lightbox.open { display: flex; }
+        .lightbox img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.8);
+        }
+        .lightbox-close {
+            position: fixed;
+            top: 16px;
+            right: 20px;
+            background: rgba(30, 26, 22, 0.9);
+            color: var(--gold-bright);
+            border: 1px solid var(--border-strong);
+            padding: 8px 14px;
+            border-radius: 99px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 28px 20px 40px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 14px;
+        }
+        footer a { color: var(--gold); }
+        footer a:hover { text-decoration: underline; }
+
+        /* Access & Copy Protection */
+        body.no-copy {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+        }
+        body:not(.is-admin) .admin-only {
+            display: none !important;
+        }
+        .admin-auth-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(4px);
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+        .admin-auth-modal.open { display: flex; }
+        .admin-auth-card {
+            background: var(--surface);
+            border: 1px solid var(--border-strong);
+            border-radius: 16px;
+            padding: 24px;
+            width: 100%;
+            max-width: 390px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.65);
+        }
+        .admin-auth-card h3 {
+            margin: 0 0 6px;
+            color: var(--gold-bright);
+            font-size: 20px;
+        }
+        .admin-auth-card p {
+            margin: 0 0 16px;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        .admin-auth-input {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: 1px solid var(--border-strong);
+            background: var(--bg);
+            color: var(--text);
+            font-family: inherit;
+            font-size: 15px;
+            margin-bottom: 12px;
+            outline: none;
+        }
+        .admin-auth-input:focus { border-color: var(--gold); }
+        .admin-auth-err {
+            color: #f87171;
+            font-size: 13px;
+            margin-bottom: 10px;
+            display: none;
+        }
+
+        @media (max-width: 900px) {
+            .hero { grid-template-columns: 1fr; text-align: center; gap: 28px; }
+            .cover-frame { max-width: 260px; margin: 0 auto; }
+            .tags, .hero-actions { justify-content: center; }
+            .pillars { grid-template-columns: 1fr; }
+            .vol-grid { grid-template-columns: repeat(2, 1fr); }
+            .char-grid { grid-template-columns: repeat(2, 1fr); }
+            .char-modal-card { grid-template-columns: 1fr; max-width: 480px; max-height: 90vh; overflow-y: auto; }
+            .char-modal-img-col { aspect-ratio: 1 / 1; }
+        }
+        @media (max-width: 560px) {
+            .nav-links .hide-sm { display: none; }
+            .brand .cn { display: none; }
+            .nav-cta { padding: 6px 12px; font-size: 13px; white-space: nowrap; }
+            .vol-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+            .char-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+            .char-name { font-size: 15px; }
+            .char-modal-info { padding: 18px; }
+            .hero { padding: 28px 0 32px; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="topbar">
+        <div class="topbar-inner">
+            <a href="#" class="brand">ธุลีเหนือสวรรค์ <span class="cn">《尘上天》</span></a>
+            <div class="nav-links">
+                <a href="#synopsis" class="hide-sm">เรื่องย่อ</a>
+                <a href="#volumes" class="hide-sm">สารบัญเล่ม</a>
+                <a href="#characters" class="hide-sm admin-only">ตัวละคร</a>
+                <a href="#power-system" class="hide-sm admin-only">ระบบพลัง</a>
+                <button type="button" id="btnHomeAuth" onclick="handleHomeAuthBtn()" class="btn-secondary" style="padding:6px 12px;font-size:13px;">🔐 ผู้แต่ง</button>
+                <a href="reader.html" class="nav-cta">📖 เข้าสู่หน้าอ่าน</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="wrap">
+        <section class="hero" style="border-top:none;">
+            <div class="cover-frame">
+                <img src="Cover_Vol1_web.webp" alt="ปกนิยาย ธุลีเหนือสวรรค์ เล่มที่ 1" decoding="async" fetchpriority="high">
+            </div>
+            <div>
+                <div class="hero-eyebrow">Dust Above the Heavens · Eastern Cultivation Epic</div>
+                <h1 class="hero-title">ธุลีเหนือสวรรค์</h1>
+                <div class="hero-subtitle"><span class="cn">《尘上天》</span> · ผู้เขียน: หวงตี้ปิ้ง (KaPonGZaYo)</div>
+                <div class="tags">
+                    <span class="tag">กำลังภายใน</span>
+                    <span class="tag">เทพเซียน</span>
+                    <span class="tag">สายสุขุมรอบคอบ</span>
+                    <span class="tag">ชิงไหวชิงพริบ</span>
+                </div>
+                <blockquote class="hero-hook">
+                    &ldquo;บนฟ้ามีเซียนเหาะเหิน ใต้เท้ามีปุถุชนเป็นธุลี... แต่หากกล้าก้าวเข้ามาในระยะสิบก้าว ต่อให้เป็นเซียน ข้าก็จะสับให้ร่วงด้วยขวานผ่าฟืน!&rdquo;
+                </blockquote>
+                <p class="synopsis">
+                    ในโลกที่ &ldquo;รากปราณ&rdquo; คือชะตาฟ้าลิขิต ผู้มีปราณเหาะเหินเหนือเมฆาอายุยืนนับร้อยปี ส่วนคนไร้รากปราณอย่าง
+                    <strong>กู้ฉางอัน</strong> มีค่าไม่ต่างจากมดปลวกในลานฟืนท้ายสำนัก
+                    ไม่มีพรสวรรค์ ไม่มีตระกูลหนุนหลัง มีเพียงสองมือที่ด้านชา ขวานตัดฟืนเก่าๆ และสมองที่คำนวณทุกย่างก้าวราวกับเล่นหมากบนปากเหว
+                    &mdash; จนกระทั่งคืนเดือนดับที่เขาถูกส่งขึ้นหน้าผาต้องห้าม และได้พานพบกับ <strong>&ldquo;มุกสีนิลลึกลับ&rdquo;</strong> ใต้หุบเหวที่เปลี่ยนชะตากรรมของเด็กตัดฟืนไปตลอดกาล
+                    ในยุคที่ผู้ฝึกปราณครองฟ้า กู้ฉางอันเลือกเดินเส้นทางสายกายเนื้อที่โหดหินที่สุด เพื่อไต่เต้าจากปุถุชนไร้รากปราณขึ้นไปท้าทายเหล่าเซียนบนเขา...
+                    <em>ในโลกคนล่างเขา นอกสิบก้าวเซียนอาจเป็นจ้าว &mdash; แต่หากถูกประชิดตัว กายเนื้อคือผู้คุมเกม!</em>
+                </p>
+                <div class="hero-actions">
+                    <a href="reader.html?ch=1" class="btn-primary">📖 เริ่มอ่านตอนที่ 1</a>
+                    <a href="reader.html" class="btn-secondary" id="continueBtn">🔖 อ่านต่อจากล่าสุด</a>
+                    <a href="reader.html?ch=101" class="btn-secondary" id="latestBtn">🔥 อ่านตอนล่าสุด</a>
+                    <a href="#world-map" class="btn-secondary">🗺️ แผนที่โลก</a>
+                    <a href="#power-system" class="btn-secondary admin-only">📜 ตารางระบบพลัง</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="synopsis">
+            <div class="sec-head">
+                <h2 class="sec-title">จุดเด่นแห่งโลกธุลีเหนือสวรรค์</h2>
+                <p class="sec-desc">กฎเกณฑ์ที่รัดกุม ตรรกะการต่อสู้ที่สมเหตุสมผล และเส้นแบ่งระหว่างปุถุชนกับเซียนบนเขา</p>
+            </div>
+            <div class="pillars">
+                <div class="pillar-card">
+                    <h3>⚔️ ยุทธวิธีเหนือตัวเลขพลัง</h3>
+                    <p>การปะทะไม่ได้วัดกันแค่ระดับขั้น แต่ขึ้นอยู่กับระยะ จังหวะ ภูมิประเทศ และกลยุทธ์ ตั้งแต่เกมชิงระยะสิบก้าวของคนล่างเขา ไปจนถึงศึกเวหาและเขตแดนของยอดฝีมือบนเขา</p>
+                </div>
+                <div class="pillar-card">
+                    <h3>⛰️ คนล่างเขา กับ คนบนเขา</h3>
+                    <p>จุดตัดสำคัญอยู่ที่ขั้นที่ 6 ของทั้งสองสาย พ้นพื้นดินเมื่อใดจึงนับเป็นคนบนเขา ทิ้งพื้นที่สีเทาอันดุเดือดให้จอมยุทธ์สายกายขั้น 5 ได้ท้าทายแก่นทองคำ</p>
+                </div>
+                <div class="pillar-card">
+                    <h3>🧭 สุขุม รอบคอบ ไม่ประมาท</h3>
+                    <p>ไม่มีโชคช่วยไร้เหตุผล ตัวเอกไต่เต้าจากจุดต่ำสุดด้วยสติปัญญา การสะสมทรัพยากร และการอ่านเกมล่วงหน้าในโลกที่เต็มไปด้วยอันตราย</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="volumes">
+            <div class="sec-head">
+                <h2 class="sec-title">ทำเนียบเล่มและภาค</h2>
+                <p class="sec-desc">เลือกเปิดอ่านตั้งแต่ต้นภาค หรือเข้าสู่หน้าอ่านเพื่อเลือกตอนรายบท <span id="chapCountBadge"></span></p>
+            </div>
+            <div class="vol-grid">
+                <div class="vol-card">
+                    <img src="Cover_Vol1_web.webp" alt="ปกเล่มที่ 1" loading="lazy" decoding="async">
+                    <div class="vol-body">
+                        <div class="vol-badge">ม้วนที่ ๑ · เล่มที่ ๑</div>
+                        <div class="vol-name">ตะกอนใต้เงาศิลาคราม</div>
+                        <div class="vol-range">ตอนที่ 1 – 25</div>
+                        <a href="reader.html?ch=1" class="vol-btn">📖 อ่านเล่มที่ 1</a>
+                    </div>
+                </div>
+                <div class="vol-card">
+                    <img src="Cover_Vol2_web.webp" alt="ปกเล่มที่ 2" loading="lazy" decoding="async">
+                    <div class="vol-body">
+                        <div class="vol-badge">ม้วนที่ ๑ · เล่มที่ ๒</div>
+                        <div class="vol-name">รอยเลือดริมแม่น้ำหมอก</div>
+                        <div class="vol-range">ตอนที่ 26 – 50</div>
+                        <a href="reader.html?ch=26" class="vol-btn">📖 อ่านเล่มที่ 2</a>
+                    </div>
+                </div>
+                <div class="vol-card">
+                    <img src="Cover_Vol3_web.webp" alt="ปกเล่มที่ 3" loading="lazy" decoding="async">
+                    <div class="vol-body">
+                        <div class="vol-badge">ม้วนที่ ๑ · เล่มที่ ๓</div>
+                        <div class="vol-name">แดนรกร้างและแนวกำแพงเหล็ก</div>
+                        <div class="vol-range">ตอนที่ 51 – 75</div>
+                        <a href="reader.html?ch=51" class="vol-btn">📖 อ่านเล่มที่ 3</a>
+                    </div>
+                </div>
+                <div class="vol-card">
+                    <img src="Cover_Vol4_web.webp" alt="ปกเล่มที่ 4" loading="lazy" decoding="async">
+                    <div class="vol-body">
+                        <div class="vol-badge">ม้วนที่ ๑ · เล่มที่ ๔</div>
+                        <div class="vol-name">เก้าแคว้นและเงาสะท้อนเมืองหลวง</div>
+                        <div class="vol-range">ตอนที่ 76 – 100</div>
+                        <a href="reader.html?ch=76" class="vol-btn">📖 อ่านเล่มที่ 4</a>
+                    </div>
+                </div>
+                <div class="vol-card vol-featured">
+                    <span class="vol-new-pill">ใหม่ · กำลังเผยแพร่</span>
+                    <img src="Cover_Vol5_web.webp" alt="ปกเล่มที่ 5 เพลิงหิมะหานโจว" loading="lazy" decoding="async">
+                    <div class="vol-body">
+                        <div class="vol-badge">ม้วนที่ ๒ · เล่มที่ ๕</div>
+                        <div class="vol-name">เพลิงหิมะหานโจว</div>
+                        <div class="vol-range" id="vol5Range">ตอนที่ 101 – 125 (กำลังเผยแพร่)</div>
+                        <a href="reader.html?ch=101" class="vol-btn">🔥 อ่านเล่มที่ 5</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="world-map" aria-labelledby="map-title">
+            <div class="sec-head">
+                <h2 class="sec-title" id="map-title">แผนที่แผ่นดินต้าเฉียน</h2>
+                <p class="sec-desc">ภูมิศาสตร์เขตปลอดภัย ๑๐% และแนวปราการเหล็กท่ามกลางแดนสนธยา — คลิกที่ภาพแผนที่เพื่อขยายดูขนาดเต็มได้</p>
+            </div>
+            <div class="chart-card">
+                <div class="chart-img-wrap" onclick="openChartLightbox('World_Map.png', 'แผนที่แผ่นดินต้าเฉียน ขนาดเต็ม')" title="คลิกเพื่อขยายดูภาพขนาดเต็ม">
+                    <img src="world-map.webp" width="1536" height="1024" style="display:block;width:100%;height:auto" loading="lazy" decoding="async" alt="นครหลวงเทียนอันอยู่กลางแผ่นดิน ชิงเหออยู่ทางตะวันตกเฉียงเหนือ และแนวกำแพงเหล็กทอดตัวอยู่ทางเหนือ">
+                </div>
+                <div class="chart-toolbar">
+                    <span>💡 คลิกที่ภาพแผนที่เพื่อขยายดูขนาดเต็มได้</span>
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                        <button class="btn-secondary" style="padding:8px 14px;font-size:14px;" onclick="openChartLightbox('World_Map.png', 'แผนที่แผ่นดินต้าเฉียน ขนาดเต็ม')">🔍 ขยายภาพ</button>
+                        <a href="World_Map.png" download="ธุลีเหนือสวรรค์_แผนที่แผ่นดินต้าเฉียน.png" class="btn-primary" style="padding:8px 16px;font-size:14px;">⬇️ ดาวน์โหลดรูป (PNG)</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="characters" class="admin-only">
+            <div class="sec-head">
+                <h2 class="sec-title">ทำเนียบตัวละครหลัก</h2>
+                <p class="sec-desc">โฉมหน้าเหล่าผู้เดินหมากแห่งเก้าแคว้น — คลิกที่ภาพตัวละครเพื่อเปิดอ่านแฟ้มประวัติเต็มและตอนเปิดตัว</p>
+            </div>
+            <div class="char-filters" id="charFilters">
+                <button class="char-filter-btn active" onclick="filterCharacters('all', this)">ทั้งหมด (18)</button>
+                <button class="char-filter-btn" onclick="filterCharacters('main', this)">ตัวเอก &amp; สหาย (5)</button>
+                <button class="char-filter-btn" onclick="filterCharacters('heroine', this)">สตรีเคียงชะตา (3)</button>
+                <button class="char-filter-btn" onclick="filterCharacters('pillar', this)">๕ เสาหลัก &amp; ยอดคน (6)</button>
+                <button class="char-filter-btn" onclick="filterCharacters('antagonist', this)">ฝ่ายปฏิปักษ์ (4)</button>
+            </div>
+            <div class="char-grid" id="charGrid"></div>
+        </section>
+
+        <section id="power-system" class="admin-only">
+            <div class="sec-head">
+                <h2 class="sec-title">ทำเนียบเทียบเคียงระบบพลัง</h2>
+                <p class="sec-desc">ตารางเปรียบเทียบสายวรยุทธ์กายเนื้อ (วู่ฟู 10 ขั้น) · สายฝึกปราณฟ้าดิน (เซียน 15 ขั้น) · สัตว์อสูรแดนสนธยา (9 ระดับ &amp; 4+1 มหาราชันย์) พร้อมชนชั้นในยุทธภพ</p>
+            </div>
+            <div class="chart-card">
+                <div class="chart-img-wrap" onclick="openChartLightbox()" title="คลิกเพื่อขยายดูภาพขนาดเต็ม">
+                    <img src="power_system_table_web.webp?v=2" alt="ตารางเปรียบเทียบขั้นระบบพลัง ธุลีเหนือสวรรค์" loading="lazy" decoding="async">
+                </div>
+                <div class="chart-toolbar">
+                    <span>💡 คลิกที่รูปตารางเพื่อขยายดูขนาดเต็มได้</span>
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                        <button class="btn-secondary" style="padding:8px 14px;font-size:14px;" onclick="openChartLightbox()">🔍 ขยายภาพ</button>
+                        <a href="power_system_table.png?v=2" download="ธุลีเหนือสวรรค์_ตารางระบบพลัง.png" class="btn-primary" style="padding:8px 16px;font-size:14px;">⬇️ ดาวน์โหลดรูป (PNG)</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div class="lightbox" id="chartLightbox" onclick="closeChartLightbox()">
+        <button class="lightbox-close" onclick="closeChartLightbox()">✕ ปิด</button>
+        <img id="chartLightboxImg" src="power_system_table.png?v=2" alt="ตารางเปรียบเทียบขั้นระบบพลัง ขนาดเต็ม" onclick="event.stopPropagation()">
+    </div>
+
+    <div class="char-modal" id="charModal" onclick="closeCharModal()">
+        <div class="char-modal-card" onclick="event.stopPropagation()">
+            <div class="char-modal-img-col">
+                <img id="cmImg" src="" alt="">
+            </div>
+            <div class="char-modal-info">
+                <div class="char-modal-head">
+                    <div>
+                        <div class="char-modal-title"><span id="cmName"></span><span class="char-modal-cn" id="cmCn"></span></div>
+                        <div class="char-modal-epithet" id="cmEpithet"></div>
+                    </div>
+                    <button class="btn-secondary" style="padding:5px 12px;font-size:13px;" onclick="closeCharModal()">✕ ปิด</button>
+                </div>
+                <blockquote class="char-modal-quote" id="cmQuote"></blockquote>
+                <div class="char-meta-list">
+                    <div class="char-meta-row"><strong>สถานะ / บทบาท:</strong> <span id="cmRole"></span></div>
+                    <div class="char-meta-row"><strong>สายพลัง / ขอบเขต:</strong> <span id="cmRealm"></span></div>
+                    <div class="char-meta-row"><strong>อาวุธ / จุดเด่น:</strong> <span id="cmWeapon"></span></div>
+                    <div class="char-meta-row"><strong>เปิดตัวครั้งแรก:</strong> <span id="cmDebut"></span></div>
+                </div>
+                <p class="char-modal-bio" id="cmBio"></p>
+                <div class="char-modal-actions">
+                    <a id="cmDebutLink" href="reader.html?ch=1" class="btn-primary" style="padding:8px 16px;font-size:14px;">📖 ไปอ่านตอนเปิดตัว</a>
+                    <div class="char-nav-group">
+                        <button class="btn-secondary" style="padding:7px 13px;font-size:13px;" onclick="stepCharModal(-1)">← ก่อนหน้า</button>
+                        <button class="btn-secondary" style="padding:7px 13px;font-size:13px;" onclick="stepCharModal(1)">ถัดไป →</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div>ธุลีเหนือสวรรค์ (《尘上天》 — Dust Above the Heavens) · โดย หวงตี้ปิ้ง (KaPonGZaYo)</div>
+        <div style="margin-top:6px;">
+            <a href="reader.html">เข้าสู่หน้าอ่านนิยาย</a> · <a href="admin.html">ระบบหลังบ้าน (Admin)</a>
+        </div>
+    </footer>
+
+    <div class="admin-auth-modal" id="homeAdminModal" onclick="closeHomeAdminModal()">
+        <div class="admin-auth-card" onclick="event.stopPropagation()">
+            <h3>🔐 เข้าสู่ระบบผู้แต่ง (Admin)</h3>
+            <p>ปลดล็อกทำเนียบตัวละคร ทำเนียบเทียบพลัง ตอนที่ 26+ และการคัดลอกเนื้อหา (จดจำการล็อกอินค้างไว้บนเครื่องนี้)</p>
+            <div class="admin-auth-err" id="homeAuthErr">ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง</div>
+            <form onsubmit="submitHomeAdminAuth(event)">
+                <input type="text" id="homeAuthUser" class="admin-auth-input" placeholder="ชื่อผู้ใช้ (Username)" autocomplete="username" required>
+                <input type="password" id="homeAuthPass" class="admin-auth-input" placeholder="รหัสผ่าน (Password)" autocomplete="current-password" required>
+                <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:6px;">
+                    <button type="button" class="btn-secondary" style="padding:8px 14px;font-size:14px;" onclick="closeHomeAdminModal()">ยกเลิก</button>
+                    <button type="submit" class="btn-primary" style="padding:8px 18px;font-size:14px;" id="homeAuthSubmit">เข้าสู่ระบบ</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const STATIC_AUTH_HASH = "3261688dda463c8c6b049018a758b18a741c1fc5efff3346065bbe7a1400544e";
+        const CRYPTO_SALT = "dust-above-heavens-v1";
+        const CRYPTO_ITERATIONS = 100000;
+
+        function isAdminLoggedIn() {
+            return Boolean(localStorage.getItem('novel_admin_crypto_key'));
+        }
+
+        async function sha256Hex(str) {
+            const buf = await window.crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+            return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        async function deriveAdminKeyBase64(username, password) {
+            const enc = new TextEncoder();
+            const baseKey = await window.crypto.subtle.importKey(
+                'raw',
+                enc.encode(`${username}:${password}`),
+                'PBKDF2',
+                false,
+                ['deriveBits']
+            );
+            const bits = await window.crypto.subtle.deriveBits(
+                { name: 'PBKDF2', salt: enc.encode(CRYPTO_SALT), iterations: CRYPTO_ITERATIONS, hash: 'SHA-256' },
+                baseKey,
+                256
+            );
+            const bytes = new Uint8Array(bits);
+            let bin = '';
+            for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+            return btoa(bin);
+        }
+
+        function applyHomeAdminState() {
+            const isAdmin = isAdminLoggedIn();
+            if (isAdmin) {
+                document.body.classList.add('is-admin');
+                document.body.classList.remove('no-copy');
+                if (typeof renderCharacters === 'function') renderCharacters('all');
+            } else {
+                document.body.classList.remove('is-admin');
+                document.body.classList.add('no-copy');
+                const grid = document.getElementById('charGrid');
+                if (grid) grid.innerHTML = '';
+            }
+            const btn = document.getElementById('btnHomeAuth');
+            if (btn) {
+                btn.innerText = isAdmin ? '🔓 ผู้แต่ง (Admin)' : '🔐 ผู้แต่ง';
+            }
+            updateHomeChapterBadges();
+        }
+
+        function handleHomeAuthBtn() {
+            if (isAdminLoggedIn()) {
+                if (confirm('คุณเข้าสู่ระบบผู้แต่ง (Admin) ค้างไว้อยู่แล้ว ต้องการออกจากระบบหรือไม่?')) {
+                    localStorage.removeItem('novel_admin_crypto_key');
+                    localStorage.removeItem('novel_admin_token');
+                    sessionStorage.removeItem('novel_admin_token');
+                    applyHomeAdminState();
+                }
+            } else {
+                const errEl = document.getElementById('homeAuthErr');
+                if (errEl) errEl.style.display = 'none';
+                document.getElementById('homeAdminModal')?.classList.add('open');
+                setTimeout(() => document.getElementById('homeAuthUser')?.focus(), 50);
+            }
+        }
+
+        function closeHomeAdminModal() {
+            document.getElementById('homeAdminModal')?.classList.remove('open');
+        }
+
+        async function submitHomeAdminAuth(e) {
+            e.preventDefault();
+            const username = document.getElementById('homeAuthUser').value.trim();
+            const password = document.getElementById('homeAuthPass').value.trim();
+            const errEl = document.getElementById('homeAuthErr');
+            const submitBtn = document.getElementById('homeAuthSubmit');
+            if (errEl) errEl.style.display = 'none';
+            if (submitBtn) submitBtn.disabled = true;
+            try {
+                const digest = await sha256Hex(`${username}:${password}`);
+                if (digest !== STATIC_AUTH_HASH) {
+                    if (errEl) {
+                        errEl.innerText = 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง (เฉพาะผู้แต่งเท่านั้น)';
+                        errEl.style.display = 'block';
+                    }
+                    return;
+                }
+                const keyB64 = await deriveAdminKeyBase64(username, password);
+                localStorage.setItem('novel_admin_crypto_key', keyB64);
+                localStorage.setItem('novel_admin_token', 'static-token-' + Date.now());
+                closeHomeAdminModal();
+                applyHomeAdminState();
+            } finally {
+                if (submitBtn) submitBtn.disabled = false;
+            }
+        }
+
+        ['contextmenu', 'copy', 'cut', 'selectstart', 'dragstart'].forEach(evtName => {
+            document.addEventListener(evtName, (e) => {
+                if (isAdminLoggedIn()) return;
+                if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) return;
+                e.preventDefault();
+            });
+        });
+        document.addEventListener('keydown', (e) => {
+            if (isAdminLoggedIn()) return;
+            if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) return;
+            const key = (e.key || '').toLowerCase();
+            if ((e.ctrlKey || e.metaKey) && ['c', 'x', 'a', 'u', 's'].includes(key)) {
+                e.preventDefault();
+            } else if (e.key === 'F12') {
+                e.preventDefault();
+            }
+        });
+
+        let cachedChaptersMeta = null;
+        function updateHomeChapterBadges() {
+            const isAdmin = isAdminLoggedIn();
+            const lastChap = parseInt(localStorage.getItem('novel_last_chapter') || '1', 10);
+            const btn = document.getElementById('continueBtn');
+            if (btn) {
+                const displayChap = isAdmin ? lastChap : Math.min(lastChap, 25);
+                if (displayChap > 1) {
+                    btn.innerText = '🔖 อ่านต่อ (ตอนที่ ' + displayChap + ')';
+                    btn.href = 'reader.html?ch=' + displayChap;
+                } else {
+                    btn.innerText = '🔖 อ่านต่อจากล่าสุด';
+                    btn.href = 'reader.html';
+                }
+            }
+            const latestBtn = document.getElementById('latestBtn');
+            const badge = document.getElementById('chapCountBadge');
+            if (!isAdmin) {
+                if (badge) badge.innerText = '· เปิดอ่านฟรี 25 ตอนแรก';
+                if (latestBtn) {
+                    latestBtn.href = 'reader.html?ch=25';
+                    latestBtn.innerText = '📖 อ่านถึงตอนที่ 25 (ฟรี)';
+                }
+                return;
+            }
+            if (Array.isArray(cachedChaptersMeta) && cachedChaptersMeta.length > 0) {
+                const latest = cachedChaptersMeta[cachedChaptersMeta.length - 1];
+                if (badge) badge.innerText = '· อัปเดตแล้ว ' + cachedChaptersMeta.length + ' ตอน';
+                if (latestBtn && latest) {
+                    latestBtn.href = 'reader.html?ch=' + latest.id;
+                    latestBtn.innerText = '🔥 ตอนล่าสุด (ตอนที่ ' + latest.id + ')';
+                }
+                const vol5Range = document.getElementById('vol5Range');
+                if (vol5Range && latest && latest.id >= 101) {
+                    vol5Range.innerText = latest.id >= 125
+                        ? 'ตอนที่ 101 – 125'
+                        : 'ตอนที่ 101 – ' + latest.id + ' (กำลังเผยแพร่)';
+                }
+            }
+        }
+
+        (function() {
+            updateHomeChapterBadges();
+            fetch('chapters.json', { cache: 'no-cache' })
+                .then(r => r.ok ? r.json() : null)
+                .then(data => {
+                    if (Array.isArray(data) && data.length > 0) {
+                        cachedChaptersMeta = data;
+                        updateHomeChapterBadges();
+                    }
+                })
+                .catch(() => {});
+        })();
+
+        function openChartLightbox(src, alt) {
+            const img = document.getElementById('chartLightboxImg');
+            if (img) {
+                img.src = src || 'power_system_table.png?v=2';
+                img.alt = alt || 'ตารางเปรียบเทียบขั้นระบบพลัง ขนาดเต็ม';
+            }
+            document.getElementById('chartLightbox').classList.add('open');
+        }
+        function closeChartLightbox() {
+            document.getElementById('chartLightbox').classList.remove('open');
+        }
+
+        const CHARACTERS = [
+            {
+                id: 'gu_changan',
+                group: 'main',
+                roleTag: 'พระเอก',
+                roleClass: 'role-main',
+                name: 'กู้ฉางอัน',
+                cn: '顾长安',
+                epithet: 'ปุถุชนผู้แบกขวานท้าสวรรค์',
+                realm: 'สายกายเนื้อ (วู่ฟู) · ขอบเขตกลั่นภายในช่วงปลาย',
+                weapon: 'ขวานศึกศิลาดำหนักร้อยชั่ง · มีดดับเงียบ · มุกดำโบราณ',
+                debut: 'ตอนที่ 1: คมขวานและเกล็ดน้ำค้าง',
+                debutCh: 1,
+                img: 'portraits/Gu_Changan.webp',
+                quote: '“ไม่มีพรสวรรค์ ไม่มีตระกูลหนุนหลัง... มีเพียงสองมือที่ด้านชา ขวานผ่าฟืน และทุกย่างก้าวที่ไม่เคยประมาท”',
+                bio: 'เด็กหนุ่มไร้รากปราณจากลานฟืนท้ายสำนักกระบี่ศิลาคราม ผู้เลือกเดินบนเส้นทางสายกายเนื้อที่โหดหินที่สุด สุขุม รอบคอบ คำนวณทุกความเสี่ยง และไม่ยอมเป็นหมากของชะตากรรม'
+            },
+            {
+                id: 'xiao_gu',
+                group: 'main',
+                roleTag: 'สหายคู่กาย',
+                roleClass: 'role-main',
+                name: 'เสี่ยวกู่',
+                cn: '小骨',
+                epithet: 'เปิ่นจุนแห่งพงไพร (นกกระดูกโบราณ)',
+                realm: 'สัตว์กลไกวิญญาณยุคบรรพกาล',
+                weapon: 'ประสาทรับรู้กลิ่น–เสียง–แรงสั่นสะเทือนและกลไกโบราณ',
+                debut: 'ตอนที่ 3: เสียงกระซิบในความมืด',
+                debutCh: 3,
+                img: 'portraits/Xiao_Gu.webp',
+                quote: '“จิ๊บ! ค่าข่าวกรองคราวนี้ เปิ่นจุนคิดแค่เนื้อแห้งสองชิ้นก็พอ!”',
+                bio: 'นกน้อยตัวกลมที่ซุกอยู่ในปกเสื้อคลุมของกู้ฉางอัน ปากแจ๋ว ขี้ขลาด และหลงตัวเองหนักมาก ทว่าประสาทการดมกลิ่น ฟังเสียง และรับรู้กลไกโบราณของมันกลับช่วยกู้ฉางอันรอดตายมานับครั้งไม่ถ้วน'
+            },
+            {
+                id: 'liu_yunxi',
+                group: 'heroine',
+                roleTag: 'สตรีเคียงชะตา',
+                roleClass: 'role-heroine',
+                name: 'หลิวอวิ๋นซี',
+                cn: '柳云汐',
+                epithet: 'บุตรีเจ้าสำนักศิลาคราม · กระบี่วารีเหมันต์',
+                realm: 'สายฝึกปราณ · ขอบเขตรวมปราณช่วงสมบูรณ์',
+                weapon: 'กระบี่เหมันต์วารี · คัมภีร์เพลิงกัลป์ไร้ลักษณ์',
+                debut: 'ตอนที่ 5: สายตาที่แอบมองบนหอสูง',
+                debutCh: 5,
+                img: 'portraits/Liu_Yunxi.webp',
+                quote: '“หากยอมก้มหัวให้ตระกูลจงเพื่อแลกกับชีวิต ข้าขอชักกระบี่ฝ่าคมดาบไปจนสุดทางยังดีกว่า”',
+                bio: 'ศิษย์เอกอัจฉริยะแห่งสำนักกระบี่ศิลาคราม ผู้มีจิตใจเด็ดเดี่ยวไม่ยอมจำนนต่อการวิวาห์ทางการเมือง แม้ต้องถูกตราหน้าและไล่ล่าข้ามมณฑล นางก็ยังยืนหยัดเคียงบ่าเคียงไหล่กู้ฉางอันเพื่อหาทางปลดแอกบิดาและสำนัก'
+            },
+            {
+                id: 'yan_xuerong',
+                group: 'heroine',
+                roleTag: 'สตรีเคียงชะตา',
+                roleClass: 'role-heroine',
+                name: 'เยี่ยนเสวี่ยหรง',
+                cn: '燕雪蓉',
+                epithet: 'บัวเหล็กกล้าแห่งแนวกำแพง · แม่ทัพกองหน้า',
+                realm: 'สายกายเนื้อ (วู่ฟู) · ขอบเขตไอกายาช่วงต้น (คนบนเขา)',
+                weapon: 'ดาบศึกใบกว้างยาวสี่เชียะ · เพลงดาบสมรภูมิแดนเหนือ',
+                debut: 'ตอนที่ 65: บัวเหล็กกล้าแห่งแนวกำแพง และการประเมินค่า',
+                debutCh: 65,
+                img: 'portraits/Yan_Xuerong.webp',
+                quote: '“เลือดของทหารชายแดนมิใช่เบี้ยบนกระดานหมากของพวกขุนนางเมืองหลวง”',
+                bio: 'ศิษย์เอกของจอมพลเฒ่าไร้พ่ายและแม่ทัพกองหน้าดาวรุ่งแห่งแนวกำแพงเหล็ก นิ่งลึก เฉียบขาด และเปี่ยมศักดิ์ศรีนักรบ คือกายเนื้อสายตรงที่ก้าวข้ามสู่ระดับคนบนเขาในวัยเยาว์และเติบโตเคียงคู่สงครามด่านหน้า'
+            },
+            {
+                id: 'su_qingluan',
+                group: 'heroine',
+                roleTag: 'เร็วๆ นี้ · ม้วน ๓',
+                roleClass: 'role-heroine',
+                name: 'ซูชิงหลวน',
+                cn: '苏青鸾',
+                epithet: 'หงส์ครามเงามฤตยู',
+                realm: 'สายลึกลับ · ผู้สืบทอดค่ายกลและวัตถุบรรพกาล',
+                weapon: 'กลไกโบราณใต้พิภพ · เข็มวิญญาณคราม',
+                debut: 'เตรียมเปิดตัวในม้วนที่ 3 (แดนทะเลใต้และสุสานกลไก)',
+                debutCh: 0,
+                img: 'portraits/Su_Qingluan.webp',
+                quote: '“ในโลกที่ความจริงถูกฝังอยู่ใต้แผ่นดิน มีเพียงผู้กล้าเปิดโลงศพแห่งอดีตเท่านั้นจึงจะได้เห็นฟ้ากว้าง”',
+                bio: 'สตรีลึกลับผู้เดินอยู่บนเส้นแบ่งระหว่างแสงสว่างและเงามืด เชี่ยวชาญอักขระกลไกและซากโบราณสถานแห่งทะเลใต้ กุมกุญแจสำคัญชิ้นหนึ่งของความลับยุคบรรพกาล'
+            },
+            {
+                id: 'li_wushuang',
+                group: 'pillar',
+                roleTag: '๕ มหาเสาหลัก · ทหาร',
+                roleClass: 'role-pillar',
+                name: 'หลี่อู๋ซวง',
+                cn: '李无双',
+                epithet: 'จอมพลเฒ่าไร้พ่าย · ผู้พิทักษ์แนวกำแพงเหล็ก',
+                realm: 'สายกายเนื้อ (วู่ฟู) · เทวะกำเนิด (ครึ่งก้าวเทวะ)',
+                weapon: 'หมัดเปล่าสยบทัณฑ์สวรรค์ · เหยียบอากาศกลางเวหา',
+                debut: 'ตอนที่ 76: ยอดเขาศักดิ์สิทธิ์ และน้ำตาจอมพลเฒ่า',
+                debutCh: 76,
+                img: 'portraits/Li_Wushuang.webp',
+                quote: '“ข้าปกป้องแนวกำแพงเหล็กนี้มากว่าสองพันปี... คุกเหล็กชายแดนไม่เคยปล่อยหนอนบ่อนไส้เดินออกไปครบสามสิบสองส่วน”',
+                bio: 'หนึ่งในห้ามหาเสาหลักค้ำพิภพผู้มีชีวิตยืนยาวมากว่าสองพันปีร่วมยุคเดียวกับผู้อาวุโสสามมหาลัทธิ ร่างกายเต็มไปด้วยแผลเป็นและดวงตาซ้ายที่บอดสนิทจากสมรภูมิด่านหน้า เป็นดั่งขุนเขาที่ค้ำยันแดนมนุษย์จากคลื่นอสูรแดนสนธยา'
+            },
+            {
+                id: 'confucian_grand_scholar',
+                group: 'pillar',
+                roleTag: '๕ มหาเสาหลัก · ขงจื๊อ',
+                roleClass: 'role-pillar',
+                name: 'มหาปราชญ์แห่งตำหนักบูรพา',
+                cn: '东宫大儒',
+                epithet: 'เสาหลักขงจื๊อ · ผู้วางจารีตฟ้าดิน',
+                realm: 'สายฝึกปราณ · ขอบเขตครึ่งก้าวเซียนแท้ (อายุราว 8,400 ปี)',
+                weapon: 'พู่กันหยกอักษรศักดิ์สิทธิ์ · ปราณเที่ยงธรรมฟ้าดิน · สัจจะบัญญัติฟ้า',
+                debut: 'ตำนาน ๕ มหาเสาหลักค้ำพิภพ (เตรียมปรากฏกาย)',
+                debutCh: 0,
+                img: 'portraits/Confucian_Grand_Scholar.webp',
+                quote: '“ไร้ระเบียบ ไร้จารีต มนุษย์ก็มิต่างจากอสูรแดนสนธยา”',
+                bio: 'หนึ่งในห้ามหาเสาหลักผู้ผูกขาดระบบราชสำนัก กฎหมาย และการศึกษาทั่วแผ่นดิน ปกครองผ่านสามมหาศิษย์สายตรงเพื่อค้ำจุนระเบียบโลกมนุษย์ไม่ให้ล่มสลายกลับสู่กลียุค'
+            },
+            {
+                id: 'daoist_sword_primarch',
+                group: 'pillar',
+                roleTag: '๕ มหาเสาหลัก · เต๋า',
+                roleClass: 'role-pillar',
+                name: 'ปรมาจารย์เต๋าเมฆาคราม',
+                cn: '青云剑祖',
+                epithet: 'เสาหลักเต๋า · จอมกระบี่เหนือทะเลเมฆ',
+                realm: 'สายฝึกปราณ · ขอบเขตครึ่งก้าวเซียนแท้ (อายุกว่า 11,000 ปี)',
+                weapon: 'วิชากระบี่เหินมิติ · บงการทัณฑ์สวรรค์และกฎแห่งดวงดาว',
+                debut: 'ตำนาน ๕ มหาเสาหลักค้ำพิภพ (เตรียมปรากฏกาย)',
+                debutCh: 0,
+                img: 'portraits/Daoist_Sword_Primarch.webp',
+                quote: '“ฟ้าดินไร้ปรานี มองสรรพสิ่งดั่งสุนัขฟาง การยึดติดโลกียะมีแต่จะฉุดรั้งการหลุดพ้น”',
+                bio: 'ผู้อาวุโสสูงสุดแห่งสามมหาศรัทธาผู้จำศีลเหนือยอดเขาเมฆาคราม รอคอยจังหวะฝ่าด่านสวรรค์ เป็นต้นสายของเครือข่ายสำนักกระบี่ลอยฟ้าทั่วทั้งแผ่นดินรวมถึงสำนักกระบี่ศิลาครามอันห่างไกล'
+            },
+            {
+                id: 'buddhist_patriarch',
+                group: 'pillar',
+                roleTag: '๕ มหาเสาหลัก · พุทธ',
+                roleClass: 'role-pillar',
+                name: 'พุทธบรรพชนอารามทองคำ',
+                cn: '金刹佛祖',
+                epithet: 'เสาหลักพุทธ · ผู้ค้ำยันกำแพงธรรมะทิศใต้',
+                realm: 'สายกายผสานปราณ · ขอบเขตครึ่งก้าวเซียนแท้ (อายุราว 9,600 ปี)',
+                weapon: 'พุทธานุภาพกายาทองคำ · ระฆังสำริดชำระมลทินจิต',
+                debut: 'ตำนาน ๕ มหาเสาหลักค้ำพิภพ (เตรียมปรากฏกาย)',
+                debutCh: 0,
+                img: 'portraits/Buddhist_Patriarch.webp',
+                quote: '“หากข้าไม่ลงนรกภูมิ แล้วผู้ใดจะลงโปรดสรรพสัตว์”',
+                bio: 'พุทธบรรพชนผู้ประทับนั่งสมาธิใต้ระฆังสำริดยักษ์ค้ำยันแนวกำแพงธรรมะทิศใต้มานับพันปี กายาทองคำไม่เน่าเปื่อย รวบรวมศรัทธามหาชนและวัดนับหมื่นเพื่อสยบคลื่นมลทินแห่งแดนสนธยา'
+            },
+            {
+                id: 'relic_heretic',
+                group: 'pillar',
+                roleTag: '๕ มหาเสาหลัก · นอกรีต',
+                roleClass: 'role-pillar',
+                name: 'จอมมารเร้นลับใต้พิภพ',
+                cn: '地底诡尊',
+                epithet: 'เฒ่าประหลาดใต้พิภพ · เสาหลักนอกรีต',
+                realm: 'สายหลอมรวมมรดกบรรพกาล · เทียบเท่าครึ่งก้าวเซียนแท้ (อายุไม่ปรากฏแน่ชัด)',
+                weapon: 'วัตถุสิบสองหน้าบรรพกาล · สามร่างหุ่นกลไกศิลาชีวะ',
+                debut: 'ตำนาน ๕ มหาเสาหลักค้ำพิภพ (เตรียมปรากฏกาย)',
+                debutCh: 0,
+                img: 'portraits/Relic_Heretic.webp',
+                quote: '“พวกเจ้ามัวแต่ไหว้ก้อนหินและท่องตำราเก่ากึก... โดยหารู้ไม่ว่าพวกเรากำลังอาศัยอยู่บนซากศพของสิ่งที่ยิ่งใหญ่กว่านั้น”',
+                bio: 'ตัวตนลึกลับผู้ไม่คุกเข่าให้ศาสนาและราชสำนัก อาศัยอยู่ในรอยแยกใต้พิภพและซากนครบรรพกาล หลอมรวมแกนศิลาโบราณจนหลุดพ้นขีดจำกัดอายุขัยปกติ และเป็นผู้ชักใยเบื้องหลังซูชิงหลวน'
+            },
+            {
+                id: 'chen_yuan',
+                group: 'pillar',
+                roleTag: 'หอดาราหลวง',
+                roleClass: 'role-pillar',
+                name: 'เฉินหยวน',
+                cn: '陈渊',
+                epithet: 'ปราชญ์เฒ่าหอดาราหลวง · สาวกอาวุโสเสาเต๋า',
+                realm: 'สายฝึกปราณ · ขอบเขตทารกวิญญาณช่วงปลาย',
+                weapon: 'ศาสตร์พยากรณ์ดารา · ค่ายกลเจ็ดดาราปิดสวรรค์ · ดาราสลับเงา',
+                debut: 'ตอนที่ 79: หอดาราหลวง และผู้ถือหมากในเงามืด',
+                debutCh: 79,
+                img: 'portraits/Chen_Yuan.webp',
+                quote: '“กระดานหมากนครหลวงมิได้มีเพียงตระกูลจง... ดวงดาวบนฟ้ากำลังเริ่มเคลื่อนย้ายแล้ว”',
+                bio: 'ขุนนางชราผู้แฝงตัวในหอดาราหลวงนครหลวงเทียนอันมานานกว่าสี่สิบปี เบื้องหน้าดูเหมือนนักโหราศาสตร์ธรรมดา ทว่าเบื้องหลังคือยอดฝีมือสายเต๋าผู้มองทะลุเกมการเมืองราชสำนักและชีพจรใต้พิภพ'
+            },
+            {
+                id: 'liu_changyuan',
+                group: 'main',
+                roleTag: 'เจ้าสำนักศิลาคราม',
+                roleClass: 'role-main',
+                name: 'หลิวชางหยวน',
+                cn: '柳苍渊',
+                epithet: 'เจ้าสำนักกระบี่ศิลาคราม · บิดาหลิวอวิ๋นซี',
+                realm: 'สายฝึกปราณ · ขอบเขตปราณแท้',
+                weapon: 'เพลงกระบี่ศิลาคราม · จารีตและศักดิ์ศรีเจ้าสำนัก',
+                debut: 'ตอนที่ 10: คลื่นใต้น้ำและพายุใบไม้ร่วง',
+                debutCh: 10,
+                img: 'portraits/Liu_Changyuan.webp',
+                quote: '“ต่อให้ข้าต้องกลืนเลือดแบกรับตราบาปไว้เพียงลำพัง ก็จะไม่ยอมให้สำนักศิลาครามและลูกสาวข้าต้องดับสูญไปด้วยกัน”',
+                bio: 'เจ้าสำนักกระบี่ศิลาครามผู้เปี่ยมด้วยศักดิ์ศรีและรักบุตรสาวสุดหัวใจ หลังรอดพ้นกบฏอู๋เทียนหยางกลับต้องเผชิญแรงบีบคั้นจากตระกูลจงจนถูกกักบริเวณในสำนัก กลายเป็นปมสำคัญที่ผลักดันหลิวอวิ๋นซีให้เติบโต'
+            },
+            {
+                id: 'uncle_song',
+                group: 'main',
+                roleTag: 'ผู้มีพระคุณ',
+                roleClass: 'role-main',
+                name: 'ลุงซ่ง (ซ่งชางหรุง)',
+                cn: '宋沧荣',
+                epithet: 'ลุงซ่งขาเป๋ · อดีตนายกองหน่วยเขี้ยวพยัคฆ์',
+                realm: 'อดีตยอดฝีมือกายเนื้อแดนเหนือ (บาดเจ็บพิการ)',
+                weapon: 'ค้อนตีเหล็ก · วิถีศึกพยัคฆ์ทลายค่าย',
+                debut: 'ตอนที่ 4: เตาหลอมและเพลงค้อน',
+                debutCh: 4,
+                img: 'portraits/Uncle_Song.webp',
+                quote: '“คนไร้รากปราณก็ยังมีกระดูกสันหลัง... อย่าก้มหัวให้ใครง่ายๆ ล่ะไอ้หนู”',
+                bio: 'ช่างตีเหล็กตาซ้ายบอดขาพิการท้ายสำนักกระบี่ศิลาคราม อดีตนายกองหน่วยลาดตระเวนเขี้ยวพยัคฆ์ที่พลัดหลงจากศึกทุ่งหมอกเลือดเมื่อสามสิบปีก่อน เป็นอาจารย์คนแรกที่หลอมอาวุธและถ่ายทอดวิถีศึกให้กู้ฉางอัน'
+            },
+            {
+                id: 'xu_jing',
+                group: 'main',
+                roleTag: 'สหายรัก',
+                roleClass: 'role-main',
+                name: 'สวีจิ้ง (อาจิ้ง)',
+                cn: '徐靖',
+                epithet: 'อาจิ้งแห่งตำบลชิงเหอ',
+                realm: 'ปุถุชน (พ่อค้าร้านเต้าหู้ตำบลชิงเหอ)',
+                weapon: 'น้ำใจแท้จริงและมิตรภาพที่ไม่เคยเปลี่ยนแปร',
+                debut: 'ตอนที่ 1: คมขวานและเกล็ดน้ำค้าง',
+                debutCh: 1,
+                img: 'portraits/Xu_Jing.webp',
+                quote: '“เจ้าฉางอัน เจ้าต้องมีชีวิตรอดกลับมากินเต้าหู้ร้อนๆ ฝีมือข้าให้ได้นะ!”',
+                bio: 'เพื่อนรักตั้งแต่วัยเยาว์ในลานฟืนท้ายสำนักศิลาคราม ซื่อสัตย์ จริงใจ และเคยแบ่งปันอาหารให้กู้ฉางอันในวันที่ยากลำบากที่สุด เป็นสายใยแห่งความอบอุ่นที่คอยย้ำเตือนกู้ฉางอันถึงรากเหง้าของตน'
+            },
+            {
+                id: 'zhong_yu',
+                group: 'antagonist',
+                roleTag: 'ฝ่ายปฏิปักษ์',
+                roleClass: 'role-antagonist',
+                name: 'คุณชายจงอวี้',
+                cn: '钟玉',
+                epithet: 'ทายาทตระกูลจงแห่งนครหลวงเทียนอัน',
+                realm: 'ทายาทขุนนางชั้นสูง · ผู้ชักใยหน่วยล่าวิหคกาฬ',
+                weapon: 'อำนาจราชสำนัก · เล่ห์เหลี่ยมการเมือง · เครือข่ายสังหาร',
+                debut: 'ตอนที่ 77: เงาตระกูลจง และประกาศจับสีชาด',
+                debutCh: 77,
+                img: 'portraits/Zhong_Yu.webp',
+                quote: '“คนตายย่อมไม่พูดอยู่แล้วว่าใครส่งมันไป... บนกระดานหมากนี้ ไม่มีที่ว่างให้คนอ่อนแอ”',
+                bio: 'ชายหนุ่มอาภรณ์ขาวผู้ดูราวบัณฑิตสูงส่ง แต่เลือดเย็นและทะเยอทะยานอย่างถึงที่สุด เป็นผู้ชักใยแผนบ่อนทำลายแนวกำแพงเหล็กและบีบคั้นสำนักกระบี่ศิลาครามเพื่อครอบครองทั้งอำนาจทหารและหลิวอวิ๋นซี'
+            },
+            {
+                id: 'black_bird_commander',
+                group: 'antagonist',
+                roleTag: 'ฝ่ายปฏิปักษ์',
+                roleClass: 'role-antagonist',
+                name: 'บุรุษหน้ากากเหล็ก',
+                cn: '第九黑鸦统领',
+                epithet: 'หัวหน้าหน่วยล่าวิหคกาฬชุดที่เก้า',
+                realm: 'สายฝึกปราณ · ขอบเขตปราณแท้ช่วงปลาย',
+                weapon: 'กระบี่บินสีเงินเทา · ถุงเฉียนคุน · ค่ายกลสามธงกักวิญญาณ',
+                debut: 'ตอนที่ 85: คลื่นซัดฝ่าวงล้อม',
+                debutCh: 85,
+                img: 'portraits/Black_Bird_Commander.webp',
+                quote: '“ในเมื่อเจ้าเลือกหุบหมอกนี้เป็นสนามรบเอง ข้าก็จะช่วยปิดประตูไม่ให้เจ้าหนีรอดไปได้”',
+                bio: 'ยอดมือสังหารอันดับหนึ่งของหน่วยล่าวิหคกาฬชุดที่เก้าที่ตระกูลจงส่งลงใต้ สุขุม เด็ดขาด อ่านเกมแม่นยำ และเป็นคู่ต่อสู้ระดับปราณแท้ช่วงปลายสุดอันตรายที่ไล่บี้กู้ฉางอันกับหลิวอวิ๋นซีข้ามจากอวิ๋นโจวเข้าสู่มณฑลหานโจว'
+            },
+            {
+                id: 'fu_lou',
+                group: 'antagonist',
+                roleTag: 'ฝ่ายปฏิปักษ์',
+                roleClass: 'role-antagonist',
+                name: 'ฟู่โหลว',
+                cn: '傅楼',
+                epithet: 'รองประมุขสมาพันธ์ร้อยเขี้ยว · จอมโจรแม่น้ำหมอก',
+                realm: 'สายกายเนื้อ (วู่ฟู) · ขอบเขตกลั่นภายในช่วงกลาง',
+                weapon: 'ตะขอคู่เหล็กกล้า · วิชาร้อยเขี้ยวสังหาร',
+                debut: 'ตอนที่ 28: เงาตะขอคู่ริมแม่น้ำหมอก',
+                debutCh: 28,
+                img: 'portraits/Fu_Lou.webp',
+                quote: '“ในลุ่มแม่น้ำหมอกแห่งนี้ กระดูกของเจ้าแข็งพอจะรับตะขอคู่ของข้าได้สักกี่เพลงกัน?”',
+                bio: 'อดีตจอมยุทธ์สายกายเนื้อผู้เหี้ยมโหดแห่งลุ่มแม่น้ำหมอก ศัตรูระดับของแสลงคนแรกที่เคยบีบให้กู้ฉางอันพ่ายแพ้ยับเยินจนต้องคลานหนีตาย และกลายเป็นหินลับคมที่ผลักดันให้เด็กตัดฟืนทะลวงสู่ขอบเขตกลั่นภายใน'
+            },
+            {
+                id: 'wu_tianyang',
+                group: 'antagonist',
+                roleTag: 'ฝ่ายปฏิปักษ์',
+                roleClass: 'role-antagonist',
+                name: 'อู๋เทียนหยาง',
+                cn: '吴天阳',
+                epithet: 'อดีตรองเจ้าสำนักศิลาคราม · พยัคฆ์ทองจอมบงการ',
+                realm: 'สายฝึกปราณ · ขอบเขตปราณแท้ (ถูกทำลายวรยุทธ์)',
+                weapon: 'กระบี่บินสายลม · แผนกบฏชิงอำนาจสำนัก',
+                debut: 'ตอนที่ 5: สายตาที่แอบมองบนหอสูง',
+                debutCh: 5,
+                img: 'portraits/Wu_Tianyang.webp',
+                quote: '“สำนักศิลาครามตกต่ำลงทุกวัน... มีเพียงข้าเท่านั้นที่คู่ควรจะขึ้นนั่งบัลลังก์เจ้าสำนัก!”',
+                bio: 'อดีตรองเจ้าสำนักกระบี่ศิลาครามผู้ทะเยอทะยานและเจ้าเล่ห์ สมคบคิดกับผู้อาวุโสหานเจิ้นวางยาพิษหลิวชางหยวนเพื่อชิงอำนาจ ทว่าถูกกู้ฉางอันเปิดโปงหลักฐานจนพ่ายแพ้และถูกทำลายวรยุทธ์คุมตัวส่งทางการ'
+            }
+        ];
+
+        let activeCharList = [...CHARACTERS];
+        let activeCharIndex = 0;
+
+        function renderCharacters(group = 'all') {
+            const grid = document.getElementById('charGrid');
+            if (!grid) return;
+            activeCharList = group === 'all' ? [...CHARACTERS] : CHARACTERS.filter(c => c.group === group);
+            grid.innerHTML = activeCharList.map((c, idx) => `
+                <article class="char-card" onclick="openCharModal(${idx})" title="คลิกเพื่อเปิดแฟ้มประวัติ ${c.name}">
+                    <div class="char-img-wrap">
+                        <span class="char-role-pill ${c.roleClass}">${c.roleTag}</span>
+                        <img src="${c.img}" alt="${c.name}" loading="lazy" decoding="async">
+                        <div class="char-img-caption">
+                            <div class="char-name">${c.name}<span class="char-cn">${c.cn}</span></div>
+                            <div class="char-epithet">${c.epithet}</div>
+                        </div>
+                    </div>
+                    <div class="char-body">
+                        <div class="char-realm">${c.realm}</div>
+                        <p class="char-desc">${c.bio}</p>
+                        <div class="char-more-hint">🔍 ดูแฟ้มประวัติเต็ม →</div>
+                    </div>
+                </article>
+            `).join('');
+        }
+
+        function filterCharacters(group, btnEl) {
+            document.querySelectorAll('#charFilters .char-filter-btn').forEach(b => b.classList.remove('active'));
+            if (btnEl) btnEl.classList.add('active');
+            renderCharacters(group);
+        }
+
+        function openCharModal(idx) {
+            activeCharIndex = idx;
+            const c = activeCharList[idx];
+            if (!c) return;
+            document.getElementById('cmImg').src = c.img;
+            document.getElementById('cmImg').alt = c.name;
+            document.getElementById('cmName').innerText = c.name;
+            document.getElementById('cmCn').innerText = c.cn;
+            document.getElementById('cmEpithet').innerText = c.epithet;
+            document.getElementById('cmQuote').innerText = c.quote;
+            document.getElementById('cmRole').innerText = c.roleTag;
+            document.getElementById('cmRealm').innerText = c.realm;
+            document.getElementById('cmWeapon').innerText = c.weapon;
+            document.getElementById('cmDebut').innerText = c.debut;
+            document.getElementById('cmBio').innerText = c.bio;
+
+            const debutLink = document.getElementById('cmDebutLink');
+            if (c.debutCh > 0) {
+                debutLink.href = 'reader.html?ch=' + c.debutCh;
+                debutLink.innerText = '📖 อ่านตอนเปิดตัว (ตอนที่ ' + c.debutCh + ')';
+                debutLink.style.display = 'inline-flex';
+            } else {
+                debutLink.style.display = 'none';
+            }
+            document.getElementById('charModal').classList.add('open');
+        }
+
+        function stepCharModal(delta) {
+            if (!activeCharList.length) return;
+            const next = (activeCharIndex + delta + activeCharList.length) % activeCharList.length;
+            openCharModal(next);
+        }
+
+        function closeCharModal() {
+            document.getElementById('charModal').classList.remove('open');
+        }
+
+        document.addEventListener('keydown', (e) => {
+            const modalOpen = document.getElementById('charModal')?.classList.contains('open');
+            if (e.key === 'Escape') {
+                closeCharModal();
+                closeChartLightbox();
+            } else if (modalOpen && e.key === 'ArrowLeft') {
+                stepCharModal(-1);
+            } else if (modalOpen && e.key === 'ArrowRight') {
+                stepCharModal(1);
+            }
+        });
+
+        applyHomeAdminState();
+
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js').then(reg => reg.update()).catch(() => {});
+            });
+        }
+    </script>
+</body>
+</html>
