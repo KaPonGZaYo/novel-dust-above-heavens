@@ -887,6 +887,14 @@
             if (!chap) return null;
             if (!chap.locked || !chap.encrypted) return chap;
             if (!isAdminLoggedIn()) return null;
+            if (chap._decryptedTitle && Array.isArray(chap._decryptedParagraphs)) {
+                return {
+                    ...chap,
+                    title: chap._decryptedTitle,
+                    paragraphs: chap._decryptedParagraphs,
+                    decrypted: true
+                };
+            }
             try {
                 const key = await getAesCryptoKey();
                 if (!key) return null;
@@ -905,16 +913,29 @@
                 );
                 const plainText = new TextDecoder().decode(plainBuf);
                 const parsed = JSON.parse(plainText);
+                chap._decryptedTitle = parsed.title || chap.title;
+                chap._decryptedParagraphs = parsed.paragraphs || [];
                 return {
                     ...chap,
-                    title: parsed.title || chap.title,
-                    paragraphs: parsed.paragraphs || [],
+                    title: chap._decryptedTitle,
+                    paragraphs: chap._decryptedParagraphs,
                     decrypted: true
                 };
             } catch (err) {
                 console.warn('[Reader] Chapter decrypt failed:', err);
                 return null;
             }
+        }
+
+        async function decryptAllChaptersForAdmin() {
+            if (!isAdminLoggedIn() || !Array.isArray(allChapters) || allChapters.length === 0) return;
+            const lockedChaps = allChapters.filter(c => c && c.locked && c.encrypted && !c._decryptedTitle);
+            if (lockedChaps.length === 0) {
+                buildToc();
+                return;
+            }
+            await Promise.all(lockedChaps.map(c => decryptChapterIfNeeded(c)));
+            buildToc();
         }
 
         function handleReaderAuthBtn() {
@@ -924,6 +945,12 @@
                     localStorage.removeItem('novel_admin_token');
                     sessionStorage.removeItem('novel_admin_token');
                     cachedCryptoKey = null;
+                    if (Array.isArray(allChapters)) {
+                        allChapters.forEach(c => {
+                            delete c._decryptedTitle;
+                            delete c._decryptedParagraphs;
+                        });
+                    }
                     applyAdminAndCopyProtection();
                     buildToc();
                     loadChapter(currentChapIndex, false);
@@ -967,7 +994,7 @@
                 cachedCryptoKey = null;
                 closeAdminAuthModal();
                 applyAdminAndCopyProtection();
-                buildToc();
+                await decryptAllChaptersForAdmin();
                 await loadChapter(currentChapIndex, false);
             } finally {
                 if (submitBtn) submitBtn.disabled = false;
@@ -1039,6 +1066,7 @@
                         const hasNew = freshData.length !== allChapters.length;
                         allChapters = freshData;
                         buildToc();
+                        decryptAllChaptersForAdmin();
                         if (hasNew) {
                             console.log('[App] New chapters detected! Count:', freshData.length);
                             const btn = document.getElementById('btnRefresh');
@@ -1105,6 +1133,7 @@
                 if (btn) btn.innerText = '⌛ กำลังโหลด...';
                 allChapters = await fetchChaptersWithTimeout(15000);
                 buildToc();
+                await decryptAllChaptersForAdmin();
                 loadChapter(currentChapIndex, false);
                 if (btn) btn.innerText = '✓ ล่าสุดแล้ว';
                 setTimeout(() => { if (btn) btn.innerText = '🔄 รีเฟรช'; }, 2000);
@@ -1137,6 +1166,7 @@
                                 const savedChap = urlChap > 0 ? urlChap : parseInt(localStorage.getItem('novel_last_chapter') || '1', 10);
                                 const targetIdx = allChapters.findIndex(c => c.id === savedChap);
                                 loadChapter(targetIdx >= 0 ? targetIdx : 0, urlChap > 0 ? false : true);
+                                decryptAllChaptersForAdmin();
 
                                 hasLoadedFromCache = true;
                                 // Silently check for new chapters in background
@@ -1174,6 +1204,7 @@
                     const savedChap = urlChap > 0 ? urlChap : parseInt(localStorage.getItem('novel_last_chapter') || '1', 10);
                     const targetIdx = allChapters.findIndex(c => c.id === savedChap);
                     loadChapter(targetIdx >= 0 ? targetIdx : 0, urlChap > 0 ? false : true);
+                    decryptAllChaptersForAdmin();
                 } catch (err) {
                     console.error('[App] Init failed:', err);
                     if (reader) {
@@ -1319,9 +1350,13 @@
             const activeVolId = effectiveVolumes.find(v => currentChapId >= v.start && currentChapId <= v.end)?.id || 1;
 
             const htmlBlocks = effectiveVolumes.map(vol => {
+                const isAdmin = isAdminLoggedIn();
                 let volChapters = allChapters.filter(c => c.id >= vol.start && c.id <= vol.end);
                 if (query) {
-                    volChapters = volChapters.filter(c => String(c.id).includes(query) || (c.title || '').toLowerCase().includes(query));
+                    volChapters = volChapters.filter(c => {
+                        const displayTitle = (isAdmin && c._decryptedTitle) ? c._decryptedTitle : (c.title || '');
+                        return String(c.id).includes(query) || displayTitle.toLowerCase().includes(query);
+                    });
                 }
                 if (volChapters.length === 0) return '';
 
@@ -1349,11 +1384,12 @@
                 const chaptersListHtml = volChapters.map(chap => {
                     const idx = allChapters.findIndex(c => c.id === chap.id);
                     const isActive = idx === currentChapIndex ? 'active' : '';
-                    const isLockedForVisitor = Boolean(chap.locked && !isAdminLoggedIn());
+                    const isLockedForVisitor = Boolean(chap.locked && !isAdmin);
+                    const displayTitle = (isAdmin && chap._decryptedTitle) ? chap._decryptedTitle : chap.title;
                     const lockBadge = isLockedForVisitor ? '<span style="font-size:12px;opacity:0.75;">🔒</span>' : '';
                     return `
                         <li class="toc-item ${isActive}" onclick="selectChapter(${idx})">
-                            <span>${chap.title}</span>
+                            <span>${displayTitle}</span>
                             ${isActive ? '<span style="font-size:12px;color:var(--accent);">📖 กำลังอ่าน</span>' : lockBadge}
                         </li>
                     `;
