@@ -773,6 +773,82 @@
             display: none;
         }
 
+        /* Location Gallery */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .gallery-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+        .gallery-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--gold);
+        }
+        .gallery-img-wrap {
+            position: relative;
+            aspect-ratio: 16 / 9;
+            overflow: hidden;
+            cursor: zoom-in;
+            background: #0d0c0a;
+        }
+        .gallery-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.35s ease;
+        }
+        .gallery-card:hover .gallery-img-wrap img {
+            transform: scale(1.03);
+        }
+        .gallery-loc-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(15, 13, 10, 0.82);
+            color: var(--gold-bright);
+            border: 1px solid rgba(212, 163, 89, 0.45);
+            padding: 3px 10px;
+            border-radius: 99px;
+            font-size: 12px;
+            font-weight: 600;
+            backdrop-filter: blur(4px);
+        }
+        .gallery-body {
+            padding: 16px 18px 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex: 1;
+        }
+        .gallery-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--gold-bright);
+            margin: 0;
+        }
+        .gallery-desc {
+            font-size: 14px;
+            color: var(--muted);
+            line-height: 1.6;
+            margin: 0;
+            flex: 1;
+        }
+        .gallery-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 6px;
+            flex-wrap: wrap;
+        }
+
         @media (max-width: 900px) {
             .hero { grid-template-columns: 1fr; text-align: center; gap: 28px; }
             .cover-frame { max-width: 260px; margin: 0 auto; }
@@ -802,6 +878,7 @@
             <div class="nav-links">
                 <a href="#synopsis" class="hide-sm">เรื่องย่อ</a>
                 <a href="#volumes" class="hide-sm">สารบัญเล่ม</a>
+                <a href="#gallery" class="hide-sm">คลังภาพ</a>
                 <a href="#characters" class="hide-sm admin-only">ตัวละคร</a>
                 <a href="#power-system" class="hide-sm admin-only">ระบบพลัง</a>
                 <button type="button" id="btnHomeAuth" onclick="handleHomeAuthBtn()" class="btn-secondary" style="padding:6px 12px;font-size:13px;">🔐 ผู้แต่ง</button>
@@ -938,6 +1015,59 @@
                         <a href="World_Map.png" download="ธุลีเหนือสวรรค์_แผนที่แผ่นดินต้าเฉียน.png" class="btn-primary" style="padding:8px 16px;font-size:14px;">⬇️ ดาวน์โหลดรูป (PNG)</a>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <section id="gallery" aria-labelledby="gallery-title">
+            <div class="sec-head">
+                <h2 class="sec-title" id="gallery-title">คลังภาพสถานที่สำคัญ</h2>
+                <p class="sec-desc">ทัศนียภาพสำนักและดินแดนสำคัญในเรื่อง ธุลีเหนือสวรรค์ — คลิกที่ภาพเพื่อขยายดูขนาดเต็มได้</p>
+            </div>
+            <div class="gallery-grid">
+                <article class="gallery-card">
+                    <div class="gallery-img-wrap" onclick="openChartLightbox('locations/azure_stone_sect.png', 'สำนักกระบี่ศิลาคราม — มณฑลอวิ๋นโจว')" title="คลิกเพื่อขยายดูภาพขนาดเต็ม">
+                        <span class="gallery-loc-badge">📍 มณฑลอวิ๋นโจว</span>
+                        <img src="locations/azure_stone_sect.webp" alt="ภาพบรรยากาศ สำนักกระบี่ศิลาคราม" loading="lazy" decoding="async">
+                    </div>
+                    <div class="gallery-body">
+                        <h3 class="gallery-title">สำนักกระบี่ศิลาคราม (青石剑宗)</h3>
+                        <p class="gallery-desc">สำนักสายกระบี่แห่งมณฑลอวิ๋นโจว ตั้งตระหง่านบนยอดผาหินสีครามสูงชัน ด้านล่างเป็นลานฟืนและเรือนคนรับใช้ที่กู้ฉางอันเคยทำงาน ส่วนเบื้องหลังคือยอดเขากระดูกมังกรที่ปกคลุมด้วยหมอกหนาทึบ</p>
+                        <div class="gallery-actions">
+                            <button class="btn-secondary" style="padding:6px 12px;font-size:13px;" onclick="openChartLightbox('locations/azure_stone_sect.png', 'สำนักกระบี่ศิลาคราม — มณฑลอวิ๋นโจว')">🔍 ขยายภาพ</button>
+                            <a href="locations/azure_stone_sect.png" download="สำนักกระบี่ศิลาคราม.png" class="btn-primary" style="padding:6px 12px;font-size:13px;">⬇️ ดาวน์โหลด</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="gallery-card">
+                    <div class="gallery-img-wrap" onclick="openChartLightbox('locations/snow_stream_panorama.png', 'สำนักกระบี่ธารหิมะ — ภาพรวมอาณาเขตทั้ง 3 ยอดเขา')" title="คลิกเพื่อขยายดูภาพขนาดเต็ม">
+                        <span class="gallery-loc-badge">📍 มณฑลหานโจว · มุมสูง</span>
+                        <img src="locations/snow_stream_panorama.webp" alt="ภาพรวมอาณาเขต สำนักกระบี่ธารหิมะ" loading="lazy" decoding="async">
+                    </div>
+                    <div class="gallery-body">
+                        <h3 class="gallery-title">สำนักกระบี่ธารหิมะ — ภาพรวมอาณาเขต (寒涧剑宗)</h3>
+                        <p class="gallery-desc">มหาสำนักเก่าแก่แห่งมณฑลหานโจว ครอบคลุม 3 ยอดเขาหินอ่อนเชื่อมต่อกันด้วยสะพานหินโค้งข้ามลำธารน้ำแข็ง มีลานประลองค่ายกลกระบี่และตำหนักหยกเหมันต์ตั้งตระหง่านบนยอดผากลาง</p>
+                        <div class="gallery-actions">
+                            <button class="btn-secondary" style="padding:6px 12px;font-size:13px;" onclick="openChartLightbox('locations/snow_stream_panorama.png', 'สำนักกระบี่ธารหิมะ — ภาพรวมอาณาเขตทั้ง 3 ยอดเขา')">🔍 ขยายภาพ</button>
+                            <a href="locations/snow_stream_panorama.png" download="สำนักกระบี่ธารหิมะ_อาณาเขต.png" class="btn-primary" style="padding:6px 12px;font-size:13px;">⬇️ ดาวน์โหลด</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="gallery-card">
+                    <div class="gallery-img-wrap" onclick="openChartLightbox('locations/snow_stream_gate.jpg', 'สำนักกระบี่ธารหิมะ — ซุ้มประตูใหญ่และลานชั้นใน')" title="คลิกเพื่อขยายดูภาพขนาดเต็ม">
+                        <span class="gallery-loc-badge">📍 มณฑลหานโจว · ลานชั้นใน</span>
+                        <img src="locations/snow_stream_gate.webp" alt="ซุ้มประตูใหญ่และลานชั้นใน สำนักกระบี่ธารหิมะ" loading="lazy" decoding="async">
+                    </div>
+                    <div class="gallery-body">
+                        <h3 class="gallery-title">สำนักกระบี่ธารหิมะ — ซุ้มประตูและลานชั้นใน</h3>
+                        <p class="gallery-desc">บรรยากาศเมื่อก้าวผ่านซุ้มประตูหินอ่อนสลักชื่อสำนักเข้าสู่ลานกว้างชั้นใน ขนาบด้วยลำธารน้ำแข็งใสสะอาด เรือนโอสถสมุนไพร และหลังคากระเบื้องสีครามหม่นที่คลุมด้วยปุยหิมะบางๆ</p>
+                        <div class="gallery-actions">
+                            <button class="btn-secondary" style="padding:6px 12px;font-size:13px;" onclick="openChartLightbox('locations/snow_stream_gate.jpg', 'สำนักกระบี่ธารหิมะ — ซุ้มประตูใหญ่และลานชั้นใน')">🔍 ขยายภาพ</button>
+                            <a href="locations/snow_stream_gate.jpg" download="สำนักกระบี่ธารหิมะ_ซุ้มประตู.jpg" class="btn-primary" style="padding:6px 12px;font-size:13px;">⬇️ ดาวน์โหลด</a>
+                        </div>
+                    </div>
+                </article>
             </div>
         </section>
 
