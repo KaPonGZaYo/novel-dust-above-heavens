@@ -1772,7 +1772,7 @@
             const htmlParts = [];
             const textParts = [];
             const tmp = document.createElement('div');
-            const INDENT_HTML = withIndent ? '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' : '';
+            const pStyle = withIndent ? ' style="text-indent: 2em;"' : '';
             const btnId = withIndent ? 'copyBodyIndentBtn' : 'copyBodyBtn';
             const defaultLabel = withIndent
                 ? '📝 คัดลอก+ตัวเอียง+ย่อหน้า (กวี/ธัญวลัย/RAW/FL)'
@@ -1787,7 +1787,7 @@
                     tmp.innerHTML = p.text;
                     textParts.push((withIndent ? '\t' : '') + (tmp.textContent || tmp.innerText || '').trim());
                 } else {
-                    htmlParts.push(`<p>${INDENT_HTML}${p.text}</p>`);
+                    htmlParts.push(`<p${pStyle}>${p.text}</p>`);
                     tmp.innerHTML = p.text;
                     textParts.push((withIndent ? '\t' : '') + (tmp.textContent || tmp.innerText || '').trim());
                 }
