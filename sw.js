@@ -1,4 +1,4 @@
-const CACHE_NAME = 'dust-above-heavens-v49';
+const CACHE_NAME = 'dust-above-heavens-v50';
 
 // Cache ONLY core lightweight app shell assets on install (< 100 KB total)
 // High-res covers and audio are cached on-demand at runtime to prevent mobile install timeout/failure!
@@ -39,8 +39,12 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
 
-  // 1. chapters.json handling: Network-First with Cache Fallback
-  if (url.pathname.endsWith('chapters.json')) {
+  // 1. Chapter metadata & individual chapter JSON: Network-First with Cache Fallback
+  if (url.pathname.endsWith('chapters_meta.json') || url.pathname.endsWith('chapters.json') || /\/chapters\/ch_\d+\.json$/i.test(url.pathname)) {
+    const canonicalPath = '.' + url.pathname.slice(url.pathname.lastIndexOf('/'));
+    const cacheKey = /\/chapters\/ch_\d+\.json$/i.test(url.pathname)
+      ? './chapters/' + url.pathname.split('/').pop()
+      : canonicalPath;
     event.respondWith(
       fetch(event.request)
         .then((networkResponse) => {
@@ -48,18 +52,16 @@ self.addEventListener('fetch', (event) => {
             const cloneForCache = networkResponse.clone();
             const cloneForCanonical = networkResponse.clone();
             caches.open(CACHE_NAME).then((cache) => {
-              // Cache both exact request and canonical path
               cache.put(event.request, cloneForCache);
-              cache.put('./chapters.json', cloneForCanonical);
+              cache.put(cacheKey, cloneForCanonical);
             });
           }
           return networkResponse;
         })
         .catch(() => {
-          // If network fails/offline, serve from cache immediately
           return caches.match(event.request, { ignoreSearch: true }).then((cached) => {
             if (cached) return cached;
-            return caches.match('./chapters.json', { ignoreSearch: true });
+            return caches.match(cacheKey, { ignoreSearch: true });
           });
         })
     );

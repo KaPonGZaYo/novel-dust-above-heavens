@@ -1092,30 +1092,126 @@
             }
         }
 
+        function getChapterFileUrl(chapId) {
+            return 'chapters/ch_' + String(chapId).padStart(3, '0') + '.json';
+        }
+
+        async function fetchJsonWithTimeout(url, timeoutMs = 10000, noCache = true) {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+            try {
+                const res = await fetch(url, {
+                    cache: noCache ? 'no-cache' : 'default',
+                    signal: controller.signal
+                });
+                clearTimeout(timeoutId);
+                if (res.ok) return await res.json();
+            } catch (err) {
+                clearTimeout(timeoutId);
+                throw err;
+            }
+            throw new Error('HTTP error fetching ' + url);
+        }
+
+        async function ensureChapterLoaded(rawChap, forceNetwork = false) {
+            if (!rawChap) return null;
+            if (!forceNetwork && (Array.isArray(rawChap.paragraphs) || (rawChap.locked && rawChap.encrypted))) {
+                return rawChap;
+            }
+            const fileUrl = getChapterFileUrl(rawChap.id);
+
+            if (!forceNetwork && 'caches' in window) {
+                try {
+                    const cached = await caches.match(fileUrl, { ignoreSearch: true })
+                                || await caches.match('./' + fileUrl, { ignoreSearch: true });
+                    if (cached) {
+                        const data = await cached.json();
+                        Object.assign(rawChap, data);
+                        return rawChap;
+                    }
+                } catch (e) {}
+            }
+
+            try {
+                const url = forceNetwork ? (fileUrl + '?v=' + Date.now()) : fileUrl;
+                const data = await fetchJsonWithTimeout(url, 12000, forceNetwork);
+                if (data && data.id === rawChap.id) {
+                    if (forceNetwork) {
+                        delete rawChap._decryptedTitle;
+                        delete rawChap._decryptedParagraphs;
+                    }
+                    Object.assign(rawChap, data);
+                    return rawChap;
+                }
+            } catch (netErr) {
+                console.warn('[Reader] Failed loading chapter file:', fileUrl, netErr);
+            }
+
+            if ('caches' in window) {
+                try {
+                    const cached = await caches.match(fileUrl, { ignoreSearch: true })
+                                || await caches.match('./' + fileUrl, { ignoreSearch: true });
+                    if (cached) {
+                        const data = await cached.json();
+                        Object.assign(rawChap, data);
+                        return rawChap;
+                    }
+                } catch (e) {}
+            }
+            throw new Error('ไม่สามารถโหลดเนื้อหาตอนที่ ' + rawChap.id + ' ได้');
+        }
+
+        function prefetchChapterByIndex(idx) {
+            if (!Array.isArray(allChapters) || idx < 0 || idx >= allChapters.length) return;
+            const target = allChapters[idx];
+            if (!target || Array.isArray(target.paragraphs) || (target.locked && target.encrypted)) return;
+            ensureChapterLoaded(target, false).catch(() => {});
+        }
+
         // Background update check (Stale-While-Revalidate pattern)
         async function backgroundSyncChapters() {
             try {
-                const res = await fetch('chapters.json?v=' + Date.now(), { cache: 'no-cache' });
-                if (res.ok) {
-                    const freshData = await res.json();
-                    if (Array.isArray(freshData) && freshData.length > 0) {
-                        const prevChap = allChapters[currentChapIndex];
-                        const nextChap = freshData[currentChapIndex];
-                        const hasNew = freshData.length !== allChapters.length;
-                        const hasCurrentChanged = JSON.stringify(prevChap) !== JSON.stringify(nextChap);
-                        allChapters = freshData;
-                        buildToc();
-                        await decryptAllChaptersForAdmin();
-                        if (hasNew || hasCurrentChanged) {
-                            const curScroll = window.scrollY;
-                            await loadChapter(currentChapIndex, false);
-                            window.scrollTo(0, curScroll);
-                            console.log('[App] Chapters synced! Count:', freshData.length);
-                            const btn = document.getElementById('btnRefresh');
-                            if (btn && hasNew) {
-                                btn.innerText = '✨ มีตอนใหม่ (' + freshData.length + ')';
-                                setTimeout(() => { btn.innerText = '🔄 รีเฟรช'; }, 4000);
+                const freshMeta = await fetchJsonWithTimeout('chapters_meta.json?v=' + Date.now(), 10000, true);
+                if (Array.isArray(freshMeta) && freshMeta.length > 0) {
+                    const prevById = new Map(allChapters.map(c => [c.id, c]));
+                    const prevCurrent = allChapters[currentChapIndex];
+                    const hasNew = freshMeta.length !== allChapters.length;
+                    const nextCurrentMeta = prevCurrent ? freshMeta.find(c => c.id === prevCurrent.id) : null;
+                    const hasCurrentChanged = Boolean(
+                        prevCurrent && nextCurrentMeta && (
+                            prevCurrent.charCount !== nextCurrentMeta.charCount ||
+                            prevCurrent.title !== nextCurrentMeta.title ||
+                            Boolean(prevCurrent.locked) !== Boolean(nextCurrentMeta.locked)
+                        )
+                    );
+
+                    allChapters = freshMeta.map(m => {
+                        const old = prevById.get(m.id);
+                        if (old) {
+                            const merged = Object.assign({}, old, m);
+                            if (hasCurrentChanged && old.id === prevCurrent.id) {
+                                delete merged.paragraphs;
+                                delete merged.encrypted;
+                                delete merged._decryptedTitle;
+                                delete merged._decryptedParagraphs;
                             }
+                            return merged;
+                        }
+                        return m;
+                    });
+                    buildToc();
+                    if (hasNew || hasCurrentChanged) {
+                        const curScroll = window.scrollY;
+                        if (hasCurrentChanged && allChapters[currentChapIndex]) {
+                            await ensureChapterLoaded(allChapters[currentChapIndex], true).catch(() => {});
+                        }
+                        await loadChapter(currentChapIndex, false);
+                        window.scrollTo(0, curScroll);
+                        console.log('[App] Chapters synced! Count:', freshMeta.length);
+                        const btn = document.getElementById('btnRefresh');
+                        if (btn && hasNew) {
+                            btn.innerText = '✨ มีตอนใหม่ (' + freshMeta.length + ')';
+                            setTimeout(() => { btn.innerText = '🔄 รีเฟรช'; }, 4000);
                         }
                     }
                 }
@@ -1124,39 +1220,29 @@
             }
         }
 
-        async function fetchChaptersWithTimeout(timeoutMs = 15000) {
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
-
+        async function fetchChaptersWithTimeout(timeoutMs = 10000) {
             try {
-                // 1. Try network fetch with 15s timeout
-                const res = await fetch('chapters.json?v=' + Date.now(), { 
-                    cache: 'no-cache',
-                    signal: controller.signal
-                });
-                clearTimeout(timeoutId);
-                if (res.ok) {
-                    return await res.json();
-                }
+                // 1. Try lightweight chapters_meta.json (~10 KB) with timeout
+                const data = await fetchJsonWithTimeout('chapters_meta.json?v=' + Date.now(), timeoutMs, true);
+                if (Array.isArray(data) && data.length > 0) return data;
             } catch (netErr) {
-                clearTimeout(timeoutId);
-                console.warn('Network fetch failed or timed out:', netErr);
+                console.warn('Network meta fetch failed or timed out:', netErr);
             }
 
             // 2. Fallback: Normal fetch without cache busting
             try {
-                const fallbackRes = await fetch('chapters.json');
-                if (fallbackRes.ok) {
-                    return await fallbackRes.json();
-                }
+                const fallbackData = await fetchJsonWithTimeout('chapters_meta.json', timeoutMs, false);
+                if (Array.isArray(fallbackData) && fallbackData.length > 0) return fallbackData;
             } catch (fbErr) {
-                console.warn('Fallback fetch failed:', fbErr);
+                console.warn('Fallback meta fetch failed:', fbErr);
             }
 
             // 3. Fallback: Direct CacheStorage read (Offline PWA)
             if ('caches' in window) {
                 try {
-                    const cached = await caches.match('chapters.json', { ignoreSearch: true })
+                    const cached = await caches.match('chapters_meta.json', { ignoreSearch: true })
+                                || await caches.match('./chapters_meta.json', { ignoreSearch: true })
+                                || await caches.match('chapters.json', { ignoreSearch: true })
                                 || await caches.match('./chapters.json', { ignoreSearch: true });
                     if (cached) {
                         return await cached.json();
@@ -1173,10 +1259,13 @@
             try {
                 const btn = document.getElementById('btnRefresh');
                 if (btn) btn.innerText = '⌛ กำลังโหลด...';
-                allChapters = await fetchChaptersWithTimeout(15000);
+                allChapters = await fetchChaptersWithTimeout(10000);
                 buildToc();
+                if (allChapters[currentChapIndex]) {
+                    await ensureChapterLoaded(allChapters[currentChapIndex], true);
+                }
                 await decryptAllChaptersForAdmin();
-                loadChapter(currentChapIndex, false);
+                await loadChapter(currentChapIndex, false);
                 if (btn) btn.innerText = '✓ ล่าสุดแล้ว';
                 setTimeout(() => { if (btn) btn.innerText = '🔄 รีเฟรช'; }, 2000);
             } catch (err) {
@@ -1191,7 +1280,9 @@
             let hasLoadedFromCache = false;
             if ('caches' in window) {
                 try {
-                    const cached = await caches.match('chapters.json', { ignoreSearch: true })
+                    const cached = await caches.match('chapters_meta.json', { ignoreSearch: true })
+                                || await caches.match('./chapters_meta.json', { ignoreSearch: true })
+                                || await caches.match('chapters.json', { ignoreSearch: true })
                                 || await caches.match('./chapters.json', { ignoreSearch: true });
                     if (cached) {
                         const cachedChapters = await cached.json();
@@ -1207,7 +1298,7 @@
 
                                 const savedChap = urlChap > 0 ? urlChap : parseInt(localStorage.getItem('novel_last_chapter') || '1', 10);
                                 const targetIdx = allChapters.findIndex(c => c.id === savedChap);
-                                loadChapter(targetIdx >= 0 ? targetIdx : 0, urlChap > 0 ? false : true);
+                                await loadChapter(targetIdx >= 0 ? targetIdx : 0, urlChap > 0 ? false : true);
                                 decryptAllChaptersForAdmin();
 
                                 hasLoadedFromCache = true;
@@ -1223,7 +1314,7 @@
                 }
             }
 
-            // STEP 2: First-time open (No cache yet) -> Show friendly spinner & fetch
+            // STEP 2: First-time open (No cache yet) -> Show friendly spinner & fetch (~50 KB total!)
             if (!hasLoadedFromCache) {
                 const reader = document.getElementById('readerArea');
                 if (reader) {
@@ -1231,13 +1322,13 @@
                         <div style="text-align:center;padding:60px 20px;color:var(--text-muted);">
                             <div style="font-size:42px;margin-bottom:12px;animation:spin 2s linear infinite;">⏳</div>
                             <h3 style="margin-bottom:8px;color:var(--text);">กำลังเปิดสมุดบันทึกธุลีเหนือสวรรค์...</h3>
-                            <p style="font-size:14px;">กำลังดาวน์โหลดเนื้อหาสำหรับอ่านออฟไลน์ กรุณารอสักครู่</p>
+                            <p style="font-size:14px;">กำลังโหลดสารบัญและตอนที่กำลังอ่าน กรุณารอสักครู่</p>
                         </div>
                     `;
                 }
 
                 try {
-                    allChapters = await fetchChaptersWithTimeout(20000);
+                    allChapters = await fetchChaptersWithTimeout(10000);
 
                     const savedTheme = localStorage.getItem('novel_theme') || 'sepia';
                     changeTheme(savedTheme);
@@ -1245,7 +1336,7 @@
                     const urlChap = parseInt(new URLSearchParams(window.location.search).get('ch') || '0', 10);
                     const savedChap = urlChap > 0 ? urlChap : parseInt(localStorage.getItem('novel_last_chapter') || '1', 10);
                     const targetIdx = allChapters.findIndex(c => c.id === savedChap);
-                    loadChapter(targetIdx >= 0 ? targetIdx : 0, urlChap > 0 ? false : true);
+                    await loadChapter(targetIdx >= 0 ? targetIdx : 0, urlChap > 0 ? false : true);
                     decryptAllChaptersForAdmin();
                 } catch (err) {
                     console.error('[App] Init failed:', err);
@@ -1503,8 +1594,37 @@
             currentChapIndex = idx;
             const rawChap = allChapters[idx];
             if (!rawChap) return;
+
+            if (!Array.isArray(rawChap.paragraphs) && !(rawChap.locked && rawChap.encrypted)) {
+                const reader = document.getElementById('readerArea');
+                if (reader) {
+                    reader.innerHTML = `
+                        <div style="text-align:center;padding:60px 20px;color:var(--text-muted);">
+                            <div style="font-size:38px;margin-bottom:12px;animation:spin 2s linear infinite;">⏳</div>
+                            <h3 style="margin-bottom:8px;color:var(--text);">กำลังเปิด ${rawChap.title || ('ตอนที่ ' + rawChap.id)}...</h3>
+                        </div>
+                    `;
+                }
+                try {
+                    await ensureChapterLoaded(rawChap, false);
+                } catch (chapErr) {
+                    if (reader) {
+                        reader.innerHTML = `
+                            <div style="text-align:center;padding:50px 20px;">
+                                <div style="font-size:48px;margin-bottom:16px;">⚠️</div>
+                                <h3 style="margin-bottom:12px;color:var(--text);">ไม่สามารถโหลดตอนที่ ${rawChap.id} ได้</h3>
+                                <p style="font-size:14px;color:var(--text-muted);margin-bottom:24px;">การเชื่อมต่ออินเทอร์เน็ตอาจช้าหรือไม่เสถียร</p>
+                                <button onclick="loadChapter(${idx}, ${Boolean(shouldRestoreScroll)})" style="padding:10px 24px;border-radius:24px;background:var(--accent);color:#fff;border:none;font-size:16px;cursor:pointer;font-weight:600;">🔄 กดเพื่อลองใหม่อีกครั้ง</button>
+                            </div>
+                        `;
+                    }
+                    return;
+                }
+            }
+
             const chap = await decryptChapterIfNeeded(rawChap);
             currentResolvedChapter = chap;
+            prefetchChapterByIndex(idx + 1);
 
             localStorage.setItem('novel_last_chapter', rawChap.id);
             document.title = `${chap ? chap.title : rawChap.title} · ธุลีเหนือสวรรค์`;
