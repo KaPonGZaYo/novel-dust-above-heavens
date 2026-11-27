@@ -1,4 +1,4 @@
-const SHELL_CACHE = 'dust-above-heavens-shell-v51';
+const SHELL_CACHE = 'dust-above-heavens-shell-v52';
 const DATA_CACHE = 'dust-above-heavens-data-v1';
 
 // Core lightweight app shell cached on install
@@ -68,8 +68,8 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // 2. chapters_meta.json & chapters.json: Network-First with DATA_CACHE Fallback
-  if (url.pathname.endsWith('chapters_meta.json') || url.pathname.endsWith('chapters.json')) {
+  // 2. chapters_meta.json, admin_titles.json & chapters.json: Network-First with DATA_CACHE Fallback
+  if (url.pathname.endsWith('chapters_meta.json') || url.pathname.endsWith('admin_titles.json') || url.pathname.endsWith('chapters.json')) {
     const canonicalKey = './' + url.pathname.split('/').pop();
     event.respondWith(
       fetch(event.request)
