@@ -1632,7 +1632,8 @@
             htmlStr += `
                 <div class="copy-tools-bar">
                     <button class="copy-tool-btn" id="copyTitleBtn" onclick="copyChapterTitle()">📋 คัดลอกชื่อตอน</button>
-                    <button class="copy-tool-btn" id="copyBodyBtn" onclick="copyChapterBody()">📄 คัดลอกเนื้อหา (พร้อมย่อหน้า + ตัวเอียง)</button>
+                    <button class="copy-tool-btn" id="copyBodyBtn" onclick="copyChapterBody(false)">📄 คัดลอก+ตัวเอียง (Dek-D)</button>
+                    <button class="copy-tool-btn" id="copyBodyIndentBtn" onclick="copyChapterBody(true)">📝 คัดลอก+ตัวเอียง+ย่อหน้า (กวี/ธัญวลัย/RAW/FL)</button>
                     <button class="copy-tool-btn" id="copyTabBtn" onclick="copyChapterBodyPlainTab()">📑 คัดลอกแบบ Tab ล้วน</button>
                 </div>
             `;
@@ -1764,14 +1765,18 @@
             }
         }
 
-        async function copyChapterBody() {
+        async function copyChapterBody(withIndent = false) {
             if (!isAdminLoggedIn()) return;
             const chap = currentResolvedChapter || allChapters[currentChapIndex];
             if (!chap) return;
             const htmlParts = [];
             const textParts = [];
             const tmp = document.createElement('div');
-            const TAB_HTML = '&emsp;&emsp;';
+            const INDENT_HTML = withIndent ? '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' : '';
+            const btnId = withIndent ? 'copyBodyIndentBtn' : 'copyBodyBtn';
+            const defaultLabel = withIndent
+                ? '📝 คัดลอก+ตัวเอียง+ย่อหน้า (กวี/ธัญวลัย/RAW/FL)'
+                : '📄 คัดลอก+ตัวเอียง (Dek-D)';
 
             chap.paragraphs.forEach(p => {
                 if (p.type === 'divider') {
@@ -1780,17 +1785,16 @@
                 } else if (p.type === 'quote') {
                     htmlParts.push(`<blockquote>${p.text}</blockquote>`);
                     tmp.innerHTML = p.text;
-                    textParts.push('\t' + (tmp.textContent || tmp.innerText || '').trim());
+                    textParts.push((withIndent ? '\t' : '') + (tmp.textContent || tmp.innerText || '').trim());
                 } else {
-                    htmlParts.push(`<p>${TAB_HTML}${p.text}</p>`);
+                    htmlParts.push(`<p>${INDENT_HTML}${p.text}</p>`);
                     tmp.innerHTML = p.text;
-                    textParts.push('\t' + (tmp.textContent || tmp.innerText || '').trim());
+                    textParts.push((withIndent ? '\t' : '') + (tmp.textContent || tmp.innerText || '').trim());
                 }
             });
 
             const richHtml = htmlParts.join('');
-            const plainText = textParts.join('\n\n');
-            const defaultLabel = '📄 คัดลอกเนื้อหา (พร้อมย่อหน้า + ตัวเอียง)';
+            const plainText = textParts.join('\n');
 
             try {
                 if (window.ClipboardItem && navigator.clipboard && navigator.clipboard.write) {
@@ -1802,7 +1806,7 @@
                 } else {
                     await navigator.clipboard.writeText(plainText);
                 }
-                flashCopyBtn('copyBodyBtn', '✅ คัดลอกเนื้อหาแล้ว!', defaultLabel);
+                flashCopyBtn(btnId, '✅ คัดลอกเนื้อหาแล้ว!', defaultLabel);
             } catch (err) {
                 const holder = document.createElement('div');
                 holder.contentEditable = true;
@@ -1818,7 +1822,7 @@
                 document.execCommand('copy');
                 sel.removeAllRanges();
                 document.body.removeChild(holder);
-                flashCopyBtn('copyBodyBtn', '✅ คัดลอกเนื้อหาแล้ว!', defaultLabel);
+                flashCopyBtn(btnId, '✅ คัดลอกเนื้อหาแล้ว!', defaultLabel);
             }
         }
 
