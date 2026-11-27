@@ -1632,7 +1632,8 @@
             htmlStr += `
                 <div class="copy-tools-bar">
                     <button class="copy-tool-btn" id="copyTitleBtn" onclick="copyChapterTitle()">📋 คัดลอกชื่อตอน</button>
-                    <button class="copy-tool-btn" id="copyBodyBtn" onclick="copyChapterBody()">📄 คัดลอกเนื้อหาตอน (พร้อมตัวเอียง)</button>
+                    <button class="copy-tool-btn" id="copyBodyBtn" onclick="copyChapterBody()">📄 คัดลอกเนื้อหา (พร้อมย่อหน้า + ตัวเอียง)</button>
+                    <button class="copy-tool-btn" id="copyTabBtn" onclick="copyChapterBodyPlainTab()">📑 คัดลอกแบบ Tab (	) ล้วน</button>
                 </div>
             `;
             chap.paragraphs.forEach(p => {
@@ -1770,6 +1771,7 @@
             const htmlParts = [];
             const textParts = [];
             const tmp = document.createElement('div');
+            const TAB_HTML = '&emsp;&emsp;';
 
             chap.paragraphs.forEach(p => {
                 if (p.type === 'divider') {
@@ -1778,16 +1780,17 @@
                 } else if (p.type === 'quote') {
                     htmlParts.push(`<blockquote>${p.text}</blockquote>`);
                     tmp.innerHTML = p.text;
-                    textParts.push((tmp.textContent || tmp.innerText || '').trim());
+                    textParts.push('\t' + (tmp.textContent || tmp.innerText || '').trim());
                 } else {
-                    htmlParts.push(`<p>${p.text}</p>`);
+                    htmlParts.push(`<p>${TAB_HTML}${p.text}</p>`);
                     tmp.innerHTML = p.text;
-                    textParts.push((tmp.textContent || tmp.innerText || '').trim());
+                    textParts.push('\t' + (tmp.textContent || tmp.innerText || '').trim());
                 }
             });
 
             const richHtml = htmlParts.join('');
             const plainText = textParts.join('\n\n');
+            const defaultLabel = '📄 คัดลอกเนื้อหา (พร้อมย่อหน้า + ตัวเอียง)';
 
             try {
                 if (window.ClipboardItem && navigator.clipboard && navigator.clipboard.write) {
@@ -1799,7 +1802,7 @@
                 } else {
                     await navigator.clipboard.writeText(plainText);
                 }
-                flashCopyBtn('copyBodyBtn', '✅ คัดลอกเนื้อหาแล้ว!', '📄 คัดลอกเนื้อหาตอน (พร้อมตัวเอียง)');
+                flashCopyBtn('copyBodyBtn', '✅ คัดลอกเนื้อหาแล้ว!', defaultLabel);
             } catch (err) {
                 const holder = document.createElement('div');
                 holder.contentEditable = true;
@@ -1815,7 +1818,39 @@
                 document.execCommand('copy');
                 sel.removeAllRanges();
                 document.body.removeChild(holder);
-                flashCopyBtn('copyBodyBtn', '✅ คัดลอกเนื้อหาแล้ว!', '📄 คัดลอกเนื้อหาตอน (พร้อมตัวเอียง)');
+                flashCopyBtn('copyBodyBtn', '✅ คัดลอกเนื้อหาแล้ว!', defaultLabel);
+            }
+        }
+
+        async function copyChapterBodyPlainTab() {
+            if (!isAdminLoggedIn()) return;
+            const chap = currentResolvedChapter || allChapters[currentChapIndex];
+            if (!chap) return;
+            const textParts = [];
+            const tmp = document.createElement('div');
+
+            chap.paragraphs.forEach(p => {
+                if (p.type === 'divider') {
+                    textParts.push('❖ ❖ ❖');
+                } else {
+                    tmp.innerHTML = p.text || '';
+                    textParts.push('\t' + (tmp.textContent || tmp.innerText || '').trim());
+                }
+            });
+
+            const plainText = textParts.join('\n\n');
+            const defaultLabel = '📑 คัดลอกแบบ Tab (\t) ล้วน';
+            try {
+                await navigator.clipboard.writeText(plainText);
+                flashCopyBtn('copyTabBtn', '✅ คัดลอกแบบ Tab แล้ว!', defaultLabel);
+            } catch (err) {
+                const ta = document.createElement('textarea');
+                ta.value = plainText;
+                document.body.appendChild(ta);
+                ta.select();
+                document.execCommand('copy');
+                document.body.removeChild(ta);
+                flashCopyBtn('copyTabBtn', '✅ คัดลอกแบบ Tab แล้ว!', defaultLabel);
             }
         }
 
