@@ -1633,7 +1633,7 @@
                 <div class="copy-tools-bar">
                     <button class="copy-tool-btn" id="copyTitleBtn" onclick="copyChapterTitle()">📋 คัดลอกชื่อตอน</button>
                     <button class="copy-tool-btn" id="copyBodyBtn" onclick="copyChapterBody()">📄 คัดลอกเนื้อหา (พร้อมย่อหน้า + ตัวเอียง)</button>
-                    <button class="copy-tool-btn" id="copyTabBtn" onclick="copyChapterBodyPlainTab()">📑 คัดลอกแบบ Tab (	) ล้วน</button>
+                    <button class="copy-tool-btn" id="copyTabBtn" onclick="copyChapterBodyPlainTab()">📑 คัดลอกแบบ Tab ล้วน</button>
                 </div>
             `;
             chap.paragraphs.forEach(p => {
@@ -1839,7 +1839,7 @@
             });
 
             const plainText = textParts.join('\n\n');
-            const defaultLabel = '📑 คัดลอกแบบ Tab (\t) ล้วน';
+            const defaultLabel = '📑 คัดลอกแบบ Tab ล้วน';
             try {
                 await navigator.clipboard.writeText(plainText);
                 flashCopyBtn('copyTabBtn', '✅ คัดลอกแบบ Tab แล้ว!', defaultLabel);
