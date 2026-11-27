@@ -282,6 +282,15 @@
             font-style: italic;
         }
 
+        .nav-header {
+            display: flex;
+            justify-content: space-between;
+            margin: 0 0 22px 0;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--header-border);
+            gap: 12px;
+        }
+
         .nav-footer {
             display: flex;
             justify-content: space-between;
@@ -1507,6 +1516,12 @@
 
             const prevDisabled = idx === 0 ? 'disabled' : '';
             const nextDisabled = idx === allChapters.length - 1 ? 'disabled' : '';
+            const buildNavBar = (cls) => `
+                <div class="${cls}">
+                    <button class="nav-link" ${prevDisabled} onclick="loadChapter(${idx - 1}, false)">← ตอนก่อนหน้า</button>
+                    <button class="nav-link next" ${nextDisabled} onclick="loadChapter(${idx + 1}, false)">ตอนถัดไป →</button>
+                </div>
+            `;
 
             if (!chap) {
                 const ch25Idx = allChapters.findIndex(c => c.id === 25);
@@ -1514,6 +1529,7 @@
                     ? `<button class="btn" onclick="loadChapter(${ch25Idx}, false)">📖 กลับไปตอนที่ 25</button>`
                     : '';
                 document.getElementById('readerArea').innerHTML = `
+                    ${buildNavBar('nav-header')}
                     <div class="locked-chapter-card">
                         <div class="locked-chapter-icon">🔒</div>
                         <div class="locked-chapter-title">ตอนที่ ${rawChap.id} — สงวนสิทธิ์เฉพาะผู้แต่ง</div>
@@ -1526,17 +1542,14 @@
                             ${ch25Btn}
                         </div>
                     </div>
-                    <div class="nav-footer">
-                        <button class="nav-link" ${prevDisabled} onclick="loadChapter(${idx - 1}, false)">← ตอนก่อนหน้า</button>
-                        <button class="nav-link next" ${nextDisabled} onclick="loadChapter(${idx + 1}, false)">ตอนถัดไป →</button>
-                    </div>
+                    ${buildNavBar('nav-footer')}
                 `;
                 buildToc();
                 window.scrollTo(0, 0);
                 return;
             }
 
-            let htmlStr = '';
+            let htmlStr = buildNavBar('nav-header');
 
             // If Chapter 1, display the elegant Hero Volume 1 Cover Card
             if (idx === 0) {
@@ -1644,12 +1657,7 @@
             });
 
             // Nav Footer
-            htmlStr += `
-                <div class="nav-footer">
-                    <button class="nav-link" ${prevDisabled} onclick="loadChapter(${idx - 1}, false)">← ตอนก่อนหน้า</button>
-                    <button class="nav-link next" ${nextDisabled} onclick="loadChapter(${idx + 1}, false)">ตอนถัดไป →</button>
-                </div>
-            `;
+            htmlStr += buildNavBar('nav-footer');
 
             document.getElementById('readerArea').innerHTML = htmlStr;
             buildToc();
