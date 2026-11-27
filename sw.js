@@ -1,7 +1,7 @@
-const CACHE_NAME = 'dust-above-heavens-v50';
+const SHELL_CACHE = 'dust-above-heavens-shell-v51';
+const DATA_CACHE = 'dust-above-heavens-data-v1';
 
-// Cache ONLY core lightweight app shell assets on install (< 100 KB total)
-// High-res covers and audio are cached on-demand at runtime to prevent mobile install timeout/failure!
+// Core lightweight app shell cached on install
 const CORE_SHELL_ASSETS = [
   './',
   './index.html',
@@ -13,9 +13,7 @@ const CORE_SHELL_ASSETS = [
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(CORE_SHELL_ASSETS);
-    })
+    caches.open(SHELL_CACHE).then((cache) => cache.addAll(CORE_SHELL_ASSETS))
   );
   self.skipWaiting();
 });
@@ -25,7 +23,8 @@ self.addEventListener('activate', (event) => {
     caches.keys().then((keys) =>
       Promise.all(
         keys.map((key) => {
-          if (key !== CACHE_NAME) {
+          // Keep DATA_CACHE intact across shell updates so images & chapters stay cached!
+          if (key !== SHELL_CACHE && key !== DATA_CACHE) {
             console.log('[SW] Purging old cache:', key);
             return caches.delete(key);
           }
@@ -37,84 +36,110 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
+  if (event.request.method !== 'GET') return;
   const url = new URL(event.request.url);
 
-  // 1. Chapter metadata & individual chapter JSON: Network-First with Cache Fallback
-  if (url.pathname.endsWith('chapters_meta.json') || url.pathname.endsWith('chapters.json') || /\/chapters\/ch_\d+\.json$/i.test(url.pathname)) {
-    const canonicalPath = '.' + url.pathname.slice(url.pathname.lastIndexOf('/'));
-    const cacheKey = /\/chapters\/ch_\d+\.json$/i.test(url.pathname)
-      ? './chapters/' + url.pathname.split('/').pop()
-      : canonicalPath;
+  // Only handle same-origin requests in SW (let Google Fonts/CDNs use browser HTTP cache)
+  if (url.origin !== self.location.origin) return;
+
+  // 1. Individual chapter JSON: Stale-While-Revalidate in persistent DATA_CACHE (instant repeat reads!)
+  if (/\/chapters\/ch_\d+\.json$/i.test(url.pathname)) {
+    const canonicalKey = './chapters/' + url.pathname.split('/').pop();
     event.respondWith(
-      fetch(event.request)
-        .then((networkResponse) => {
-          if (networkResponse && networkResponse.status === 200) {
-            const cloneForCache = networkResponse.clone();
-            const cloneForCanonical = networkResponse.clone();
-            caches.open(CACHE_NAME).then((cache) => {
-              cache.put(event.request, cloneForCache);
-              cache.put(cacheKey, cloneForCanonical);
-            });
+      caches.open(DATA_CACHE).then((cache) =>
+        cache.match(canonicalKey, { ignoreSearch: true }).then((cached) => {
+          const networkFetch = fetch(event.request)
+            .then((networkResponse) => {
+              if (networkResponse && networkResponse.status === 200) {
+                cache.put(canonicalKey, networkResponse.clone());
+              }
+              return networkResponse;
+            })
+            .catch(() => cached);
+
+          // If explicitly cache-busted (?v=...), wait for network; otherwise return cached immediately!
+          if (url.searchParams.has('v')) {
+            return networkFetch.then((res) => res || cached);
           }
-          return networkResponse;
+          return cached || networkFetch;
         })
-        .catch(() => {
-          return caches.match(event.request, { ignoreSearch: true }).then((cached) => {
-            if (cached) return cached;
-            return caches.match(cacheKey, { ignoreSearch: true });
-          });
-        })
+      )
     );
     return;
   }
 
-  // 2. Images (Covers & Icons): Cache-First, then Network (saves mobile bandwidth)
+  // 2. chapters_meta.json & chapters.json: Network-First with DATA_CACHE Fallback
+  if (url.pathname.endsWith('chapters_meta.json') || url.pathname.endsWith('chapters.json')) {
+    const canonicalKey = './' + url.pathname.split('/').pop();
+    event.respondWith(
+      fetch(event.request)
+        .then((networkResponse) => {
+          if (networkResponse && networkResponse.status === 200) {
+            const clone = networkResponse.clone();
+            caches.open(DATA_CACHE).then((cache) => cache.put(canonicalKey, clone));
+          }
+          return networkResponse;
+        })
+        .catch(() => caches.match(canonicalKey, { ignoreSearch: true }))
+    );
+    return;
+  }
+
+  // 3. Images (Covers, Portraits, Locations, Icons): Cache-First in persistent DATA_CACHE
   if (/\.(png|jpg|jpeg|webp|svg|ico)$/i.test(url.pathname)) {
     event.respondWith(
-      caches.match(event.request).then((cached) => {
-        if (cached) return cached;
-        return fetch(event.request).then((networkResponse) => {
-          if (networkResponse && networkResponse.status === 200) {
-            const clone = networkResponse.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
-          }
-          return networkResponse;
-        });
-      })
+      caches.open(DATA_CACHE).then((cache) =>
+        cache.match(event.request).then((cached) => {
+          if (cached) return cached;
+          return fetch(event.request).then((networkResponse) => {
+            if (networkResponse && networkResponse.status === 200) {
+              cache.put(event.request, networkResponse.clone());
+            }
+            return networkResponse;
+          });
+        })
+      )
     );
     return;
   }
 
-  // 3. HTML & Navigation requests: Network-First with Cache Fallback (always gets latest UI when online)
+  // 4. HTML & Navigation requests: Stale-While-Revalidate in SHELL_CACHE (instant ~20-50ms open!)
   if (event.request.mode === 'navigate' || url.pathname.endsWith('.html') || url.pathname.endsWith('/')) {
+    const canonicalKey = url.pathname.endsWith('/') ? './index.html' : ('./' + url.pathname.split('/').pop());
     event.respondWith(
-      fetch(event.request)
-        .then((networkResponse) => {
-          if (networkResponse && networkResponse.status === 200) {
-            const clone = networkResponse.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
-          }
-          return networkResponse;
+      caches.open(SHELL_CACHE).then((cache) =>
+        cache.match(canonicalKey, { ignoreSearch: true }).then((cached) => {
+          const networkFetch = fetch(event.request)
+            .then((networkResponse) => {
+              if (networkResponse && networkResponse.status === 200) {
+                cache.put(canonicalKey, networkResponse.clone());
+              }
+              return networkResponse;
+            })
+            .catch(() => cached);
+
+          return cached || networkFetch;
         })
-        .catch(() => caches.match(event.request, { ignoreSearch: true }))
+      )
     );
     return;
   }
 
-  // 4. All other requests (CSS, JS): Stale-While-Revalidate
+  // 5. All other same-origin requests: Stale-While-Revalidate
   event.respondWith(
-    caches.match(event.request, { ignoreSearch: true }).then((cachedResponse) => {
-      const fetchPromise = fetch(event.request)
-        .then((networkResponse) => {
-          if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
-            const clone = networkResponse.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
-          }
-          return networkResponse;
-        })
-        .catch(() => cachedResponse);
+    caches.open(SHELL_CACHE).then((cache) =>
+      cache.match(event.request, { ignoreSearch: true }).then((cached) => {
+        const networkFetch = fetch(event.request)
+          .then((networkResponse) => {
+            if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
+              cache.put(event.request, networkResponse.clone());
+            }
+            return networkResponse;
+          })
+          .catch(() => cached);
 
-      return cachedResponse || fetchPromise;
-    })
+        return cached || networkFetch;
+      })
+    )
   );
 });
