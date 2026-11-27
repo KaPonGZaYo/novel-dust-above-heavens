@@ -547,6 +547,33 @@
             transition: width 0.1s linear;
         }
 
+        .chapter-meta-bar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: -18px 0 22px 0;
+            font-size: 13.5px;
+            color: var(--text-muted);
+        }
+
+        .chapter-meta-pill {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .toc-char-badge {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 400;
+            white-space: nowrap;
+        }
+
         .copy-tools-bar {
             display: flex;
             justify-content: center;
@@ -1387,16 +1414,24 @@
                     `;
                 }
 
+                const volTotalChars = volChapters.reduce((sum, c) => sum + getChapterCharStats(c).charCount, 0);
+                const volCharsText = volTotalChars > 0 ? ` · ${volTotalChars.toLocaleString('th-TH')} ตัวอักษร` : '';
+
                 const chaptersListHtml = volChapters.map(chap => {
                     const idx = allChapters.findIndex(c => c.id === chap.id);
                     const isActive = idx === currentChapIndex ? 'active' : '';
                     const isLockedForVisitor = Boolean(chap.locked && !isAdmin);
                     const displayTitle = (isAdmin && chap._decryptedTitle) ? chap._decryptedTitle : chap.title;
+                    const stats = getChapterCharStats(chap);
+                    const charBadge = stats.charCount > 0 ? `<span class="toc-char-badge">${stats.charCount.toLocaleString('th-TH')} อักษร</span>` : '';
                     const lockBadge = isLockedForVisitor ? '<span style="font-size:12px;opacity:0.75;">🔒</span>' : '';
+                    const rightBadge = isActive
+                        ? `<span style="display:flex;align-items:center;gap:6px;">${charBadge}<span style="font-size:12px;color:var(--accent);">📖 กำลังอ่าน</span></span>`
+                        : `<span style="display:flex;align-items:center;gap:6px;">${charBadge}${lockBadge}</span>`;
                     return `
                         <li class="toc-item ${isActive}" onclick="selectChapter(${idx})">
                             <span>${displayTitle}</span>
-                            ${isActive ? '<span style="font-size:12px;color:var(--accent);">📖 กำลังอ่าน</span>' : lockBadge}
+                            ${rightBadge}
                         </li>
                     `;
                 }).join('');
@@ -1408,7 +1443,7 @@
                             <div class="toc-hero-details">
                                 <div class="toc-hero-tag">${vol.tag}</div>
                                 <div class="toc-hero-title">${vol.title}</div>
-                                <p class="toc-hero-sub">${vol.sub} · (${volChapters.length} ตอน)</p>
+                                <p class="toc-hero-sub">${vol.sub} · (${volChapters.length} ตอน${volCharsText})</p>
                             </div>
                             <div class="toc-vol-toggle" title="ย่อ/ขยายเล่ม">▼</div>
                         </div>
@@ -1425,6 +1460,32 @@
         function selectChapter(idx) {
             closeToc();
             loadChapter(idx, false);
+        }
+
+        function getChapterCharStats(rawChap, resolvedChap) {
+            const target = resolvedChap || rawChap;
+            if (rawChap && typeof rawChap.charCount === 'number') {
+                return {
+                    charCount: rawChap.charCount,
+                    charCountNoSpace: typeof rawChap.charCountNoSpace === 'number' ? rawChap.charCountNoSpace : rawChap.charCount
+                };
+            }
+            const paras = (target && Array.isArray(target.paragraphs))
+                ? target.paragraphs
+                : (rawChap && Array.isArray(rawChap._decryptedParagraphs) ? rawChap._decryptedParagraphs : null);
+            if (!paras) return { charCount: 0, charCountNoSpace: 0 };
+            const tmp = document.createElement('div');
+            const parts = [];
+            paras.forEach(p => {
+                if (p.type === 'divider') return;
+                tmp.innerHTML = p.text || '';
+                parts.push(tmp.textContent || tmp.innerText || '');
+            });
+            const plain = parts.join('\n');
+            return {
+                charCount: plain.length,
+                charCountNoSpace: plain.replace(/\s+/g, '').length
+            };
         }
 
         let currentResolvedChapter = null;
@@ -1557,7 +1618,17 @@
                 `;
             }
 
+            const chapStats = getChapterCharStats(rawChap, chap);
+            const readMinutes = Math.max(1, Math.round(chapStats.charCountNoSpace / 750));
             htmlStr += `<h1 class="chapter-title">${chap.title}</h1>`;
+            if (chapStats.charCount > 0) {
+                htmlStr += `
+                    <div class="chapter-meta-bar">
+                        <span class="chapter-meta-pill">📝 ${chapStats.charCount.toLocaleString('th-TH')} ตัวอักษร (ไม่รวมเว้นวรรค ${chapStats.charCountNoSpace.toLocaleString('th-TH')})</span>
+                        <span class="chapter-meta-pill">⏱️ อ่านราว ${readMinutes} นาที</span>
+                    </div>
+                `;
+            }
             htmlStr += `
                 <div class="copy-tools-bar">
                     <button class="copy-tool-btn" id="copyTitleBtn" onclick="copyChapterTitle()">📋 คัดลอกชื่อตอน</button>
