@@ -1063,14 +1063,20 @@
                 if (res.ok) {
                     const freshData = await res.json();
                     if (Array.isArray(freshData) && freshData.length > 0) {
+                        const prevChap = allChapters[currentChapIndex];
+                        const nextChap = freshData[currentChapIndex];
                         const hasNew = freshData.length !== allChapters.length;
+                        const hasCurrentChanged = JSON.stringify(prevChap) !== JSON.stringify(nextChap);
                         allChapters = freshData;
                         buildToc();
-                        decryptAllChaptersForAdmin();
-                        if (hasNew) {
-                            console.log('[App] New chapters detected! Count:', freshData.length);
+                        await decryptAllChaptersForAdmin();
+                        if (hasNew || hasCurrentChanged) {
+                            const curScroll = window.scrollY;
+                            await loadChapter(currentChapIndex, false);
+                            window.scrollTo(0, curScroll);
+                            console.log('[App] Chapters synced! Count:', freshData.length);
                             const btn = document.getElementById('btnRefresh');
-                            if (btn) {
+                            if (btn && hasNew) {
                                 btn.innerText = '✨ มีตอนใหม่ (' + freshData.length + ')';
                                 setTimeout(() => { btn.innerText = '🔄 รีเฟรช'; }, 4000);
                             }

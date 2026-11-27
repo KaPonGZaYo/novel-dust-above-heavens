@@ -1,4 +1,4 @@
-const CACHE_NAME = 'dust-above-heavens-v40';
+const CACHE_NAME = 'dust-above-heavens-v41';
 
 // Cache ONLY core lightweight app shell assets on install (< 100 KB total)
 // High-res covers and audio are cached on-demand at runtime to prevent mobile install timeout/failure!
@@ -46,10 +46,11 @@ self.addEventListener('fetch', (event) => {
         .then((networkResponse) => {
           if (networkResponse && networkResponse.status === 200) {
             const cloneForCache = networkResponse.clone();
+            const cloneForCanonical = networkResponse.clone();
             caches.open(CACHE_NAME).then((cache) => {
               // Cache both exact request and canonical path
               cache.put(event.request, cloneForCache);
-              cache.put('./chapters.json', networkResponse.clone());
+              cache.put('./chapters.json', cloneForCanonical);
             });
           }
           return networkResponse;

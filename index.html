@@ -1417,7 +1417,7 @@
 
         (function() {
             updateHomeChapterBadges();
-            fetch('chapters.json', { cache: 'no-cache' })
+            fetch('chapters.json?v=' + Date.now(), { cache: 'no-cache' })
                 .then(r => r.ok ? r.json() : null)
                 .then(data => {
                     if (Array.isArray(data) && data.length > 0) {
